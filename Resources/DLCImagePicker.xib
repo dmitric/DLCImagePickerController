@@ -44,7 +44,7 @@
 						<object class="IBUIView" id="780689577">
 							<reference key="NSNextResponder" ref="430809117"/>
 							<int key="NSvFlags">319</int>
-							<string key="NSFrame">{{0, 70}, {320, 320}}</string>
+							<string key="NSFrame">{{0, 73}, {320, 334}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="156513520"/>
@@ -63,7 +63,7 @@
 						<object class="IBUIImageView" id="156513520">
 							<reference key="NSNextResponder" ref="430809117"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{0, 417}, {320, 75}}</string>
+							<string key="NSFrame">{{0, 435}, {320, 75}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="263777331"/>
@@ -78,7 +78,7 @@
 						<object class="IBUIScrollView" id="263777331">
 							<reference key="NSNextResponder" ref="430809117"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{0, 417}, {320, 75}}</string>
+							<string key="NSFrame">{{0, 437}, {320, 75}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="31350387"/>
@@ -161,7 +161,7 @@
 									</object>
 								</object>
 							</array>
-							<string key="NSFrame">{{0, 417}, {320, 44}}</string>
+							<string key="NSFrame">{{0, 437}, {320, 44}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="458960915"/>
@@ -280,7 +280,7 @@
 							<reference key="IBUIFont" ref="1034567579"/>
 						</object>
 					</array>
-					<string key="NSFrame">{{0, 20}, {320, 460}}</string>
+					<string key="NSFrameSize">{320, 480}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="588006416"/>
@@ -291,11 +291,11 @@
 					</object>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				</object>
-				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="IBUIInterfaceOrientation">1</int>
 					<int key="interfaceOrientation">1</int>
 				</object>
+				<bool key="IBUIWantsFullScreenLayout">YES</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<bool key="IBUIHorizontal">NO</bool>
 			</object>

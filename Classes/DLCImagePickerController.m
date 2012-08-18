@@ -39,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.wantsFullScreenLayout = YES;
     //set background color
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"micro_carbon"]];
     self.photoBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
@@ -98,6 +98,7 @@
     [self removeAllTargets];
     
     selectedFilter = sender.tag;
+    
     switch (sender.tag) {
         case 1:
             filter = [[GPUImageSepiaFilter alloc] init];
@@ -119,6 +120,7 @@
             filter = [[GPUImageRGBFilter alloc] init];
             break;
     }
+    
     [self prepareFilter];
 }
 
@@ -129,20 +131,15 @@
     
     //blur is terminal filter
     if (hasBlur && !hasOverlay) {
-        [blurFilter prepareForImageCapture];
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
     //overlay is terminal
     } else if(hasBlur && hasOverlay) {
-        [overlayFilter prepareForImageCapture];
-        [sourcePicture processImage];
         [filter addTarget:blurFilter];
         [blurFilter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
     } else if(!hasBlur && hasOverlay) {
-        [overlayFilter prepareForImageCapture];
-        [sourcePicture processImage];
         [filter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
@@ -306,7 +303,7 @@
     [stillCamera pauseCameraCapture];
     if(sender.selected){
         CGRect imageRect = self.imageView.frame;
-        imageRect.origin.y += 26;
+        imageRect.origin.y += 30;
         CGRect sliderScrollFrame = self.filterScrollView.frame;
         sliderScrollFrame.origin.y += self.filterScrollView.frame.size.height;
         
@@ -332,7 +329,7 @@
     }else{
         [sender setSelected:YES];
          CGRect imageRect = self.imageView.frame;
-        imageRect.origin.y -= 26;
+        imageRect.origin.y -= 30;
         CGRect sliderScrollFrame = self.filterScrollView.frame;
         sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
         CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;

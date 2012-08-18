@@ -47,11 +47,13 @@
     NSLog(@"here");
     DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
     picker.delegate = self;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
     [self presentModalViewController:picker animated:YES];
 }
 
 
 -(void) imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -68,6 +70,7 @@
                  NSLog(@"PHOTO SAVED - assetURL: %@", assetURL);
              }
              runOnMainQueueWithoutDeadlocking(^{
+                 [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
                  [self dismissModalViewControllerAnimated:YES];
              });
          }];
