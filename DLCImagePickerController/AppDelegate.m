@@ -12,15 +12,16 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize rootViewController = _rootViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    UIViewController *rootViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
-    rootViewController.view.frame = [[UIScreen mainScreen] bounds];
-    [self.window addSubview:rootViewController.view];
+    self.rootViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
+    self.rootViewController.view.frame = [[UIScreen mainScreen] bounds];
+    [self.window addSubview:self.rootViewController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }

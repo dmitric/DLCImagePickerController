@@ -273,7 +273,7 @@
 
 -(IBAction) handlePinch:(UIPinchGestureRecognizer *) sender {
     if(hasBlur){
-        NSLog(@"Pinch scale: %g", [sender scale]);
+        //NSLog(@"Pinch scale: %g", [sender scale]);
         
         CGPoint midpoint = [sender locationInView:imageView];
         
@@ -303,6 +303,7 @@
 
 -(IBAction)toggleFilters:(UIButton *)sender{
     sender.enabled = NO;
+    [stillCamera pauseCameraCapture];
     if(sender.selected){
         CGRect imageRect = self.imageView.frame;
         imageRect.origin.y += 26;
@@ -311,7 +312,7 @@
         
         CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
         sliderScrollFrameBackground.origin.y += self.filtersBackgroundImageView.frame.size.height-3;
-        [stillCamera pauseCameraCapture];
+        
         [UIView animateWithDuration:0.15
                               delay:0.0
                             options: UIViewAnimationCurveLinear
@@ -322,9 +323,11 @@
                          } 
                          completion:^(BOOL finished){
                              [stillCamera resumeCameraCapture];
-                             NSLog(@"Done!");
+                             //NSLog(@"Done!");
                              [sender setSelected:NO];
                              sender.enabled = YES;
+                             self.filterScrollView.hidden = YES;
+                             self.filtersBackgroundImageView.hidden = YES;
                          }];
     }else{
         [sender setSelected:YES];
@@ -334,7 +337,9 @@
         sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
         CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
         sliderScrollFrameBackground.origin.y -= self.filtersBackgroundImageView.frame.size.height-3;
-        [stillCamera resumeCameraCapture];
+        
+        self.filterScrollView.hidden = NO;
+        self.filtersBackgroundImageView.hidden = NO;
         [UIView animateWithDuration:0.15
                               delay:0.0
                             options: UIViewAnimationCurveLinear
@@ -345,7 +350,7 @@
                          } 
                          completion:^(BOOL finished){
                              [stillCamera resumeCameraCapture];
-                             NSLog(@"Done!");
+                             //NSLog(@"Done!");
                              [sender setSelected:YES];
                              sender.enabled = YES;
                          }];

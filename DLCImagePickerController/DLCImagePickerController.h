@@ -27,7 +27,7 @@
 }
 
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
-@property (nonatomic, weak) id <DCImagePickerDelegate> delegate;
+@property (nonatomic, weak) id <DLCImagePickerDelegate> delegate;
 @property (nonatomic, weak) IBOutlet UIButton *photoCaptureButton;
 @property (nonatomic, weak) IBOutlet UIButton *cancelButton;
 

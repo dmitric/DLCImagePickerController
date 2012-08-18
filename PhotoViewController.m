@@ -7,12 +7,15 @@
 //
 
 #import "PhotoViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface PhotoViewController ()
 
 @end
 
 @implementation PhotoViewController
+
+@synthesize showPickerButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,35 +29,33 @@
 - (void)loadView 
 {
 	CGRect mainScreenFrame = [[UIScreen mainScreen] bounds];
-    
-    // Yes, I know I'm a caveman for doing all this by hand
 	UIView *primaryView = [[GPUImageView alloc] initWithFrame:mainScreenFrame];
     
-    photoCaptureButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    photoCaptureButton.frame = CGRectMake(round(mainScreenFrame.size.width / 2.0 - 150.0 / 2.0), mainScreenFrame.size.height - 90.0, 150.0, 40.0);
-    [photoCaptureButton setTitle:@"Photo" forState:UIControlStateNormal];
-	photoCaptureButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [photoCaptureButton addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [photoCaptureButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    showPickerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    showPickerButton.frame = CGRectMake(round(mainScreenFrame.size.width / 2.0 - 150.0 / 2.0), mainScreenFrame.size.height - 90.0, 150.0, 40.0);
+    [showPickerButton setTitle:@"Show picker" forState:UIControlStateNormal];
+	showPickerButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [showPickerButton addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [showPickerButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     
-    [primaryView addSubview:photoCaptureButton];
+    [primaryView addSubview:showPickerButton];
     
 	self.view = primaryView;	
 }
 
 -(void) takePhoto:(id)sender{
-    DCImagePickerController *picker = [[DCImagePickerController alloc] init];
+    NSLog(@"here");
+    DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
     picker.delegate = self;
     [self presentModalViewController:picker animated:YES];
 }
 
 
--(void) imagePickerControllerDidCancel:(DCImagePickerController *)picker{
+-(void) imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
     [self dismissModalViewControllerAnimated:YES];
 }
 
--(void) imagePickerController:(DCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+-(void) imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     if (info) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -71,5 +72,10 @@
              });
          }];
     }
+}
+
+-(void) viewDidUnload {
+    [super viewDidUnload];
+    showPickerButton = nil;
 }
 @end

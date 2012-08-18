@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DLCImagePickerController.h"
 
-@interface PhotoViewController : UIViewController<DLCImagePickerDelegate>{
-    UIButton *showPickerButton;
-}
+@interface PhotoViewController : UIViewController<DLCImagePickerDelegate>
+
+@property (nonatomic, strong) UIButton *showPickerButton;
 
 @end
