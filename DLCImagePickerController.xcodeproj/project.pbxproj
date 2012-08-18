@@ -466,6 +466,7 @@
 				6A5D9A2A15E0152E001FAD14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
