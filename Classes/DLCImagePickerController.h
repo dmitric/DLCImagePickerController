@@ -41,8 +41,4 @@
 @property (nonatomic, weak) IBOutlet UIView *photoBar;
 @property (nonatomic, weak) IBOutlet UIView *topBar;
 
--(IBAction)takePhoto:(id)sender;
--(IBAction)cancel:(id)sender;
--(IBAction)toggleFilters:(UIButton *)sender;
-
 @end

@@ -139,13 +139,14 @@
         [blurFilter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
+        [sourcePicture processImage];
     } else if(!hasBlur && hasOverlay) {
         [filter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
+        [sourcePicture processImage];
     //regular filter is terminal
     } else {
-        [filter prepareForImageCapture];
         [filter addTarget:self.imageView];
     }
     
@@ -188,7 +189,7 @@
 -(IBAction)toggleBlur:(UIButton*)blurButton {
     
     [self.blurToggleButton setEnabled:NO];
-    
+    [stillCamera pauseCameraCapture];
     [self removeAllTargets];
     
     if (self.blurToggleButton.selected) {
@@ -206,6 +207,7 @@
     }
     
     [self prepareFilter];
+    [stillCamera resumeCameraCapture];
     [self.blurToggleButton setEnabled:YES];
 }
 
@@ -216,7 +218,7 @@
 }
 
 -(IBAction)takePhoto:(id)sender{
-    NSLog(@"Take photo");
+    NSLog(@"Taking photo");
     [self.photoCaptureButton setEnabled:NO];
     GPUImageOutput<GPUImageInput> *processUpTo;
     
@@ -228,6 +230,7 @@
         processUpTo = filter;
     }
     
+    [processUpTo prepareForImageCapture];
     [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo withCompletionHandler:^(NSData *processedJPEG, NSError *error){
         [stillCamera stopCameraCapture];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:processedJPEG, @"data",nil];
