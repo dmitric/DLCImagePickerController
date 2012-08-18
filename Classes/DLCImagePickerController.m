@@ -135,12 +135,16 @@
         [blurFilter addTarget:self.imageView];
     //overlay is terminal
     } else if(hasBlur && hasOverlay) {
+        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
+        overlayFilter = [[GPUImageMaskFilter alloc] init];
         [sourcePicture processImage];
         [filter addTarget:blurFilter];
         [blurFilter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
     } else if(!hasBlur && hasOverlay) {
+        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
+        overlayFilter = [[GPUImageMaskFilter alloc] init];
         [sourcePicture processImage];
         [filter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
@@ -173,14 +177,12 @@
     [self removeAllTargets];
     
     if (hasOverlay) {
-        overlayFilter = nil;
         sourcePicture = nil;
+        overlayFilter = nil;
         hasOverlay = NO;
         [overlayToggleButton setSelected:NO];
     } else {
         hasOverlay = YES;
-        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
-        overlayFilter = [[GPUImageMaskFilter alloc] init];
         [overlayToggleButton setSelected:YES];
     }
     [self prepareFilter];
@@ -195,15 +197,16 @@
     [self removeAllTargets];
     
     if (hasBlur) {
-        blurFilter = nil;
         hasBlur = NO;
         [self.blurToggleButton setSelected:NO];
     } else {
+        if(!blurFilter){
         GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
                 [[GPUImageGaussianSelectiveBlurFilter alloc] init];
         [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
         [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
         blurFilter = gaussSelectFilter;
+        }
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
     }
@@ -233,6 +236,7 @@
     }
     
     [processUpTo prepareForImageCapture];
+    [sourcePicture prepareForImageCapture];
     [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo withCompletionHandler:^(NSData *processedJPEG, NSError *error){
         [stillCamera stopCameraCapture];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:processedJPEG, @"data",nil];
@@ -287,7 +291,6 @@
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            //NSLog(@"Moving tap");
             [gpu setBlurSize:10.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
             CGFloat radius = MIN(sender.scale*[gpu excludeCircleRadius], 0.6f);
@@ -296,7 +299,6 @@
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
-            //NSLog(@"Done tap");
             [gpu setBlurSize:2.0f];
         }
         
@@ -325,7 +327,6 @@
                          } 
                          completion:^(BOOL finished){
                              [stillCamera resumeCameraCapture];
-                             //NSLog(@"Done!");
                              [sender setSelected:NO];
                              sender.enabled = YES;
                              self.filterScrollView.hidden = YES;
@@ -338,7 +339,8 @@
         CGRect sliderScrollFrame = self.filterScrollView.frame;
         sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
         CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
-        sliderScrollFrameBackground.origin.y -= self.filtersBackgroundImageView.frame.size.height-3;
+        sliderScrollFrameBackground.origin.y -=
+            self.filtersBackgroundImageView.frame.size.height-3;
         
         self.filterScrollView.hidden = NO;
         self.filtersBackgroundImageView.hidden = NO;
