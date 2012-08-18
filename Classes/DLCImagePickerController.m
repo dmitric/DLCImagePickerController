@@ -1,9 +1,9 @@
 //
-//  DCImagePickerController.m
-//  SimplePhotoFilter
+//  DLCImagePickerController.m
+//  DLCImagePickerController
 //
 //  Created by Dmitri Cherniak on 8/14/12.
-//  Copyright (c) 2012 Cell Phone. All rights reserved.
+//  Copyright (c) 2012 Dmitri Cherniak. All rights reserved.
 //
 
 #import "DLCImagePickerController.h"
