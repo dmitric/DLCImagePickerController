@@ -1,0 +1,264 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6A5D9A1515E0152D001FAD14 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A1415E0152D001FAD14 /* UIKit.framework */; };
+		6A5D9A1715E0152D001FAD14 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A1615E0152D001FAD14 /* Foundation.framework */; };
+		6A5D9A1915E0152D001FAD14 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A1815E0152D001FAD14 /* CoreGraphics.framework */; };
+		6A5D9A1F15E0152D001FAD14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A1D15E0152D001FAD14 /* InfoPlist.strings */; };
+		6A5D9A2115E0152D001FAD14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A2015E0152D001FAD14 /* main.m */; };
+		6A5D9A2515E0152E001FAD14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A2415E0152D001FAD14 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6A5D9A1015E0152D001FAD14 /* DLCImagePickerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DLCImagePickerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A5D9A1415E0152D001FAD14 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6A5D9A1615E0152D001FAD14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6A5D9A1815E0152D001FAD14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6A5D9A1C15E0152D001FAD14 /* DLCImagePickerController-Info.plist */ = {isa = PBXFileReference; path = "DLCImagePickerController-Info.plist"; sourceTree = "<group>"; };
+		6A5D9A1E15E0152D001FAD14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6A5D9A2015E0152D001FAD14 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6A5D9A2215E0152D001FAD14 /* DLCImagePickerController-Prefix.pch */ = {isa = PBXFileReference; path = "DLCImagePickerController-Prefix.pch"; sourceTree = "<group>"; };
+		6A5D9A2315E0152D001FAD14 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		6A5D9A2415E0152D001FAD14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A5D9A0D15E0152D001FAD14 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A5D9A1515E0152D001FAD14 /* UIKit.framework in Frameworks */,
+				6A5D9A1715E0152D001FAD14 /* Foundation.framework in Frameworks */,
+				6A5D9A1915E0152D001FAD14 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A5D9A0515E0152D001FAD14 = {
+			isa = PBXGroup;
+			children = (
+				6A5D9A1A15E0152D001FAD14 /* DLCImagePickerController */,
+				6A5D9A1315E0152D001FAD14 /* Frameworks */,
+				6A5D9A1115E0152D001FAD14 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A5D9A1115E0152D001FAD14 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A5D9A1015E0152D001FAD14 /* DLCImagePickerController.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A5D9A1315E0152D001FAD14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A5D9A1415E0152D001FAD14 /* UIKit.framework */,
+				6A5D9A1615E0152D001FAD14 /* Foundation.framework */,
+				6A5D9A1815E0152D001FAD14 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6A5D9A1A15E0152D001FAD14 /* DLCImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				6A5D9A2315E0152D001FAD14 /* AppDelegate.h */,
+				6A5D9A2415E0152D001FAD14 /* AppDelegate.m */,
+				6A5D9A1B15E0152D001FAD14 /* Supporting Files */,
+			);
+			path = DLCImagePickerController;
+			sourceTree = "<group>";
+		};
+		6A5D9A1B15E0152D001FAD14 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A5D9A1C15E0152D001FAD14 /* DLCImagePickerController-Info.plist */,
+				6A5D9A1D15E0152D001FAD14 /* InfoPlist.strings */,
+				6A5D9A2015E0152D001FAD14 /* main.m */,
+				6A5D9A2215E0152D001FAD14 /* DLCImagePickerController-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A5D9A0F15E0152D001FAD14 /* DLCImagePickerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A5D9A2815E0152E001FAD14 /* Build configuration list for PBXNativeTarget "DLCImagePickerController" */;
+			buildPhases = (
+				6A5D9A0C15E0152D001FAD14 /* Sources */,
+				6A5D9A0D15E0152D001FAD14 /* Frameworks */,
+				6A5D9A0E15E0152D001FAD14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DLCImagePickerController;
+			productName = DLCImagePickerController;
+			productReference = 6A5D9A1015E0152D001FAD14 /* DLCImagePickerController.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A5D9A0715E0152D001FAD14 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "DLC Inc";
+			};
+			buildConfigurationList = 6A5D9A0A15E0152D001FAD14 /* Build configuration list for PBXProject "DLCImagePickerController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6A5D9A0515E0152D001FAD14;
+			productRefGroup = 6A5D9A1115E0152D001FAD14 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A5D9A0F15E0152D001FAD14 /* DLCImagePickerController */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A5D9A0E15E0152D001FAD14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A5D9A1F15E0152D001FAD14 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A5D9A0C15E0152D001FAD14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A5D9A2115E0152D001FAD14 /* main.m in Sources */,
+				6A5D9A2515E0152E001FAD14 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6A5D9A1D15E0152D001FAD14 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A5D9A1E15E0152D001FAD14 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6A5D9A2615E0152E001FAD14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6A5D9A2715E0152E001FAD14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A5D9A2915E0152E001FAD14 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DLCImagePickerController/DLCImagePickerController-Prefix.pch";
+				INFOPLIST_FILE = "DLCImagePickerController/DLCImagePickerController-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6A5D9A2A15E0152E001FAD14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DLCImagePickerController/DLCImagePickerController-Prefix.pch";
+				INFOPLIST_FILE = "DLCImagePickerController/DLCImagePickerController-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A5D9A0A15E0152D001FAD14 /* Build configuration list for PBXProject "DLCImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A5D9A2615E0152E001FAD14 /* Debug */,
+				6A5D9A2715E0152E001FAD14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A5D9A2815E0152E001FAD14 /* Build configuration list for PBXNativeTarget "DLCImagePickerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A5D9A2915E0152E001FAD14 /* Debug */,
+				6A5D9A2A15E0152E001FAD14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A5D9A0715E0152D001FAD14 /* Project object */;
+}
