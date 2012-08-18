@@ -30,9 +30,11 @@
 
 -(id) init {
     self = [super initWithNibName:@"DLCImagePicker" bundle:nil];
+    
     if (self) {
         
     }
+    
     return self;
 }
 
@@ -41,8 +43,11 @@
     [super viewDidLoad];
     self.wantsFullScreenLayout = YES;
     //set background color
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"micro_carbon"]];
-    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:
+                                 [UIImage imageNamed:@"micro_carbon"]];
+    
+    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:
+                                     [UIImage imageNamed:@"photo_bar"]];
     
     //button states
     [self.blurToggleButton setSelected:NO];
@@ -134,21 +139,24 @@
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
     //overlay is terminal
-    } else if(hasBlur && hasOverlay) {
+    } else if (hasOverlay) {
+        
+        //create our mask -- could be filter dependent in future
         sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
         overlayFilter = [[GPUImageMaskFilter alloc] init];
         [sourcePicture processImage];
-        [filter addTarget:blurFilter];
-        [blurFilter addTarget:overlayFilter];
-        [sourcePicture addTarget:overlayFilter];
-        [overlayFilter addTarget:self.imageView];
-    } else if(!hasBlur && hasOverlay) {
-        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
-        overlayFilter = [[GPUImageMaskFilter alloc] init];
-        [sourcePicture processImage];
-        [filter addTarget:overlayFilter];
-        [sourcePicture addTarget:overlayFilter];
-        [overlayFilter addTarget:self.imageView];
+
+        if (hasBlur) {
+            [filter addTarget:blurFilter];
+            [blurFilter addTarget:overlayFilter];
+            [sourcePicture addTarget:overlayFilter];
+            [overlayFilter addTarget:self.imageView];
+        } else {
+            [filter addTarget:overlayFilter];
+            [sourcePicture addTarget:overlayFilter];
+            [overlayFilter addTarget:self.imageView];
+        }
+   
     //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
@@ -171,7 +179,7 @@
     [sourcePicture removeAllTargets];
 }
 
-- (IBAction) toggleOverlay:(UIButton *) sender {
+-(IBAction) toggleOverlay:(UIButton *) sender {
     [overlayToggleButton setEnabled:NO];
     [stillCamera pauseCameraCapture];
     [self removeAllTargets];
@@ -201,12 +209,13 @@
         [self.blurToggleButton setSelected:NO];
     } else {
         if(!blurFilter){
-        GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
-                [[GPUImageGaussianSelectiveBlurFilter alloc] init];
-        [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
-        [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
-        blurFilter = gaussSelectFilter;
+            GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
+                    [[GPUImageGaussianSelectiveBlurFilter alloc] init];
+            [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
+            [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
+            blurFilter = gaussSelectFilter;
         }
+        
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
     }
@@ -227,9 +236,9 @@
     [self.photoCaptureButton setEnabled:NO];
     GPUImageOutput<GPUImageInput> *processUpTo;
     
-    if(hasOverlay){
+    if (hasOverlay) {
         processUpTo = overlayFilter;
-    } else if(hasBlur){
+    } else if (hasBlur) {
         processUpTo = blurFilter;
     } else {
         processUpTo = filter;
@@ -239,7 +248,8 @@
     [sourcePicture prepareForImageCapture];
     [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo withCompletionHandler:^(NSData *processedJPEG, NSError *error){
         [stillCamera stopCameraCapture];
-        NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:processedJPEG, @"data",nil];
+        NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              processedJPEG, @"data", nil];
         [self.photoCaptureButton setEnabled:YES];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
     }];
