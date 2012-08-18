@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PhotoViewController.h"
 
 @implementation AppDelegate
 
@@ -17,6 +18,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    UIViewController *rootViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
+    rootViewController.view.frame = [[UIScreen mainScreen] bounds];
+    [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }

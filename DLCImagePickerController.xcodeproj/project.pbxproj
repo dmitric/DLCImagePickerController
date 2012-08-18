@@ -13,6 +13,14 @@
 		6A5D9A1F15E0152D001FAD14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A1D15E0152D001FAD14 /* InfoPlist.strings */; };
 		6A5D9A2115E0152D001FAD14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A2015E0152D001FAD14 /* main.m */; };
 		6A5D9A2515E0152E001FAD14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A2415E0152D001FAD14 /* AppDelegate.m */; };
+		6A5D9A2C15E01587001FAD14 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A2B15E01587001FAD14 /* CoreMedia.framework */; };
+		6A5D9A2E15E01590001FAD14 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A2D15E01590001FAD14 /* CoreVideo.framework */; };
+		6A5D9A3015E01598001FAD14 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A2F15E01598001FAD14 /* QuartzCore.framework */; };
+		6A5D9A3215E015A1001FAD14 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A3115E015A1001FAD14 /* OpenGLES.framework */; };
+		6A5D9A3415E015B3001FAD14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A3315E015B3001FAD14 /* AVFoundation.framework */; };
+		6A5D9A3715E0163E001FAD14 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A3615E0163E001FAD14 /* PhotoViewController.m */; };
+		6A5D9A4615E017AA001FAD14 /* DLCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A4415E017AA001FAD14 /* DLCImagePickerController.m */; };
+		6A5D9A4715E017AA001FAD14 /* DLCImagePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A4515E017AA001FAD14 /* DLCImagePicker.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +28,22 @@
 		6A5D9A1415E0152D001FAD14 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6A5D9A1615E0152D001FAD14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6A5D9A1815E0152D001FAD14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		6A5D9A1C15E0152D001FAD14 /* DLCImagePickerController-Info.plist */ = {isa = PBXFileReference; path = "DLCImagePickerController-Info.plist"; sourceTree = "<group>"; };
+		6A5D9A1C15E0152D001FAD14 /* DLCImagePickerController-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DLCImagePickerController-Info.plist"; sourceTree = "<group>"; };
 		6A5D9A1E15E0152D001FAD14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A5D9A2015E0152D001FAD14 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6A5D9A2215E0152D001FAD14 /* DLCImagePickerController-Prefix.pch */ = {isa = PBXFileReference; path = "DLCImagePickerController-Prefix.pch"; sourceTree = "<group>"; };
-		6A5D9A2315E0152D001FAD14 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		6A5D9A2215E0152D001FAD14 /* DLCImagePickerController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DLCImagePickerController-Prefix.pch"; sourceTree = "<group>"; };
+		6A5D9A2315E0152D001FAD14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6A5D9A2415E0152D001FAD14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6A5D9A2B15E01587001FAD14 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		6A5D9A2D15E01590001FAD14 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		6A5D9A2F15E01598001FAD14 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6A5D9A3115E015A1001FAD14 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		6A5D9A3315E015B3001FAD14 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		6A5D9A3515E0163E001FAD14 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = SOURCE_ROOT; };
+		6A5D9A3615E0163E001FAD14 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = SOURCE_ROOT; };
+		6A5D9A4315E017AA001FAD14 /* DLCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCImagePickerController.h; sourceTree = "<group>"; };
+		6A5D9A4415E017AA001FAD14 /* DLCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCImagePickerController.m; sourceTree = "<group>"; };
+		6A5D9A4515E017AA001FAD14 /* DLCImagePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DLCImagePicker.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +51,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A5D9A3415E015B3001FAD14 /* AVFoundation.framework in Frameworks */,
+				6A5D9A3215E015A1001FAD14 /* OpenGLES.framework in Frameworks */,
+				6A5D9A3015E01598001FAD14 /* QuartzCore.framework in Frameworks */,
+				6A5D9A2E15E01590001FAD14 /* CoreVideo.framework in Frameworks */,
+				6A5D9A2C15E01587001FAD14 /* CoreMedia.framework in Frameworks */,
 				6A5D9A1515E0152D001FAD14 /* UIKit.framework in Frameworks */,
 				6A5D9A1715E0152D001FAD14 /* Foundation.framework in Frameworks */,
 				6A5D9A1915E0152D001FAD14 /* CoreGraphics.framework in Frameworks */,
@@ -62,6 +85,11 @@
 		6A5D9A1315E0152D001FAD14 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6A5D9A3315E015B3001FAD14 /* AVFoundation.framework */,
+				6A5D9A3115E015A1001FAD14 /* OpenGLES.framework */,
+				6A5D9A2F15E01598001FAD14 /* QuartzCore.framework */,
+				6A5D9A2D15E01590001FAD14 /* CoreVideo.framework */,
+				6A5D9A2B15E01587001FAD14 /* CoreMedia.framework */,
 				6A5D9A1415E0152D001FAD14 /* UIKit.framework */,
 				6A5D9A1615E0152D001FAD14 /* Foundation.framework */,
 				6A5D9A1815E0152D001FAD14 /* CoreGraphics.framework */,
@@ -72,9 +100,14 @@
 		6A5D9A1A15E0152D001FAD14 /* DLCImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				6A5D9A4315E017AA001FAD14 /* DLCImagePickerController.h */,
+				6A5D9A4415E017AA001FAD14 /* DLCImagePickerController.m */,
+				6A5D9A4515E017AA001FAD14 /* DLCImagePicker.xib */,
 				6A5D9A2315E0152D001FAD14 /* AppDelegate.h */,
 				6A5D9A2415E0152D001FAD14 /* AppDelegate.m */,
 				6A5D9A1B15E0152D001FAD14 /* Supporting Files */,
+				6A5D9A3515E0163E001FAD14 /* PhotoViewController.h */,
+				6A5D9A3615E0163E001FAD14 /* PhotoViewController.m */,
 			);
 			path = DLCImagePickerController;
 			sourceTree = "<group>";
@@ -117,7 +150,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = "DLC Inc";
+				ORGANIZATIONNAME = "Backspaces Inc";
 			};
 			buildConfigurationList = 6A5D9A0A15E0152D001FAD14 /* Build configuration list for PBXProject "DLCImagePickerController" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -142,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A5D9A1F15E0152D001FAD14 /* InfoPlist.strings in Resources */,
+				6A5D9A4715E017AA001FAD14 /* DLCImagePicker.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +188,8 @@
 			files = (
 				6A5D9A2115E0152D001FAD14 /* main.m in Sources */,
 				6A5D9A2515E0152E001FAD14 /* AppDelegate.m in Sources */,
+				6A5D9A3715E0163E001FAD14 /* PhotoViewController.m in Sources */,
+				6A5D9A4615E017AA001FAD14 /* DLCImagePickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +258,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DLCImagePickerController/DLCImagePickerController-Prefix.pch";
 				INFOPLIST_FILE = "DLCImagePickerController/DLCImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -233,6 +270,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DLCImagePickerController/DLCImagePickerController-Prefix.pch";
 				INFOPLIST_FILE = "DLCImagePickerController/DLCImagePickerController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
