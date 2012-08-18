@@ -135,16 +135,16 @@
         [blurFilter addTarget:self.imageView];
     //overlay is terminal
     } else if(hasBlur && hasOverlay) {
+        [sourcePicture processImage];
         [filter addTarget:blurFilter];
         [blurFilter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
-        [sourcePicture processImage];
     } else if(!hasBlur && hasOverlay) {
+        [sourcePicture processImage];
         [filter addTarget:overlayFilter];
         [sourcePicture addTarget:overlayFilter];
         [overlayFilter addTarget:self.imageView];
-        [sourcePicture processImage];
     //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
@@ -169,9 +169,10 @@
 
 - (IBAction) toggleOverlay:(UIButton *) sender {
     [overlayToggleButton setEnabled:NO];
+    [stillCamera pauseCameraCapture];
     [self removeAllTargets];
     
-    if (overlayToggleButton.selected) {
+    if (hasOverlay) {
         overlayFilter = nil;
         sourcePicture = nil;
         hasOverlay = NO;
@@ -183,6 +184,7 @@
         [overlayToggleButton setSelected:YES];
     }
     [self prepareFilter];
+    [stillCamera resumeCameraCapture];
     [overlayToggleButton setEnabled:YES];
 }
 
@@ -192,7 +194,7 @@
     [stillCamera pauseCameraCapture];
     [self removeAllTargets];
     
-    if (self.blurToggleButton.selected) {
+    if (hasBlur) {
         blurFilter = nil;
         hasBlur = NO;
         [self.blurToggleButton setSelected:NO];
