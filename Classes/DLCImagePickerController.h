@@ -23,6 +23,7 @@
     GPUImageOutput<GPUImageInput> *blurFilter;
     GPUImageCropFilter *cropFilter;
     GPUImageOutput<GPUImageInput> *overlayFilter;
+    GPUImagePicture *staticPicture;
     GPUImagePicture *sourcePicture;
 }
 
