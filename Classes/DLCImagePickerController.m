@@ -228,7 +228,7 @@
 
 -(IBAction) switchCamera {
     [self.cameraToggleButton setEnabled:NO];
-    //[stillCamera rotateCamera];
+    [stillCamera rotateCamera];
     [self.cameraToggleButton setEnabled:YES];
 }
 
