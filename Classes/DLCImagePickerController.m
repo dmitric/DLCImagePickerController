@@ -150,7 +150,7 @@
         isStatic = YES;
     }
     
-    if(!isStatic){
+    if (!isStatic) {
         [self prepareLiveFilter];
     } else {
         [self prepareStaticFilter];
@@ -194,18 +194,29 @@
 
 -(void) prepareStaticFilter {
     
-    if(!staticPicture){
+    if (!staticPicture) {
+        NSLog(@"Creating new static picture");
         [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
         UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
         staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
     }
     
     [staticPicture addTarget:filter];
+    
+    NSLog(@"Has blur %@, has overlay %@", hasBlur?@"YES":@"NO", hasOverlay?@"YES":@"NO");
 
-    //blur is terminal filter
+    // blur is terminal filter
     if (hasBlur && !hasOverlay) {
+        NSLog(@"Blur filter: %@", blurFilter);
+
+        GPUImageGaussianSelectiveBlurFilter* gpu =
+        (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
+        
+        NSLog(@"Blur position %g %g %g %g", [gpu blurSize], [gpu excludeBlurSize], [gpu excludeCircleRadius], [gpu aspectRatio]);
+        
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
+        
         //overlay is terminal
     } else if (hasOverlay) {
         //create our mask -- could be filter dependent in future
@@ -215,6 +226,10 @@
         [sourcePicture processImage];
         
         if (hasBlur) {
+            GPUImageGaussianSelectiveBlurFilter* gpu =
+            (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
+            
+            NSLog(@"Blur position %g %g %g %g", [gpu blurSize], [gpu excludeBlurSize], [gpu excludeCircleRadius], [gpu aspectRatio]);
             [filter addTarget:blurFilter];
             [blurFilter addTarget:overlayFilter];
             [sourcePicture addTarget:overlayFilter];
@@ -230,7 +245,9 @@
         [filter addTarget:self.imageView];
     }
     
-    [staticPicture processImage];
+    if (isStatic) {
+        [staticPicture processImage];
+    }
 }
 
 -(void) removeAllTargets {
@@ -266,6 +283,10 @@
     
     [self prepareFilter];
     [overlayToggleButton setEnabled:YES];
+
+    if (isStatic) {
+        [staticPicture processImage];
+    }
 }
 
 -(IBAction) toggleBlur:(UIButton*)blurButton {
@@ -279,11 +300,12 @@
         hasBlur = NO;
         [self.blurToggleButton setSelected:NO];
     } else {
-        if(!blurFilter){
+        if (!blurFilter) {
             blurFilter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCircleRadius:80.0/320.0];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setBlurSize:5.0f];
+            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setAspectRatio:1.0f];
         }
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
@@ -294,7 +316,7 @@
     
     if (isStatic) {
         [staticPicture processImage];
-    }else{
+    } else {
         [stillCamera resumeCameraCapture];
     }
 }
@@ -308,7 +330,7 @@
 -(IBAction) takePhoto:(id)sender{
     [self.photoCaptureButton setEnabled:NO];
     
-    if(!isStatic){
+    if (!isStatic) {
         [cropFilter prepareForImageCapture];
         [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter
                                       withCompletionHandler:^(UIImage *processed, NSError *error) {
@@ -355,7 +377,6 @@
 -(IBAction) handlePan:(UIGestureRecognizer *) sender {
     if (hasBlur) {
         CGPoint tapPoint = [sender locationInView:imageView];
-        NSLog(@"panning");
         GPUImageGaussianSelectiveBlurFilter* gpu =
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
@@ -365,17 +386,16 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
             //NSLog(@"Moving tap");
-            [gpu setBlurSize:10.0f];
+            [gpu setBlurSize:5.0f];
             [gpu setExcludeCirclePoint:CGPointMake(tapPoint.x/320.0f, tapPoint.y/320.0f)];
-            
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
             //NSLog(@"Done tap");
             [gpu setBlurSize:5.0f];
-            if (isStatic) {
-                [staticPicture processImage];
-            }
+            
+            // only render blur at end of gesture
+            [self prepareFilter];
         }
     }
 }
@@ -402,11 +422,11 @@
             sender.scale = 1.0f;
         }
         
-        if([sender state] == UIGestureRecognizerStateEnded){
+        if ([sender state] == UIGestureRecognizerStateEnded) {
             [gpu setBlurSize:5.0f];
-            if (isStatic) {
-                [staticPicture processImage];
-            }
+
+            // only render blur at end of gesture
+            [self prepareFilter];
         }
     }
 }
@@ -438,7 +458,7 @@
                      }];
 }
 
--(IBAction)toggleFilters:(UIButton *)sender{
+-(IBAction) toggleFilters:(UIButton *)sender{
     sender.enabled = NO;
     if (sender.selected){
         CGRect imageRect = self.imageView.frame;
