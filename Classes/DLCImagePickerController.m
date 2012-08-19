@@ -54,6 +54,9 @@
     [self.filtersToggleButton setSelected:NO];
     [self.overlayToggleButton setSelected:NO];
     
+    hasBlur = NO;
+    hasOverlay = NO;
+    
     //fill mode for video
     self.imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     
@@ -89,7 +92,6 @@
     stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
     filter = [[GPUImageRGBFilter alloc] init];
-    
 	[self prepareFilter];
 }
 
@@ -99,6 +101,7 @@
             [(UIButton *)view setSelected:NO];
         }
     }
+    
     [sender setSelected:YES];
     [self removeAllTargets];
     
@@ -125,7 +128,6 @@
             filter = [[GPUImageRGBFilter alloc] init];
             break;
     }
-    
     [self prepareFilter];
 }
 
@@ -140,9 +142,9 @@
         [blurFilter addTarget:self.imageView];
     //overlay is terminal
     } else if (hasOverlay) {
-        
         //create our mask -- could be filter dependent in future
-        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"] smoothlyScaleOutput:YES];
+        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"]
+                                           smoothlyScaleOutput:YES];
         overlayFilter = [[GPUImageMaskFilter alloc] init];
         [sourcePicture processImage];
 
@@ -206,16 +208,15 @@
     
     if (hasBlur) {
         hasBlur = NO;
+        blurFilter = nil;
         [self.blurToggleButton setSelected:NO];
     } else {
-        if(!blurFilter){
-            GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
-                    [[GPUImageGaussianSelectiveBlurFilter alloc] init];
-            [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
-            [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
-            blurFilter = gaussSelectFilter;
-        }
-        
+        GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
+                [[GPUImageGaussianSelectiveBlurFilter alloc] init];
+        [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
+        [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
+        blurFilter = gaussSelectFilter;
+        gaussSelectFilter = nil;
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
     }
@@ -227,7 +228,7 @@
 
 -(IBAction) switchCamera {
     [self.cameraToggleButton setEnabled:NO];
-    [stillCamera rotateCamera];
+    //[stillCamera rotateCamera];
     [self.cameraToggleButton setEnabled:YES];
 }
 
@@ -237,6 +238,7 @@
     GPUImageOutput<GPUImageInput> *processUpTo;
     
     if (hasOverlay) {
+        [sourcePicture prepareForImageCapture];
         processUpTo = overlayFilter;
     } else if (hasBlur) {
         processUpTo = blurFilter;
@@ -245,19 +247,17 @@
     }
     
     [processUpTo prepareForImageCapture];
-    [sourcePicture prepareForImageCapture];
-    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo withCompletionHandler:^(NSData *processedJPEG, NSError *error){
-        [stillCamera stopCameraCapture];
+    
+    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo
+                                 withCompletionHandler:^(NSData *processedJPEG, NSError *error){
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
                               processedJPEG, @"data", nil];
-        [self.photoCaptureButton setEnabled:YES];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
     }];
 }
 
 -(IBAction)cancel:(id)sender{
     NSLog(@"Cancel");
-    [stillCamera stopCameraCapture];
     [self.delegate imagePickerControllerDidCancel:self];
 }
 
@@ -288,8 +288,7 @@
 }
 
 -(IBAction) handlePinch:(UIPinchGestureRecognizer *) sender {
-    if(hasBlur){
-        //NSLog(@"Pinch scale: %g", [sender scale]);
+    if (hasBlur) {
         
         CGPoint midpoint = [sender locationInView:imageView];
         
@@ -344,7 +343,7 @@
                          }];
     }else{
         [sender setSelected:YES];
-         CGRect imageRect = self.imageView.frame;
+        CGRect imageRect = self.imageView.frame;
         imageRect.origin.y -= 30;
         CGRect sliderScrollFrame = self.filterScrollView.frame;
         sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
@@ -382,10 +381,8 @@
     overlayFilter = nil;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [stillCamera stopCameraCapture];
-    
 	[super viewWillDisappear:animated];
 }
 

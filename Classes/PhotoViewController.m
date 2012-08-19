@@ -44,20 +44,21 @@
 }
 
 -(void) takePhoto:(id)sender{
-    NSLog(@"here");
     DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
     picker.delegate = self;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     [self presentModalViewController:picker animated:YES];
 }
 
 
 -(void) imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [self dismissModalViewControllerAnimated:YES];
 }
 
 -(void) imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
+    [self dismissModalViewControllerAnimated:YES];
     
     if (info) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -70,8 +71,7 @@
                  NSLog(@"PHOTO SAVED - assetURL: %@", assetURL);
              }
              runOnMainQueueWithoutDeadlocking(^{
-                 [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
-                 [self dismissModalViewControllerAnimated:YES];
+                 
              });
          }];
     }
