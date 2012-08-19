@@ -142,7 +142,7 @@
 }
 
 -(void) prepareFilter {    
-    if (NO) {
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         isStatic = NO;
         [self prepareLiveFilter];
     } else {
