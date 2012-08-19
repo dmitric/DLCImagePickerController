@@ -69,19 +69,18 @@
 
 -(void) loadFilters {
     for(int i = 0; i < 10; i++) {
-		UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		button.frame = CGRectMake(10+i*(60+10), 5.0f, 60, 60);
-		[button addTarget:self 
-				   action:@selector(filterClicked:) 
-		 forControlEvents:UIControlEventTouchUpInside];
-		button.tag = i;
+        UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(10+i*(60+10), 5.0f, 60, 60);
+        [button addTarget:self
+                   action:@selector(filterClicked:)
+         forControlEvents:UIControlEventTouchUpInside];
+        button.tag = i;
         [button setTitle:@"*" forState:UIControlStateSelected];
         if(i == 0){
             [button setSelected:YES];
         }
 		[self.filterScrollView addSubview:button];
 	}
-    
 	[self.filterScrollView setContentSize:CGSizeMake(10 + 10*(60+10), 75.0)];
 }
 
@@ -383,7 +382,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [stillCamera stopCameraCapture];
-	[super viewWillDisappear:animated];
+    [super viewWillDisappear:animated];
 }
 
 @end
