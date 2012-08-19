@@ -14,6 +14,7 @@
     BOOL hasBlur;
     BOOL hasOverlay;
     int selectedFilter;
+    UIImage *processedImage;
 }
 
 @synthesize delegate,
@@ -122,10 +123,11 @@
             filter = [[GPUImageSepiaFilter alloc] init];
             break;
         case 2:
-            filter = [[GPUImageSoftEleganceFilter alloc] init];
+            filter = [[GPUImageContrastFilter alloc] init];
+            [(GPUImageContrastFilter *) filter setContrast:1.75];
             break;
         case 3:
-            filter = [[GPUImageAmatorkaFilter alloc] init];
+            filter = [[GPUImageSoftEleganceFilter alloc] init];
             break;
         case 4:
             filter = [[GPUImageVignetteFilter alloc] init];
@@ -138,15 +140,18 @@
             filter = [[GPUImageRGBFilter alloc] init];
             break;
     }
+    
     [self prepareFilter];
 }
 
 -(void) prepareFilter {    
-    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-        isStatic = NO;
+    if (![UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        isStatic = YES;
+    }
+    
+    if(!isStatic){
         [self prepareLiveFilter];
     } else {
-        isStatic = YES;
         [self prepareStaticFilter];
     }
 }
@@ -187,12 +192,14 @@
 }
 
 -(void) prepareStaticFilter {
-    UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
     
-    staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+    [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
+    if(!staticPicture){
+        UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
+        staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+    }
     
     [staticPicture addTarget:filter];
-    //[cropFilter addTarget:filter];
 
     //blur is terminal filter
     if (hasBlur && !hasOverlay) {
@@ -307,27 +314,35 @@
 -(IBAction) takePhoto:(id)sender{
     NSLog(@"Taking photo");
     [self.photoCaptureButton setEnabled:NO];
-    GPUImageOutput<GPUImageInput> *processUpTo;
-    
-    if (hasOverlay) {
-        [sourcePicture prepareForImageCapture];
-        processUpTo = overlayFilter;
-    } else if (hasBlur) {
-        processUpTo = blurFilter;
-    } else {
-        processUpTo = filter;
-    }
     
     if(!isStatic){
-        [processUpTo prepareForImageCapture];
-        
-        [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo
-                                     withCompletionHandler:^(NSData *processedJPEG, NSError *error){
-            NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  processedJPEG, @"data", nil];
-            [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
+        [cropFilter prepareForImageCapture];
+        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter withCompletionHandler:^(UIImage *processed, NSError *error) {
+            [stillCamera stopCameraCapture];
+            [self removeAllTargets];
+            isStatic = YES;
+            runOnMainQueueWithoutDeadlocking(^{
+                [self.cameraToggleButton setHidden:YES];
+                staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
+                [self prepareFilter];
+                [self.photoCaptureButton setEnabled:YES];
+                if(![self.filtersToggleButton isSelected]){
+                    [self showFilters];
+                }
+            });
         }];
-    }else{
+        
+    } else {
+        GPUImageOutput<GPUImageInput> *processUpTo;
+        if (hasOverlay) {
+            [sourcePicture processImage];
+            processUpTo = overlayFilter;
+        } else if (hasBlur) {
+            processUpTo = blurFilter;
+        } else {
+            processUpTo = filter;
+        }
+        
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
                               UIImageJPEGRepresentation(currentFilteredVideoFrame, 1), @"data", nil];
@@ -353,7 +368,7 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
             //NSLog(@"Moving tap");
-            [gpu setBlurSize:10.0f];
+            //[gpu setBlurSize:10.0f];
             [gpu setExcludeCirclePoint:CGPointMake(tapPoint.x/320.0f, tapPoint.y/320.0f)];
             
         }
@@ -361,10 +376,9 @@
         if([sender state] == UIGestureRecognizerStateEnded){
             //NSLog(@"Done tap");
             [gpu setBlurSize:2.0f];
-        }
-        
-        if (isStatic) {
-            [staticPicture processImage];
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
     }
 }
@@ -381,7 +395,7 @@
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            [gpu setBlurSize:10.0f];
+            //[gpu setBlurSize:10.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
             CGFloat radius = MIN(sender.scale*[gpu excludeCircleRadius], 0.6f);
             [gpu setExcludeCircleRadius:radius];
@@ -390,17 +404,42 @@
         
         if([sender state] == UIGestureRecognizerStateEnded){
             [gpu setBlurSize:2.0f];
-        }
-
-        if (isStatic) {
-            [staticPicture processImage];
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
     }
 }
 
+-(void) showFilters {
+    self.filtersToggleButton.enabled = NO;
+    [self.filtersToggleButton setSelected:YES];
+    CGRect imageRect = self.imageView.frame;
+    imageRect.origin.y -= 30;
+    CGRect sliderScrollFrame = self.filterScrollView.frame;
+    sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
+    CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
+    sliderScrollFrameBackground.origin.y -=
+    self.filtersBackgroundImageView.frame.size.height-3;
+    
+    self.filterScrollView.hidden = NO;
+    self.filtersBackgroundImageView.hidden = NO;
+    [UIView animateWithDuration:0.10
+                          delay:0.05
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.imageView.frame = imageRect;
+                         self.filterScrollView.frame = sliderScrollFrame;
+                         self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
+                     } 
+                     completion:^(BOOL finished){
+                         [self.filtersToggleButton setSelected:YES];
+                         self.filtersToggleButton.enabled = YES;
+                     }];
+}
+
 -(IBAction)toggleFilters:(UIButton *)sender{
     sender.enabled = NO;
-    [stillCamera pauseCameraCapture];
     if (sender.selected){
         CGRect imageRect = self.imageView.frame;
         imageRect.origin.y += 30;
@@ -410,47 +449,22 @@
         CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
         sliderScrollFrameBackground.origin.y += self.filtersBackgroundImageView.frame.size.height-3;
         
-        [UIView animateWithDuration:0.15
-                              delay:0.0
-                            options: UIViewAnimationCurveLinear
+        [UIView animateWithDuration:0.10
+                              delay:0.05
+                            options: UIViewAnimationCurveEaseOut
                          animations:^{
                              self.imageView.frame = imageRect;
                              self.filterScrollView.frame = sliderScrollFrame;
                              self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
                          } 
                          completion:^(BOOL finished){
-                             [stillCamera resumeCameraCapture];
                              [sender setSelected:NO];
                              sender.enabled = YES;
                              self.filterScrollView.hidden = YES;
                              self.filtersBackgroundImageView.hidden = YES;
                          }];
     } else {
-        [sender setSelected:YES];
-        CGRect imageRect = self.imageView.frame;
-        imageRect.origin.y -= 30;
-        CGRect sliderScrollFrame = self.filterScrollView.frame;
-        sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
-        CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
-        sliderScrollFrameBackground.origin.y -=
-            self.filtersBackgroundImageView.frame.size.height-3;
-        
-        self.filterScrollView.hidden = NO;
-        self.filtersBackgroundImageView.hidden = NO;
-        [UIView animateWithDuration:0.15
-                              delay:0.0
-                            options: UIViewAnimationCurveLinear
-                         animations:^{
-                             self.imageView.frame = imageRect;
-                             self.filterScrollView.frame = sliderScrollFrame;
-                             self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
-                         } 
-                         completion:^(BOOL finished){
-                             [stillCamera resumeCameraCapture];
-                             //NSLog(@"Done!");
-                             [sender setSelected:YES];
-                             sender.enabled = YES;
-                         }];
+        [self showFilters];
     }
     
 }

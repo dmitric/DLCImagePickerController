@@ -70,9 +70,6 @@
              else {
                  NSLog(@"PHOTO SAVED - assetURL: %@", assetURL);
              }
-             runOnMainQueueWithoutDeadlocking(^{
-                 
-             });
          }];
     }
 }
