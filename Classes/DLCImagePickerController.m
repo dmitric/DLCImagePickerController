@@ -231,11 +231,11 @@
     }
     
     [staticPicture processImage];
-    
 }
 
 -(void) removeAllTargets {
     [stillCamera removeAllTargets];
+    [staticPicture removeAllTargets];
     [cropFilter removeAllTargets];
     
     //regular filter
@@ -244,17 +244,14 @@
     //blur
     [blurFilter removeAllTargets];
     
-    //overlay
-    [overlayFilter removeAllTargets];
     [sourcePicture removeAllTargets];
     
-    //static
-    [staticPicture removeAllTargets];
+    //overlay
+    [overlayFilter removeAllTargets];
 }
 
 -(IBAction) toggleOverlay:(UIButton *) sender {
-    [overlayToggleButton setEnabled:NO];
-    [stillCamera pauseCameraCapture];    
+    [overlayToggleButton setEnabled:NO];   
     [self removeAllTargets];
     
     if (hasOverlay) {
@@ -268,12 +265,7 @@
     }
     
     [self prepareFilter];
-    [stillCamera resumeCameraCapture];
     [overlayToggleButton setEnabled:YES];
-
-    /*if (isStatic) {
-        [staticPicture processImage];
-    }*/
 }
 
 -(IBAction) toggleBlur:(UIButton*)blurButton {
@@ -291,6 +283,7 @@
             blurFilter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCircleRadius:80.0/320.0];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
+            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setBlurSize:5.0f];
         }
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
@@ -299,11 +292,11 @@
     [self prepareFilter];
     [self.blurToggleButton setEnabled:YES];
     
-    [stillCamera resumeCameraCapture];
-    
-    /*if (isStatic) {
+    if (isStatic) {
         [staticPicture processImage];
-    }*/
+    }else{
+        [stillCamera resumeCameraCapture];
+    }
 }
 
 -(IBAction) switchCamera {
@@ -319,11 +312,11 @@
         [cropFilter prepareForImageCapture];
         [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter
                                       withCompletionHandler:^(UIImage *processed, NSError *error) {
-                                          
-            [stillCamera stopCameraCapture];
-            [self removeAllTargets];
+            
             isStatic = YES;
             runOnMainQueueWithoutDeadlocking(^{
+                [stillCamera stopCameraCapture];
+                [self removeAllTargets];
                 [self.cameraToggleButton setHidden:YES];
                 staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
                 [self prepareFilter];
@@ -345,6 +338,7 @@
         } else {
             processUpTo = filter;
         }
+        [staticPicture processImage];
         
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -361,7 +355,7 @@
 -(IBAction) handlePan:(UIGestureRecognizer *) sender {
     if (hasBlur) {
         CGPoint tapPoint = [sender locationInView:imageView];
-        
+        NSLog(@"panning");
         GPUImageGaussianSelectiveBlurFilter* gpu =
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
@@ -371,14 +365,14 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
             //NSLog(@"Moving tap");
-            //[gpu setBlurSize:10.0f];
+            [gpu setBlurSize:10.0f];
             [gpu setExcludeCirclePoint:CGPointMake(tapPoint.x/320.0f, tapPoint.y/320.0f)];
             
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
             //NSLog(@"Done tap");
-            [gpu setBlurSize:2.0f];
+            [gpu setBlurSize:5.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
@@ -389,16 +383,19 @@
 -(IBAction) handlePinch:(UIPinchGestureRecognizer *) sender {
     if (hasBlur) {
         CGPoint midpoint = [sender locationInView:imageView];
-        
+        NSLog(@"pinching");
         GPUImageGaussianSelectiveBlurFilter* gpu =
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
             //NSLog(@"Start tap");
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            //[gpu setBlurSize:10.0f];
+            [gpu setBlurSize:10.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
             CGFloat radius = MIN(sender.scale*[gpu excludeCircleRadius], 0.6f);
             [gpu setExcludeCircleRadius:radius];
@@ -406,7 +403,7 @@
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
-            [gpu setBlurSize:2.0f];
+            [gpu setBlurSize:5.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
