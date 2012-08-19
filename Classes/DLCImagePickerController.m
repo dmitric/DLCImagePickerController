@@ -63,6 +63,9 @@
     
     [self loadFilters];
     
+    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
+    filter = [[GPUImageRGBFilter alloc] init];
+    
     //camera setup
     [self setUpCamera];
 }
@@ -86,9 +89,7 @@
 
 
 -(void) setUpCamera {
-    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
-    filter = [[GPUImageRGBFilter alloc] init];
-
+    
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Has camera
 
@@ -141,7 +142,7 @@
 }
 
 -(void) prepareFilter {    
-    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+    if (NO) {
         isStatic = NO;
         [self prepareLiveFilter];
     } else {
@@ -190,8 +191,8 @@
     
     staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
     
-    [staticPicture addTarget:cropFilter];
-    [cropFilter addTarget:filter];
+    [staticPicture addTarget:filter];
+    //[cropFilter addTarget:filter];
 
     //blur is terminal filter
     if (hasBlur && !hasOverlay) {
@@ -257,13 +258,14 @@
         hasOverlay = YES;
         [overlayToggleButton setSelected:YES];
     }
+    
     [self prepareFilter];
     [stillCamera resumeCameraCapture];
     [overlayToggleButton setEnabled:YES];
 
-    if (isStatic) {
+    /*if (isStatic) {
         [staticPicture processImage];
-    }
+    }*/
 }
 
 -(IBAction) toggleBlur:(UIButton*)blurButton {
@@ -275,15 +277,13 @@
     
     if (hasBlur) {
         hasBlur = NO;
-        blurFilter = nil;
         [self.blurToggleButton setSelected:NO];
     } else {
-        GPUImageGaussianSelectiveBlurFilter* gaussSelectFilter = 
-                [[GPUImageGaussianSelectiveBlurFilter alloc] init];
-        [gaussSelectFilter setExcludeCircleRadius:80.0/320.0];
-        [gaussSelectFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
-        blurFilter = gaussSelectFilter;
-        gaussSelectFilter = nil;
+        if(!blurFilter){
+            blurFilter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
+            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCircleRadius:80.0/320.0];
+            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
+        }
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
     }
@@ -293,9 +293,9 @@
     
     [stillCamera resumeCameraCapture];
     
-    if (isStatic) {
+    /*if (isStatic) {
         [staticPicture processImage];
-    }
+    }*/
 }
 
 -(IBAction) switchCamera {
@@ -318,14 +318,21 @@
         processUpTo = filter;
     }
     
-    [processUpTo prepareForImageCapture];
-    
-    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo
-                                 withCompletionHandler:^(NSData *processedJPEG, NSError *error){
+    if(!isStatic){
+        [processUpTo prepareForImageCapture];
+        
+        [stillCamera capturePhotoAsJPEGProcessedUpToFilter:processUpTo
+                                     withCompletionHandler:^(NSData *processedJPEG, NSError *error){
+            NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  processedJPEG, @"data", nil];
+            [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
+        }];
+    }else{
+        UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              processedJPEG, @"data", nil];
+                              UIImageJPEGRepresentation(currentFilteredVideoFrame, 1), @"data", nil];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
-    }];
+    }
 }
 
 -(IBAction) cancel:(id)sender{
