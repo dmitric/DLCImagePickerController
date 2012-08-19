@@ -64,6 +64,7 @@
     
     [self loadFilters];
     
+    //we need a crop filter for the live video
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
     filter = [[GPUImageRGBFilter alloc] init];
     
@@ -127,7 +128,7 @@
             [(GPUImageContrastFilter *) filter setContrast:1.75];
             break;
         case 3:
-            filter = [[GPUImageSoftEleganceFilter alloc] init];
+            filter = [[GPUImageToonFilter alloc] init];
             break;
         case 4:
             filter = [[GPUImageVignetteFilter alloc] init];
@@ -193,8 +194,8 @@
 
 -(void) prepareStaticFilter {
     
-    [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
     if(!staticPicture){
+        [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
         UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
         staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
     }
@@ -312,12 +313,13 @@
 }
 
 -(IBAction) takePhoto:(id)sender{
-    NSLog(@"Taking photo");
     [self.photoCaptureButton setEnabled:NO];
     
     if(!isStatic){
         [cropFilter prepareForImageCapture];
-        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter withCompletionHandler:^(UIImage *processed, NSError *error) {
+        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter
+                                      withCompletionHandler:^(UIImage *processed, NSError *error) {
+                                          
             [stillCamera stopCameraCapture];
             [self removeAllTargets];
             isStatic = YES;
@@ -325,6 +327,7 @@
                 [self.cameraToggleButton setHidden:YES];
                 staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
                 [self prepareFilter];
+                [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
                 [self.photoCaptureButton setEnabled:YES];
                 if(![self.filtersToggleButton isSelected]){
                     [self showFilters];
