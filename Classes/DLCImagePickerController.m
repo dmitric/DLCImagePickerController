@@ -10,6 +10,7 @@
 
 @implementation DLCImagePickerController {
     NSArray *filters;
+    BOOL isStatic;
     BOOL hasBlur;
     BOOL hasOverlay;
     int selectedFilter;
@@ -64,7 +65,6 @@
     
     //camera setup
     [self setUpCamera];
-    [stillCamera startCameraCapture];
 }
 
 -(void) loadFilters {
@@ -87,12 +87,22 @@
 
 
 -(void) setUpCamera {
-    stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
-    
-    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
     filter = [[GPUImageRGBFilter alloc] init];
-	[self prepareFilter];
+
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        // Has camera
+
+        stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
+        
+        stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+        
+        [stillCamera startCameraCapture];        
+    } else {
+        // No camera
+        NSLog(@"No camera");
+    }
+    [self prepareFilter];
 }
 
 -(void) filterClicked:(UIButton *) sender {
@@ -131,7 +141,17 @@
     [self prepareFilter];
 }
 
--(void) prepareFilter {
+-(void) prepareFilter {    
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        isStatic = NO;
+        [self prepareLiveFilter];
+    } else {
+        isStatic = YES;
+        [self prepareStaticFilter];
+    }
+}
+
+-(void) prepareLiveFilter {
     
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
@@ -166,6 +186,46 @@
     
 }
 
+-(void) prepareStaticFilter {
+    UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
+    
+    staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+    
+    [staticPicture addTarget:cropFilter];
+    [cropFilter addTarget:filter];
+
+    //blur is terminal filter
+    if (hasBlur && !hasOverlay) {
+        [filter addTarget:blurFilter];
+        [blurFilter addTarget:self.imageView];
+        //overlay is terminal
+    } else if (hasOverlay) {
+        //create our mask -- could be filter dependent in future
+        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"]
+                                           smoothlyScaleOutput:YES];
+        overlayFilter = [[GPUImageMaskFilter alloc] init];
+        [sourcePicture processImage];
+        
+        if (hasBlur) {
+            [filter addTarget:blurFilter];
+            [blurFilter addTarget:overlayFilter];
+            [sourcePicture addTarget:overlayFilter];
+            [overlayFilter addTarget:self.imageView];
+        } else {
+            [filter addTarget:overlayFilter];
+            [sourcePicture addTarget:overlayFilter];
+            [overlayFilter addTarget:self.imageView];
+        }
+        
+        //regular filter is terminal
+    } else {
+        [filter addTarget:self.imageView];
+    }
+    
+    [staticPicture processImage];
+    
+}
+
 -(void) removeAllTargets {
     [stillCamera removeAllTargets];
     [cropFilter removeAllTargets];
@@ -179,11 +239,14 @@
     //overlay
     [overlayFilter removeAllTargets];
     [sourcePicture removeAllTargets];
+    
+    //static
+    [staticPicture removeAllTargets];
 }
 
 -(IBAction) toggleOverlay:(UIButton *) sender {
     [overlayToggleButton setEnabled:NO];
-    [stillCamera pauseCameraCapture];
+    [stillCamera pauseCameraCapture];    
     [self removeAllTargets];
     
     if (hasOverlay) {
@@ -198,11 +261,16 @@
     [self prepareFilter];
     [stillCamera resumeCameraCapture];
     [overlayToggleButton setEnabled:YES];
+
+    if (isStatic) {
+        [staticPicture processImage];
+    }
 }
 
--(IBAction)toggleBlur:(UIButton*)blurButton {
+-(IBAction) toggleBlur:(UIButton*)blurButton {
     
     [self.blurToggleButton setEnabled:NO];
+    
     [stillCamera pauseCameraCapture];
     [self removeAllTargets];
     
@@ -222,8 +290,13 @@
     }
     
     [self prepareFilter];
-    [stillCamera resumeCameraCapture];
     [self.blurToggleButton setEnabled:YES];
+    
+    [stillCamera resumeCameraCapture];
+    
+    if (isStatic) {
+        [staticPicture processImage];
+    }
 }
 
 -(IBAction) switchCamera {
@@ -232,7 +305,7 @@
     [self.cameraToggleButton setEnabled:YES];
 }
 
--(IBAction)takePhoto:(id)sender{
+-(IBAction) takePhoto:(id)sender{
     NSLog(@"Taking photo");
     [self.photoCaptureButton setEnabled:NO];
     GPUImageOutput<GPUImageInput> *processUpTo;
@@ -256,14 +329,13 @@
     }];
 }
 
--(IBAction)cancel:(id)sender{
+-(IBAction) cancel:(id)sender{
     NSLog(@"Cancel");
     [self.delegate imagePickerControllerDidCancel:self];
 }
 
 -(IBAction) handlePan:(UIGestureRecognizer *) sender {
     if (hasBlur) {
-        
         CGPoint tapPoint = [sender locationInView:imageView];
         
         GPUImageGaussianSelectiveBlurFilter* gpu =
@@ -284,12 +356,15 @@
             //NSLog(@"Done tap");
             [gpu setBlurSize:2.0f];
         }
+        
+        if (isStatic) {
+            [staticPicture processImage];
+        }
     }
 }
 
 -(IBAction) handlePinch:(UIPinchGestureRecognizer *) sender {
     if (hasBlur) {
-        
         CGPoint midpoint = [sender locationInView:imageView];
         
         GPUImageGaussianSelectiveBlurFilter* gpu =
@@ -310,14 +385,17 @@
         if([sender state] == UIGestureRecognizerStateEnded){
             [gpu setBlurSize:2.0f];
         }
-        
+
+        if (isStatic) {
+            [staticPicture processImage];
+        }
     }
 }
 
 -(IBAction)toggleFilters:(UIButton *)sender{
     sender.enabled = NO;
     [stillCamera pauseCameraCapture];
-    if(sender.selected){
+    if (sender.selected){
         CGRect imageRect = self.imageView.frame;
         imageRect.origin.y += 30;
         CGRect sliderScrollFrame = self.filterScrollView.frame;
@@ -341,7 +419,7 @@
                              self.filterScrollView.hidden = YES;
                              self.filtersBackgroundImageView.hidden = YES;
                          }];
-    }else{
+    } else {
         [sender setSelected:YES];
         CGRect imageRect = self.imageView.frame;
         imageRect.origin.y -= 30;
@@ -377,6 +455,7 @@
     cropFilter = nil;
     filter = nil;
     blurFilter = nil;
+    staticPicture = nil;
     sourcePicture = nil;
     overlayFilter = nil;
 }
