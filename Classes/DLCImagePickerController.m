@@ -127,16 +127,13 @@
     
     switch (sender.tag) {
         case 1:
-            filter = [[GPUImageToneCurveFilter alloc] init];
-            [(GPUImageToneCurveFilter *) filter initWithACV:@"crossprocess.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"crossprocess.acv"];
             break;
         case 2:
-            filter = [[GPUImageToneCurveFilter alloc] init];
-            [(GPUImageToneCurveFilter *) filter initWithACV:@"purple-green.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"purple-green.acv"];
             break;
         case 3:
-            filter = [[GPUImageToneCurveFilter alloc] init];
-            [(GPUImageToneCurveFilter *) filter initWithACV:@"yellow-red.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"yellow-red.acv"];
             break;
         case 4:
             filter = [[GPUImageContrastFilter alloc] init];
