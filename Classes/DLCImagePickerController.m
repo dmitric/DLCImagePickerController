@@ -22,6 +22,7 @@
     cameraToggleButton,
     photoCaptureButton,
     blurToggleButton,
+    flashToggleButton,
     cancelButton,
     filtersToggleButton,
     filterScrollView,
@@ -230,6 +231,24 @@
     [blurFilter removeAllTargets];
 }
 
+-(IBAction)toggleFlash:(UIButton *)sender{
+    [self.flashToggleButton setEnabled:NO];
+    [stillCamera.inputCamera lockForConfiguration:nil];
+    if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
+        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeAuto];
+        [self.flashToggleButton setTitle:@"FA" forState:UIControlStateNormal];
+    }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
+        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOn];
+        [self.flashToggleButton setTitle:@"FOn" forState:UIControlStateNormal];
+    }else{
+        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOff];
+        [self.flashToggleButton setTitle:@"FOff" forState:UIControlStateNormal];
+    }
+    [stillCamera.inputCamera unlockForConfiguration];
+    [self.flashToggleButton setEnabled:YES];
+    
+}
+
 -(IBAction) toggleBlur:(UIButton*)blurButton {
     
     [self.blurToggleButton setEnabled:NO];
@@ -277,6 +296,7 @@
                     [stillCamera stopCameraCapture];
                     [self removeAllTargets];
                     [self.cameraToggleButton setHidden:YES];
+                    [self.flashToggleButton setHidden:YES];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
                     [self prepareFilter];
                     [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
