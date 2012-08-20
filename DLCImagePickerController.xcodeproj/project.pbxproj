@@ -37,6 +37,7 @@
 		6A5D9AAA15E0259A001FAD14 /* DLCImagePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */; };
 		7D0E5AB315E203FA009D19C9 /* purple-green.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB115E203FA009D19C9 /* purple-green.acv */; };
 		7D0E5AB415E203FA009D19C9 /* yellow-red.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB215E203FA009D19C9 /* yellow-red.acv */; };
+		7D0E5AB815E209AD009D19C9 /* GrayscaleContrastFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB715E209AD009D19C9 /* GrayscaleContrastFilter.m */; };
 		7D1E64B915E1FA2F005A9E09 /* crossprocess.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */; };
 		7DEB4DC615E063420078BFAD /* sample1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DEB4DC515E063420078BFAD /* sample1.jpg */; };
 /* End PBXBuildFile section */
@@ -102,6 +103,8 @@
 		6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DLCImagePicker.xib; sourceTree = "<group>"; };
 		7D0E5AB115E203FA009D19C9 /* purple-green.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "purple-green.acv"; path = "Filters/purple-green.acv"; sourceTree = "<group>"; };
 		7D0E5AB215E203FA009D19C9 /* yellow-red.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "yellow-red.acv"; path = "Filters/yellow-red.acv"; sourceTree = "<group>"; };
+		7D0E5AB615E2099C009D19C9 /* GrayscaleContrastFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleContrastFilter.h; sourceTree = "<group>"; };
+		7D0E5AB715E209AD009D19C9 /* GrayscaleContrastFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleContrastFilter.m; sourceTree = "<group>"; };
 		7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = crossprocess.acv; path = Filters/crossprocess.acv; sourceTree = "<group>"; };
 		7DEB4DC515E063420078BFAD /* sample1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sample1.jpg; path = Samples/sample1.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +200,7 @@
 		6A5D9A8515E02429001FAD14 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7D0E5AB515E20987009D19C9 /* Filters */,
 				6A5D9A8915E02504001FAD14 /* PhotoViewController.h */,
 				6A5D9A8A15E02504001FAD14 /* PhotoViewController.m */,
 				6A5D9A8615E02429001FAD14 /* DLCImagePickerController.h */,
@@ -256,6 +260,15 @@
 				6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		7D0E5AB515E20987009D19C9 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				7D0E5AB615E2099C009D19C9 /* GrayscaleContrastFilter.h */,
+				7D0E5AB715E209AD009D19C9 /* GrayscaleContrastFilter.m */,
+			);
+			name = Filters;
 			sourceTree = "<group>";
 		};
 		7D1E64B615E1F8D9005A9E09 /* Curves */ = {
@@ -383,6 +396,7 @@
 				6A5D9A2515E0152E001FAD14 /* AppDelegate.m in Sources */,
 				6A5D9A8815E02429001FAD14 /* DLCImagePickerController.m in Sources */,
 				6A5D9A8B15E02504001FAD14 /* PhotoViewController.m in Sources */,
+				7D0E5AB815E209AD009D19C9 /* GrayscaleContrastFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

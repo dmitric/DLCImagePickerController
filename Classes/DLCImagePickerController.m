@@ -7,6 +7,7 @@
 //
 
 #import "DLCImagePickerController.h"
+#import "GrayscaleContrastFilter.h"
 
 @implementation DLCImagePickerController {
     NSArray *filters;
@@ -144,6 +145,9 @@
         case 5:
             filter = [[GPUImageVignetteFilter alloc] init];
             [(GPUImageVignetteFilter *) filter setVignetteEnd:0.75f];
+            break;
+        case 6:
+            filter = [[GrayscaleContrastFilter alloc] init];
             break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
