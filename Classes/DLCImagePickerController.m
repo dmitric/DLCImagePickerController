@@ -7,10 +7,6 @@
 //
 
 #import "DLCImagePickerController.h"
-#import "GPUImageLookup01Filter.h"
-#import "GPUImageLookup02Filter.h"
-#import "GPUImageLookup07Filter.h"
-#import "GPUImageLookup10Filter.h"
 
 @implementation DLCImagePickerController {
     NSArray *filters;
@@ -130,25 +126,20 @@
     
     switch (sender.tag) {
         case 1:
-            filter = [[GPUImageLookup01Filter alloc] init];
+            filter = [[GPUImageToneCurveFilter alloc] init];
+            [(GPUImageToneCurveFilter *) filter initWithACV:@"crossprocess.acv"];
             break;
         case 2:
-            filter = [[GPUImageLookup02Filter alloc] init];
-            break;
-        case 3:
             filter = [[GPUImageContrastFilter alloc] init];
             [(GPUImageContrastFilter *) filter setContrast:1.75];
             break;
-        case 4:
-            filter = [[GPUImageLookup10Filter alloc] init];
+        case 3:
+            filter = [[GPUImageSepiaFilter alloc] init];
             break;
-        case 5:
+        case 4:
             filter = [[GPUImageGrayscaleFilter alloc] init];
             break;
-        case 6:
-            filter = [[GPUImageLookup07Filter alloc] init];
-            break;
-        case 7:
+        case 5:
             filter = [[GPUImageVignetteFilter alloc] init];
             [(GPUImageVignetteFilter *) filter setVignetteEnd:0.75f];
             break;
