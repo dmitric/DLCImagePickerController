@@ -130,14 +130,16 @@
             [(GPUImageToneCurveFilter *) filter initWithACV:@"crossprocess.acv"];
             break;
         case 2:
-            filter = [[GPUImageContrastFilter alloc] init];
-            [(GPUImageContrastFilter *) filter setContrast:1.75];
+            filter = [[GPUImageToneCurveFilter alloc] init];
+            [(GPUImageToneCurveFilter *) filter initWithACV:@"purple-green.acv"];
             break;
         case 3:
-            filter = [[GPUImageSepiaFilter alloc] init];
+            filter = [[GPUImageToneCurveFilter alloc] init];
+            [(GPUImageToneCurveFilter *) filter initWithACV:@"yellow-red.acv"];
             break;
         case 4:
-            filter = [[GPUImageGrayscaleFilter alloc] init];
+            filter = [[GPUImageContrastFilter alloc] init];
+            [(GPUImageContrastFilter *) filter setContrast:1.75];
             break;
         case 5:
             filter = [[GPUImageVignetteFilter alloc] init];

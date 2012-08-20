@@ -35,6 +35,8 @@
 		6A5D9AA615E02527001FAD14 /* photo_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9A15E02527001FAD14 /* photo_bar.png */; };
 		6A5D9AA715E02527001FAD14 /* photo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9B15E02527001FAD14 /* photo_bar@2x.png */; };
 		6A5D9AAA15E0259A001FAD14 /* DLCImagePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */; };
+		7D0E5AB315E203FA009D19C9 /* purple-green.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB115E203FA009D19C9 /* purple-green.acv */; };
+		7D0E5AB415E203FA009D19C9 /* yellow-red.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB215E203FA009D19C9 /* yellow-red.acv */; };
 		7D1E64B915E1FA2F005A9E09 /* crossprocess.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */; };
 		7DEB4DC615E063420078BFAD /* sample1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DEB4DC515E063420078BFAD /* sample1.jpg */; };
 /* End PBXBuildFile section */
@@ -98,6 +100,8 @@
 		6A5D9A9A15E02527001FAD14 /* photo_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_bar.png; sourceTree = "<group>"; };
 		6A5D9A9B15E02527001FAD14 /* photo_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_bar@2x.png"; sourceTree = "<group>"; };
 		6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DLCImagePicker.xib; sourceTree = "<group>"; };
+		7D0E5AB115E203FA009D19C9 /* purple-green.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "purple-green.acv"; path = "Filters/purple-green.acv"; sourceTree = "<group>"; };
+		7D0E5AB215E203FA009D19C9 /* yellow-red.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "yellow-red.acv"; path = "Filters/yellow-red.acv"; sourceTree = "<group>"; };
 		7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = crossprocess.acv; path = Filters/crossprocess.acv; sourceTree = "<group>"; };
 		7DEB4DC515E063420078BFAD /* sample1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sample1.jpg; path = Samples/sample1.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +261,8 @@
 		7D1E64B615E1F8D9005A9E09 /* Curves */ = {
 			isa = PBXGroup;
 			children = (
+				7D0E5AB115E203FA009D19C9 /* purple-green.acv */,
+				7D0E5AB215E203FA009D19C9 /* yellow-red.acv */,
 				7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */,
 			);
 			name = Curves;
@@ -361,6 +367,8 @@
 				6A5D9AAA15E0259A001FAD14 /* DLCImagePicker.xib in Resources */,
 				7DEB4DC615E063420078BFAD /* sample1.jpg in Resources */,
 				7D1E64B915E1FA2F005A9E09 /* crossprocess.acv in Resources */,
+				7D0E5AB315E203FA009D19C9 /* purple-green.acv in Resources */,
+				7D0E5AB415E203FA009D19C9 /* yellow-red.acv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
