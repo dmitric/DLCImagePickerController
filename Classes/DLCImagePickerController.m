@@ -347,7 +347,6 @@
 -(IBAction) handlePinch:(UIPinchGestureRecognizer *) sender {
     if (hasBlur) {
         CGPoint midpoint = [sender locationInView:imageView];
-        NSLog(@"pinching");
         GPUImageGaussianSelectiveBlurFilter* gpu =
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
