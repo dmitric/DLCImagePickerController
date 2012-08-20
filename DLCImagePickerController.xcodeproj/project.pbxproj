@@ -35,6 +35,9 @@
 		6A5D9AA615E02527001FAD14 /* photo_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9A15E02527001FAD14 /* photo_bar.png */; };
 		6A5D9AA715E02527001FAD14 /* photo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9B15E02527001FAD14 /* photo_bar@2x.png */; };
 		6A5D9AAA15E0259A001FAD14 /* DLCImagePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */; };
+		6A8AB4CB15E2133D006D11D3 /* 02.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A8AB4CA15E2133D006D11D3 /* 02.acv */; };
+		6A8AB4CD15E213A6006D11D3 /* 06.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A8AB4CC15E213A6006D11D3 /* 06.acv */; };
+		6A8AB4CF15E213C5006D11D3 /* 17.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A8AB4CE15E213C5006D11D3 /* 17.acv */; };
 		7D0E5AB315E203FA009D19C9 /* purple-green.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB115E203FA009D19C9 /* purple-green.acv */; };
 		7D0E5AB415E203FA009D19C9 /* yellow-red.acv in Resources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB215E203FA009D19C9 /* yellow-red.acv */; };
 		7D0E5AB815E209AD009D19C9 /* GrayscaleContrastFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E5AB715E209AD009D19C9 /* GrayscaleContrastFilter.m */; };
@@ -101,6 +104,9 @@
 		6A5D9A9A15E02527001FAD14 /* photo_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_bar.png; sourceTree = "<group>"; };
 		6A5D9A9B15E02527001FAD14 /* photo_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_bar@2x.png"; sourceTree = "<group>"; };
 		6A5D9AA915E0259A001FAD14 /* DLCImagePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DLCImagePicker.xib; sourceTree = "<group>"; };
+		6A8AB4CA15E2133D006D11D3 /* 02.acv */ = {isa = PBXFileReference; lastKnownFileType = file; path = 02.acv; sourceTree = "<group>"; };
+		6A8AB4CC15E213A6006D11D3 /* 06.acv */ = {isa = PBXFileReference; lastKnownFileType = file; path = 06.acv; sourceTree = "<group>"; };
+		6A8AB4CE15E213C5006D11D3 /* 17.acv */ = {isa = PBXFileReference; lastKnownFileType = file; path = 17.acv; sourceTree = "<group>"; };
 		7D0E5AB115E203FA009D19C9 /* purple-green.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "purple-green.acv"; path = "Filters/purple-green.acv"; sourceTree = "<group>"; };
 		7D0E5AB215E203FA009D19C9 /* yellow-red.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = "yellow-red.acv"; path = "Filters/yellow-red.acv"; sourceTree = "<group>"; };
 		7D0E5AB615E2099C009D19C9 /* GrayscaleContrastFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleContrastFilter.h; sourceTree = "<group>"; };
@@ -274,6 +280,9 @@
 		7D1E64B615E1F8D9005A9E09 /* Curves */ = {
 			isa = PBXGroup;
 			children = (
+				6A8AB4CE15E213C5006D11D3 /* 17.acv */,
+				6A8AB4CC15E213A6006D11D3 /* 06.acv */,
+				6A8AB4CA15E2133D006D11D3 /* 02.acv */,
 				7D0E5AB115E203FA009D19C9 /* purple-green.acv */,
 				7D0E5AB215E203FA009D19C9 /* yellow-red.acv */,
 				7D1E64B715E1FA2F005A9E09 /* crossprocess.acv */,
@@ -382,6 +391,9 @@
 				7D1E64B915E1FA2F005A9E09 /* crossprocess.acv in Resources */,
 				7D0E5AB315E203FA009D19C9 /* purple-green.acv in Resources */,
 				7D0E5AB415E203FA009D19C9 /* yellow-red.acv in Resources */,
+				6A8AB4CB15E2133D006D11D3 /* 02.acv in Resources */,
+				6A8AB4CD15E213A6006D11D3 /* 06.acv in Resources */,
+				6A8AB4CF15E213C5006D11D3 /* 17.acv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +455,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "GPUImage/framework/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -462,7 +474,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "GPUImage/framework/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -141,10 +141,19 @@
             break;
         case 5:
             filter = [[GPUImageVignetteFilter alloc] init];
-            [(GPUImageVignetteFilter *) filter setVignetteEnd:0.75f];
+            [(GPUImageVignetteFilter *)filter setVignetteEnd:0.75f];
             break;
         case 6:
             filter = [[GrayscaleContrastFilter alloc] init];
+            break;
+        case 7:
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"02.acv"];
+            break;
+        case 8:
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"06.acv"];
+            break;
+        case 9:
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"17.acv"];
             break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
@@ -194,25 +203,12 @@
     }
     
     [staticPicture addTarget:filter];
-    
-    NSLog(@"Has blur %@", hasBlur? @"YES":@"NO");
 
     // blur is terminal filter
     if (hasBlur) {
-        NSLog(@"Blur filter: %@", blurFilter);
-
-        GPUImageGaussianSelectiveBlurFilter* gpu =
-        (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
-        
-        NSLog(@"Blur position %g %g %g %g",
-              [gpu blurSize],
-              [gpu excludeBlurSize],
-              [gpu excludeCircleRadius],
-              [gpu aspectRatio]);
-        
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
-       //regular filter is terminal
+    //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
     }
@@ -310,7 +306,6 @@
 }
 
 -(IBAction) cancel:(id)sender{
-    NSLog(@"Cancel");
     [self.delegate imagePickerControllerDidCancel:self];
 }
 
