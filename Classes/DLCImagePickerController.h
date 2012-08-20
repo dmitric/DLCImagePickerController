@@ -22,9 +22,7 @@
     GPUImageOutput<GPUImageInput> *filter;
     GPUImageOutput<GPUImageInput> *blurFilter;
     GPUImageCropFilter *cropFilter;
-    GPUImageOutput<GPUImageInput> *overlayFilter;
     GPUImagePicture *staticPicture;
-    GPUImagePicture *sourcePicture;
 }
 
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
@@ -32,7 +30,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *photoCaptureButton;
 @property (nonatomic, weak) IBOutlet UIButton *cancelButton;
 
-@property (nonatomic, weak) IBOutlet UIButton *overlayToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *cameraToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *blurToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *filtersToggleButton;

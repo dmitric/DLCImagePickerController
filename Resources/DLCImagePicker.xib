@@ -49,7 +49,7 @@
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="156513520"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
-							<object class="NSColor" key="IBUIBackgroundColor" id="858570282">
+							<object class="NSColor" key="IBUIBackgroundColor" id="950787088">
 								<int key="NSColorSpace">3</int>
 								<bytes key="NSWhite">MAA</bytes>
 							</object>
@@ -174,7 +174,7 @@
 							<string key="NSFrameSize">{320, 44}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="43672947"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSColor" key="IBUIBackgroundColor">
 								<int key="NSColorSpace">3</int>
@@ -252,36 +252,13 @@
 							<reference key="IBUIFontDescription" ref="731209349"/>
 							<reference key="IBUIFont" ref="1034567579"/>
 						</object>
-						<object class="IBUIButton" id="43672947">
-							<reference key="NSNextResponder" ref="430809117"/>
-							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{7, 5}, {56, 37}}</string>
-							<reference key="NSSuperview" ref="430809117"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="328503754"/>
-							<string key="NSReuseIdentifierKey">_NS:9</string>
-							<bool key="IBUIOpaque">NO</bool>
-							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<int key="IBUIContentHorizontalAlignment">0</int>
-							<int key="IBUIContentVerticalAlignment">0</int>
-							<int key="IBUIButtonType">1</int>
-							<string key="IBUINormalTitle">frame</string>
-							<reference key="IBUIHighlightedTitleColor" ref="71675273"/>
-							<object class="NSColor" key="IBUINormalTitleColor">
-								<int key="NSColorSpace">1</int>
-								<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-							</object>
-							<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
-							<reference key="IBUIFontDescription" ref="731209349"/>
-							<reference key="IBUIFont" ref="1034567579"/>
-						</object>
 					</array>
 					<string key="NSFrameSize">{320, 480}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="588006416"/>
 					<string key="NSReuseIdentifierKey">_NS:9</string>
-					<reference key="IBUIBackgroundColor" ref="858570282"/>
+					<reference key="IBUIBackgroundColor" ref="950787088"/>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				</object>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
@@ -386,14 +363,6 @@
 					<int key="connectionID">61</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">overlayToggleButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="43672947"/>
-					</object>
-					<int key="connectionID">75</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
 						<string key="label">gestureRecognizers</string>
 						<reference key="source" ref="780689577"/>
@@ -448,15 +417,6 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">49</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">toggleOverlay:</string>
-						<reference key="source" ref="43672947"/>
-						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">76</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -522,7 +482,6 @@
 							<reference ref="17104341"/>
 							<reference ref="588006416"/>
 							<reference ref="132217247"/>
-							<reference ref="43672947"/>
 							<reference ref="328503754"/>
 						</array>
 						<reference key="parent" ref="50993085"/>
@@ -590,11 +549,6 @@
 						<reference key="parent" ref="430809117"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">38</int>
-						<reference key="object" ref="43672947"/>
-						<reference key="parent" ref="430809117"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">50</int>
 						<reference key="object" ref="132217247"/>
 						<reference key="parent" ref="430809117"/>
@@ -614,7 +568,6 @@
 				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -642,7 +595,6 @@
 						<string key="filtersBackgroundImageView">UIImageView</string>
 						<string key="filtersToggleButton">UIButton</string>
 						<string key="imageView">GPUImageView</string>
-						<string key="overlayToggleButton">UIButton</string>
 						<string key="photoBar">UIView</string>
 						<string key="photoCaptureButton">UIButton</string>
 						<string key="topBar">UIView</string>
@@ -675,10 +627,6 @@
 						<object class="IBToOneOutletInfo" key="imageView">
 							<string key="name">imageView</string>
 							<string key="candidateClassName">GPUImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="overlayToggleButton">
-							<string key="name">overlayToggleButton</string>
-							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="photoBar">
 							<string key="name">photoBar</string>

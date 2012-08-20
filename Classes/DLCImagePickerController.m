@@ -7,12 +7,15 @@
 //
 
 #import "DLCImagePickerController.h"
+#import "GPUImageLookup01Filter.h"
+#import "GPUImageLookup02Filter.h"
+#import "GPUImageLookup07Filter.h"
+#import "GPUImageLookup10Filter.h"
 
 @implementation DLCImagePickerController {
     NSArray *filters;
     BOOL isStatic;
     BOOL hasBlur;
-    BOOL hasOverlay;
     int selectedFilter;
     UIImage *processedImage;
 }
@@ -20,7 +23,6 @@
 @synthesize delegate,
     imageView,
     cameraToggleButton,
-    overlayToggleButton,
     photoCaptureButton,
     blurToggleButton,
     cancelButton,
@@ -54,10 +56,8 @@
     //button states
     [self.blurToggleButton setSelected:NO];
     [self.filtersToggleButton setSelected:NO];
-    [self.overlayToggleButton setSelected:NO];
     
     hasBlur = NO;
-    hasOverlay = NO;
     
     //fill mode for video
     self.imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
@@ -65,8 +65,12 @@
     [self loadFilters];
     
     //we need a crop filter for the live video
-    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
+    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
     filter = [[GPUImageRGBFilter alloc] init];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self setUpCamera];
+    });
     
     
 }
@@ -74,7 +78,7 @@
 -(void) viewDidAppear:(BOOL)animated{
     //camera setup
     [super viewDidAppear:animated];
-    [self setUpCamera];
+    
 }
 
 -(void) loadFilters {
@@ -126,24 +130,27 @@
     
     switch (sender.tag) {
         case 1:
-            filter = [[GPUImageSepiaFilter alloc] init];
+            filter = [[GPUImageLookup01Filter alloc] init];
             break;
         case 2:
+            filter = [[GPUImageLookup02Filter alloc] init];
+            break;
+        case 3:
             filter = [[GPUImageContrastFilter alloc] init];
             [(GPUImageContrastFilter *) filter setContrast:1.75];
             break;
-        case 3:
-            filter = [[GPUImageToonFilter alloc] init];
-            break;
         case 4:
-            filter = [[GPUImageVignetteFilter alloc] init];
-            [(GPUImageVignetteFilter *) filter setVignetteEnd:0.75f];
+            filter = [[GPUImageLookup10Filter alloc] init];
             break;
         case 5:
             filter = [[GPUImageGrayscaleFilter alloc] init];
             break;
         case 6:
-            filter = [[GPUImageAmatorkaFilter alloc] init];
+            filter = [[GPUImageLookup07Filter alloc] init];
+            break;
+        case 7:
+            filter = [[GPUImageVignetteFilter alloc] init];
+            [(GPUImageVignetteFilter *) filter setVignetteEnd:0.75f];
             break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
@@ -169,34 +176,16 @@
     
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
-    [cropFilter forceProcessingAtSize:CGSizeMake(640, 640)];
     
     //blur is terminal filter
-    if (hasBlur && !hasOverlay) {
+    if (hasBlur) {
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
-    //overlay is terminal
-    } else if (hasOverlay) {
-        //create our mask -- could be filter dependent in future
-        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"]
-                                           smoothlyScaleOutput:YES];
-        overlayFilter = [[GPUImageMaskFilter alloc] init];
-        [sourcePicture processImage];
-
-        if (hasBlur) {
-            [filter addTarget:blurFilter];
-            [blurFilter addTarget:overlayFilter];
-            [sourcePicture addTarget:overlayFilter];
-            [overlayFilter addTarget:self.imageView];
-        } else {
-            [filter addTarget:overlayFilter];
-            [sourcePicture addTarget:overlayFilter];
-            [overlayFilter addTarget:self.imageView];
-        }
-   
+        [blurFilter prepareForImageCapture];
     //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
+        [filter prepareForImageCapture];
     }
     
 }
@@ -212,51 +201,31 @@
     
     [staticPicture addTarget:filter];
     
-    NSLog(@"Has blur %@, has overlay %@", hasBlur?@"YES":@"NO", hasOverlay?@"YES":@"NO");
+    NSLog(@"Has blur %@", hasBlur? @"YES":@"NO");
 
     // blur is terminal filter
-    if (hasBlur && !hasOverlay) {
+    if (hasBlur) {
         NSLog(@"Blur filter: %@", blurFilter);
 
         GPUImageGaussianSelectiveBlurFilter* gpu =
         (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
-        NSLog(@"Blur position %g %g %g %g", [gpu blurSize], [gpu excludeBlurSize], [gpu excludeCircleRadius], [gpu aspectRatio]);
+        NSLog(@"Blur position %g %g %g %g",
+              [gpu blurSize],
+              [gpu excludeBlurSize],
+              [gpu excludeCircleRadius],
+              [gpu aspectRatio]);
         
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
-        
-        //overlay is terminal
-    } else if (hasOverlay) {
-        //create our mask -- could be filter dependent in future
-        sourcePicture = [[GPUImagePicture alloc] initWithImage:[UIImage imageNamed:@"mask"]
-                                           smoothlyScaleOutput:YES];
-        overlayFilter = [[GPUImageMaskFilter alloc] init];
-        [sourcePicture processImage];
-        
-        if (hasBlur) {
-            GPUImageGaussianSelectiveBlurFilter* gpu =
-            (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
-            
-            NSLog(@"Blur position %g %g %g %g", [gpu blurSize], [gpu excludeBlurSize], [gpu excludeCircleRadius], [gpu aspectRatio]);
-            [filter addTarget:blurFilter];
-            [blurFilter addTarget:overlayFilter];
-            [sourcePicture addTarget:overlayFilter];
-            [overlayFilter addTarget:self.imageView];
-        } else {
-            [filter addTarget:overlayFilter];
-            [sourcePicture addTarget:overlayFilter];
-            [overlayFilter addTarget:self.imageView];
-        }
-        
-        //regular filter is terminal
+       //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
     }
     
-    if (isStatic) {
-        [staticPicture processImage];
-    }
+    [staticPicture processImage];
+    
+        
 }
 
 -(void) removeAllTargets {
@@ -269,40 +238,11 @@
     
     //blur
     [blurFilter removeAllTargets];
-    
-    [sourcePicture removeAllTargets];
-    
-    //overlay
-    [overlayFilter removeAllTargets];
-}
-
--(IBAction) toggleOverlay:(UIButton *) sender {
-    [overlayToggleButton setEnabled:NO];   
-    [self removeAllTargets];
-    
-    if (hasOverlay) {
-        sourcePicture = nil;
-        overlayFilter = nil;
-        hasOverlay = NO;
-        [overlayToggleButton setSelected:NO];
-    } else {
-        hasOverlay = YES;
-        [overlayToggleButton setSelected:YES];
-    }
-    
-    [self prepareFilter];
-    [overlayToggleButton setEnabled:YES];
-
-    if (isStatic) {
-        [staticPicture processImage];
-    }
 }
 
 -(IBAction) toggleBlur:(UIButton*)blurButton {
     
     [self.blurToggleButton setEnabled:NO];
-    
-    [stillCamera pauseCameraCapture];
     [self removeAllTargets];
     
     if (hasBlur) {
@@ -325,8 +265,6 @@
     
     if (isStatic) {
         [staticPicture processImage];
-    } else {
-        [stillCamera resumeCameraCapture];
     }
 }
 
@@ -341,35 +279,33 @@
     
     if (!isStatic) {
         [cropFilter prepareForImageCapture];
-        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter
+        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter 
                                       withCompletionHandler:^(UIImage *processed, NSError *error) {
-            
             isStatic = YES;
             runOnMainQueueWithoutDeadlocking(^{
-                [stillCamera stopCameraCapture];
-                [self removeAllTargets];
-                [self.cameraToggleButton setHidden:YES];
-                staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
-                [self prepareFilter];
-                [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
-                [self.photoCaptureButton setEnabled:YES];
-                if(![self.filtersToggleButton isSelected]){
-                    [self showFilters];
+                @autoreleasepool {
+                    [stillCamera stopCameraCapture];
+                    [self removeAllTargets];
+                    [self.cameraToggleButton setHidden:YES];
+                    staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
+                    [self prepareFilter];
+                    [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
+                    [self.photoCaptureButton setEnabled:YES];
+                    if(![self.filtersToggleButton isSelected]){
+                        [self showFilters];
+                    }
                 }
             });
         }];
         
     } else {
         GPUImageOutput<GPUImageInput> *processUpTo;
-        if (hasOverlay) {
-            [sourcePicture processImage];
-            processUpTo = overlayFilter;
-        } else if (hasBlur) {
+        if (hasBlur) {
             processUpTo = blurFilter;
         } else {
             processUpTo = filter;
         }
-        //[processUpTo forceProcessingAtSize:CGSizeMake(640.0f, 640.0f)];
+        
         [staticPicture processImage];
         
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
@@ -392,6 +328,9 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
             //NSLog(@"Start tap");
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
@@ -404,8 +343,9 @@
             //NSLog(@"Done tap");
             [gpu setBlurSize:5.0f];
             
-            // only render blur at end of gesture
-            [self prepareFilter];
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
     }
 }
@@ -435,8 +375,9 @@
         if ([sender state] == UIGestureRecognizerStateEnded) {
             [gpu setBlurSize:5.0f];
 
-            // only render blur at end of gesture
-            [self prepareFilter];
+            if (isStatic) {
+                [staticPicture processImage];
+            }
         }
     }
 }
@@ -506,8 +447,6 @@
     filter = nil;
     blurFilter = nil;
     staticPicture = nil;
-    sourcePicture = nil;
-    overlayFilter = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
