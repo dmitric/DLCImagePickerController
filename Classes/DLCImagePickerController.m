@@ -68,7 +68,12 @@
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0, 0.0, 1.0, 0.75)];
     filter = [[GPUImageRGBFilter alloc] init];
     
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated{
     //camera setup
+    [super viewDidAppear:animated];
     [self setUpCamera];
 }
 
@@ -137,6 +142,9 @@
         case 5:
             filter = [[GPUImageGrayscaleFilter alloc] init];
             break;
+        case 6:
+            filter = [[GPUImageAmatorkaFilter alloc] init];
+            break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
             break;
@@ -161,6 +169,7 @@
     
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
+    [cropFilter forceProcessingAtSize:CGSizeMake(640, 640)];
     
     //blur is terminal filter
     if (hasBlur && !hasOverlay) {
@@ -360,6 +369,7 @@
         } else {
             processUpTo = filter;
         }
+        //[processUpTo forceProcessingAtSize:CGSizeMake(640.0f, 640.0f)];
         [staticPicture processImage];
         
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
