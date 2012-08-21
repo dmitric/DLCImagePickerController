@@ -1,12 +1,21 @@
+About
+-----
+
 DLCImagePickerController is a fast, beautiful and fun way to filter and capture your photos with OpenGL and your iPhone.
-The majority of the praise should be directed towards BradLarson for his GPUImage library.
+The majority of the praise should be directed towards BradLarson for his [GPUImage](https://github.com/BradLarson/GPUImage) library.
 
 [Here's a video of it in action](http://www.youtube.com/watch?v=2BFljDoJpB8)
+
+### Setup:
+
+When you clone the repo, you'll need to download GPUImage assets:
 
 ```
 git submodule init
 git submodule update
 ```
+
+### Examples
 
 Here are some examples of the filters that are included. These are being applied to the live camera stream
 
