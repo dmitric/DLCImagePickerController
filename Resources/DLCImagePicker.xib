@@ -44,7 +44,7 @@
 						<object class="IBUIView" id="780689577">
 							<reference key="NSNextResponder" ref="430809117"/>
 							<int key="NSvFlags">319</int>
-							<string key="NSFrame">{{0, 73}, {320, 334}}</string>
+							<string key="NSFrame">{{0, 78}, {320, 320}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="156513520"/>
@@ -133,6 +133,7 @@
 									<string key="NSFrame">{{250, 3}, {65, 37}}</string>
 									<reference key="NSSuperview" ref="31350387"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="73278669"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<bool key="IBUIOpaque">NO</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -275,6 +276,28 @@
 							<reference key="IBUIFontDescription" ref="731209349"/>
 							<reference key="IBUIFont" ref="1034567579"/>
 						</object>
+						<object class="IBUIButton" id="73278669">
+							<reference key="NSNextResponder" ref="430809117"/>
+							<int key="NSvFlags">-2147483356</int>
+							<string key="NSFrame">{{34, 440}, {75, 37}}</string>
+							<reference key="NSSuperview" ref="430809117"/>
+							<reference key="NSWindow"/>
+							<string key="NSReuseIdentifierKey">_NS:9</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<int key="IBUIContentHorizontalAlignment">0</int>
+							<int key="IBUIContentVerticalAlignment">0</int>
+							<int key="IBUIButtonType">1</int>
+							<string key="IBUINormalTitle">Retake</string>
+							<reference key="IBUIHighlightedTitleColor" ref="71675273"/>
+							<object class="NSColor" key="IBUINormalTitleColor">
+								<int key="NSColorSpace">1</int>
+								<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+							</object>
+							<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
+							<reference key="IBUIFontDescription" ref="731209349"/>
+							<reference key="IBUIFont" ref="1034567579"/>
+						</object>
 					</array>
 					<string key="NSFrameSize">{320, 480}</string>
 					<reference key="NSSuperview"/>
@@ -394,6 +417,14 @@
 					<int key="connectionID">78</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">retakeButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="73278669"/>
+					</object>
+					<int key="connectionID">81</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
 						<string key="label">gestureRecognizers</string>
 						<reference key="source" ref="780689577"/>
@@ -483,6 +514,15 @@
 					</object>
 					<int key="connectionID">79</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">retakePhoto:</string>
+						<reference key="source" ref="73278669"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">82</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -524,6 +564,7 @@
 							<reference ref="132217247"/>
 							<reference ref="328503754"/>
 							<reference ref="187956305"/>
+							<reference ref="73278669"/>
 						</array>
 						<reference key="parent" ref="50993085"/>
 					</object>
@@ -599,6 +640,11 @@
 						<reference key="object" ref="187956305"/>
 						<reference key="parent" ref="430809117"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">80</int>
+						<reference key="object" ref="73278669"/>
+						<reference key="parent" ref="430809117"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -622,12 +668,13 @@
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="80.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">79</int>
+			<int key="maxID">82</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -645,6 +692,7 @@
 						<string key="imageView">GPUImageView</string>
 						<string key="photoBar">UIView</string>
 						<string key="photoCaptureButton">UIButton</string>
+						<string key="retakeButton">UIButton</string>
 						<string key="topBar">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -686,6 +734,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="photoCaptureButton">
 							<string key="name">photoCaptureButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retakeButton">
+							<string key="name">retakeButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="topBar">

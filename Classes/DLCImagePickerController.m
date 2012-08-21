@@ -14,7 +14,6 @@
     BOOL isStatic;
     BOOL hasBlur;
     int selectedFilter;
-    UIImage *processedImage;
 }
 
 @synthesize delegate,
@@ -24,6 +23,7 @@
     blurToggleButton,
     flashToggleButton,
     cancelButton,
+    retakeButton,
     filtersToggleButton,
     filterScrollView,
     filtersBackgroundImageView,
@@ -58,7 +58,7 @@
     hasBlur = NO;
     
     //fill mode for video
-    self.imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+    //self.imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     
     [self loadFilters];
     
@@ -125,8 +125,13 @@
     [self removeAllTargets];
     
     selectedFilter = sender.tag;
-    
-    switch (sender.tag) {
+    [self setFilter:sender.tag];
+    [self prepareFilter];
+}
+
+
+-(void) setFilter:(int) index {
+    switch (index) {
         case 1:{
             filter = [[GPUImageContrastFilter alloc] init];
             [(GPUImageContrastFilter *) filter setContrast:1.75];
@@ -159,8 +164,6 @@
             filter = [[GPUImageRGBFilter alloc] init];
             break;
     }
-    
-    [self prepareFilter];
 }
 
 -(void) prepareFilter {    
@@ -294,6 +297,7 @@
                 @autoreleasepool {
                     [stillCamera stopCameraCapture];
                     [self removeAllTargets];
+                    [self.retakeButton setHidden:NO];
                     [self.cameraToggleButton setHidden:YES];
                     [self.flashToggleButton setHidden:YES];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
@@ -322,6 +326,20 @@
                               UIImageJPEGRepresentation(currentFilteredVideoFrame, 1), @"data", nil];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
     }
+}
+
+-(IBAction) retakePhoto:(UIButton *)button{
+    [self.retakeButton setHidden:YES];
+    staticPicture = nil;
+    isStatic = NO;
+    [self removeAllTargets];
+    [stillCamera startCameraCapture];
+    [self.cameraToggleButton setHidden:NO];
+    [self.flashToggleButton setHidden:NO];
+    [self.photoCaptureButton setTitle:@"Capture" forState:UIControlStateNormal];
+    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
+    [self setFilter:selectedFilter];
+    [self prepareFilter];
 }
 
 -(IBAction) cancel:(id)sender{
@@ -393,7 +411,7 @@
     self.filtersToggleButton.enabled = NO;
     [self.filtersToggleButton setSelected:YES];
     CGRect imageRect = self.imageView.frame;
-    imageRect.origin.y -= 30;
+    imageRect.origin.y -= 34;
     CGRect sliderScrollFrame = self.filterScrollView.frame;
     sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
     CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
@@ -420,7 +438,7 @@
     sender.enabled = NO;
     if (sender.selected){
         CGRect imageRect = self.imageView.frame;
-        imageRect.origin.y += 30;
+        imageRect.origin.y += 34;
         CGRect sliderScrollFrame = self.filterScrollView.frame;
         sliderScrollFrame.origin.y += self.filterScrollView.frame.size.height;
         

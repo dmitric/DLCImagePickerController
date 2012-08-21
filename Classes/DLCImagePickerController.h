@@ -34,6 +34,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *blurToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *filtersToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *flashToggleButton;
+@property (nonatomic, weak) IBOutlet UIButton *retakeButton;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *filterScrollView;
 @property (nonatomic, weak) IBOutlet UIImageView *filtersBackgroundImageView;
