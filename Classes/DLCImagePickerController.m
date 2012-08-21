@@ -65,7 +65,6 @@
     //we need a crop filter for the live video
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
     filter = [[GPUImageRGBFilter alloc] init];
-    //[filter prepareForImageCapture];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self setUpCamera];
@@ -179,20 +178,19 @@
 -(void) prepareLiveFilter {
     
     //if([stillCamera cameraPosition] == AVCaptureDevicePositionFront){
-    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
-    //[cropFilter prepareForImageCapture];
+    
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
     //blur is terminal filter
     if (hasBlur) {
         [filter addTarget:blurFilter];
         [blurFilter addTarget:self.imageView];
-        [blurFilter prepareForImageCapture];
     //regular filter is terminal
     } else {
         [filter addTarget:self.imageView];
-        [filter prepareForImageCapture];
     }
+    
+    [filter prepareForImageCapture];
     
 }
 
