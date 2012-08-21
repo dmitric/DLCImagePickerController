@@ -28,7 +28,7 @@ It also has a radial blur, that you can move and pinch to your liking and front 
 After you capture the image, you can apply new filters and toggle/move/resize the blur as you please or decide to retake it
 
 ![After capture](http://i.imgur.com/vNobh.png)
-![Retake](http://i.imgur.com/OQXLN.png?5778)
+![Retake](http://i.imgur.com/OQXLN.png?4065)
 
 Here's a link to the [output](http://i.imgur.com/0OncO.jpg) that gets produced
 
