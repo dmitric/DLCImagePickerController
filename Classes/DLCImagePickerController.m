@@ -337,6 +337,11 @@
     [self.cameraToggleButton setHidden:NO];
     [self.flashToggleButton setHidden:NO];
     [self.photoCaptureButton setTitle:@"Capture" forState:UIControlStateNormal];
+    
+    if ([self.filtersToggleButton isSelected]) {
+        [self hideFilters];
+    }
+    
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
     [self setFilter:selectedFilter];
     [self prepareFilter];
@@ -434,31 +439,35 @@
                      }];
 }
 
+-(void) hideFilters {
+    CGRect imageRect = self.imageView.frame;
+    imageRect.origin.y += 34;
+    CGRect sliderScrollFrame = self.filterScrollView.frame;
+    sliderScrollFrame.origin.y += self.filterScrollView.frame.size.height;
+    
+    CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
+    sliderScrollFrameBackground.origin.y += self.filtersBackgroundImageView.frame.size.height-3;
+    
+    [UIView animateWithDuration:0.10
+                          delay:0.05
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.imageView.frame = imageRect;
+                         self.filterScrollView.frame = sliderScrollFrame;
+                         self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
+                     } 
+                     completion:^(BOOL finished){
+                         [self.filtersToggleButton setSelected:NO];
+                         self.filtersToggleButton.enabled = YES;
+                         self.filterScrollView.hidden = YES;
+                         self.filtersBackgroundImageView.hidden = YES;
+                     }];
+}
+
 -(IBAction) toggleFilters:(UIButton *)sender{
     sender.enabled = NO;
     if (sender.selected){
-        CGRect imageRect = self.imageView.frame;
-        imageRect.origin.y += 34;
-        CGRect sliderScrollFrame = self.filterScrollView.frame;
-        sliderScrollFrame.origin.y += self.filterScrollView.frame.size.height;
-        
-        CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
-        sliderScrollFrameBackground.origin.y += self.filtersBackgroundImageView.frame.size.height-3;
-        
-        [UIView animateWithDuration:0.10
-                              delay:0.05
-                            options: UIViewAnimationCurveEaseOut
-                         animations:^{
-                             self.imageView.frame = imageRect;
-                             self.filterScrollView.frame = sliderScrollFrame;
-                             self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
-                         } 
-                         completion:^(BOOL finished){
-                             [sender setSelected:NO];
-                             sender.enabled = YES;
-                             self.filterScrollView.hidden = YES;
-                             self.filtersBackgroundImageView.hidden = YES;
-                         }];
+        [self hideFilters];
     } else {
         [self showFilters];
     }
