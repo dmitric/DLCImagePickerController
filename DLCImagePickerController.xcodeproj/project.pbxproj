@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A49CEA715E345070098304F /* blackframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A49CEA615E345070098304F /* blackframe.png */; };
 		6A5BBDA815E2214B00B1B485 /* 02.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A5BBDA515E2214B00B1B485 /* 02.acv */; };
 		6A5BBDA915E2214B00B1B485 /* 06.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A5BBDA615E2214B00B1B485 /* 06.acv */; };
 		6A5BBDAA15E2214B00B1B485 /* 17.acv in Resources */ = {isa = PBXBuildFile; fileRef = 6A5BBDA715E2214B00B1B485 /* 17.acv */; };
@@ -25,7 +26,6 @@
 		6A5D9A5915E01DA4001FAD14 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5D9A5815E01DA4001FAD14 /* AssetsLibrary.framework */; };
 		6A5D9A8815E02429001FAD14 /* DLCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A8715E02429001FAD14 /* DLCImagePickerController.m */; };
 		6A5D9A8B15E02504001FAD14 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D9A8A15E02504001FAD14 /* PhotoViewController.m */; };
-		6A5D9AA015E02527001FAD14 /* blackframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9315E02527001FAD14 /* blackframe.png */; };
 		6A5D9AA115E02527001FAD14 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9415E02527001FAD14 /* mask.png */; };
 		6A5D9AA215E02527001FAD14 /* dock_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9615E02527001FAD14 /* dock_bg.png */; };
 		6A5D9AA315E02527001FAD14 /* dock_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D9A9715E02527001FAD14 /* dock_bg@2x.png */; };
@@ -67,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A49CEA615E345070098304F /* blackframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackframe.png; sourceTree = "<group>"; };
 		6A5BBDA515E2214B00B1B485 /* 02.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = 02.acv; path = Filters/02.acv; sourceTree = "<group>"; };
 		6A5BBDA615E2214B00B1B485 /* 06.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = 06.acv; path = Filters/06.acv; sourceTree = "<group>"; };
 		6A5BBDA715E2214B00B1B485 /* 17.acv */ = {isa = PBXFileReference; lastKnownFileType = file; name = 17.acv; path = Filters/17.acv; sourceTree = "<group>"; };
@@ -91,7 +92,6 @@
 		6A5D9A8715E02429001FAD14 /* DLCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCImagePickerController.m; sourceTree = "<group>"; };
 		6A5D9A8915E02504001FAD14 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		6A5D9A8A15E02504001FAD14 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
-		6A5D9A9315E02527001FAD14 /* blackframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackframe.png; sourceTree = "<group>"; };
 		6A5D9A9415E02527001FAD14 /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
 		6A5D9A9615E02527001FAD14 /* dock_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dock_bg.png; sourceTree = "<group>"; };
 		6A5D9A9715E02527001FAD14 /* dock_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dock_bg@2x.png"; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 		6A5D9A9215E02527001FAD14 /* Overlays */ = {
 			isa = PBXGroup;
 			children = (
-				6A5D9A9315E02527001FAD14 /* blackframe.png */,
+				6A49CEA615E345070098304F /* blackframe.png */,
 				6A5D9A9415E02527001FAD14 /* mask.png */,
 			);
 			path = Overlays;
@@ -357,7 +357,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A5D9A1F15E0152D001FAD14 /* InfoPlist.strings in Resources */,
-				6A5D9AA015E02527001FAD14 /* blackframe.png in Resources */,
 				6A5D9AA115E02527001FAD14 /* mask.png in Resources */,
 				6A5D9AA215E02527001FAD14 /* dock_bg.png in Resources */,
 				6A5D9AA315E02527001FAD14 /* dock_bg@2x.png in Resources */,
@@ -374,6 +373,7 @@
 				6A5BBDA915E2214B00B1B485 /* 06.acv in Resources */,
 				6A5BBDAA15E2214B00B1B485 /* 17.acv in Resources */,
 				7DFAE1BA15E22A9F00C8236F /* aqua.acv in Resources */,
+				6A49CEA715E345070098304F /* blackframe.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

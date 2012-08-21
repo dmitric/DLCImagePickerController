@@ -65,6 +65,7 @@
     //we need a crop filter for the live video
     cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
     filter = [[GPUImageRGBFilter alloc] init];
+    //[filter prepareForImageCapture];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self setUpCamera];
@@ -127,34 +128,34 @@
     selectedFilter = sender.tag;
     
     switch (sender.tag) {
-        case 1:
+        case 1:{
             filter = [[GPUImageContrastFilter alloc] init];
             [(GPUImageContrastFilter *) filter setContrast:1.75];
-            break;
-        case 2:
+        } break;
+        case 2: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"crossprocess.acv"];
-            break;
-        case 3:
+        } break;
+        case 3: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"02.acv"];
-            break;
-        case 4:
+        } break;
+        case 4: {
             filter = [[GrayscaleContrastFilter alloc] init];
-            break;
-        case 5:
+        } break;
+        case 5: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"17.acv"];
-            break;
-        case 6:
+        } break;
+        case 6: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"aqua.acv"];
-            break;
-        case 7:
+        } break;
+        case 7: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"yellow-red.acv"];
-            break;
-        case 8:
+        } break;
+        case 8: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"06.acv"];
-            break;
-        case 9:
+        } break;
+        case 9: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"purple-green.acv"];
-            break;
+        } break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
             break;
@@ -177,9 +178,11 @@
 
 -(void) prepareLiveFilter {
     
+    //if([stillCamera cameraPosition] == AVCaptureDevicePositionFront){
+    cropFilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.0f, 0.0f, 1.0f, 0.75f)];
+    //[cropFilter prepareForImageCapture];
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
-    
     //blur is terminal filter
     if (hasBlur) {
         [filter addTarget:blurFilter];
@@ -286,7 +289,6 @@
     [self.photoCaptureButton setEnabled:NO];
     
     if (!isStatic) {
-        [cropFilter prepareForImageCapture];
         [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter 
                                       withCompletionHandler:^(UIImage *processed, NSError *error) {
             isStatic = YES;
