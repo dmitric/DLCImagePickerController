@@ -29,6 +29,6 @@ After you capture the image, you can apply new filters and toggle/move/resize th
 
 ![After capture](http://i.imgur.com/vNobh.png)
 
-Here is a link to the [final output](http://i.imgur.com/0OncO.jpg) produced
+Here's a link to the [output](http://i.imgur.com/0OncO.jpg) that gets produced
 
 
