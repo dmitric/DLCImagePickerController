@@ -22,7 +22,9 @@ Features
 ### Live Filters
 Here are some examples of the filters that are included. These are being applied to the live camera stream.
 
-![Filters](http://i.imgur.com/bHNAN.png)
+![Filters](http://i.imgur.com/rJx1l.png)
+
+or check out on outdoor shoot with the old UI [here](http://i.imgur.com/bHNAN.png)
 
 ### Radial Blur
 
