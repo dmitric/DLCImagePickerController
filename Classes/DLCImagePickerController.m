@@ -10,7 +10,6 @@
 #import "GrayscaleContrastFilter.h"
 
 @implementation DLCImagePickerController {
-    NSArray *filters;
     BOOL isStatic;
     BOOL hasBlur;
     int selectedFilter;
