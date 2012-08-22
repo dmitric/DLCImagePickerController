@@ -30,7 +30,11 @@ It also has a radial blur, that you can move and pinch to your liking
 
 ![Radial blur on and off](http://i.imgur.com/RhCcV.png)
 
-![Live radial](http://i.imgur.com/ozf2u.png)
+### Front Facing Camera
+
+There is a front facing camera, however it's still buggy on capture
+
+![Front facing camera](http://i.imgur.com/DnTHD.png)
 
 ### Apply filters/blur after capture or retake photo
 
