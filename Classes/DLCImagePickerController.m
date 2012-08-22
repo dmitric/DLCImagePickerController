@@ -51,6 +51,7 @@
     self.photoBar.backgroundColor = [UIColor colorWithPatternImage:
                                      [UIImage imageNamed:@"photo_bar"]];
     
+    self.topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
     //button states
     [self.blurToggleButton setSelected:NO];
     [self.filtersToggleButton setSelected:NO];
@@ -81,8 +82,9 @@
 
 -(void) loadFilters {
     for(int i = 0; i < 10; i++) {
-        UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(10+i*(60+10), 5.0f, 60, 60);
+        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"filter"] forState:UIControlStateNormal];
+        button.frame = CGRectMake(10+i*(60+10), 5.0f, 60.0f, 60.0f);
         [button addTarget:self
                    action:@selector(filterClicked:)
          forControlEvents:UIControlEventTouchUpInside];
@@ -239,13 +241,13 @@
     [stillCamera.inputCamera lockForConfiguration:nil];
     if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
         [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeAuto];
-        [self.flashToggleButton setTitle:@"FA" forState:UIControlStateNormal];
+        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
     }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
         [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOn];
-        [self.flashToggleButton setTitle:@"FOn" forState:UIControlStateNormal];
+        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
     }else{
         [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOff];
-        [self.flashToggleButton setTitle:@"FOff" forState:UIControlStateNormal];
+        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
     }
     [stillCamera.inputCamera unlockForConfiguration];
     [self.flashToggleButton setEnabled:YES];
@@ -302,7 +304,8 @@
                     [self.flashToggleButton setHidden:YES];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
                     [self prepareFilter];
-                    [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
+                    [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+                    [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
                     [self.photoCaptureButton setEnabled:YES];
                     if(![self.filtersToggleButton isSelected]){
                         [self showFilters];
@@ -336,7 +339,8 @@
     [stillCamera startCameraCapture];
     [self.cameraToggleButton setHidden:NO];
     [self.flashToggleButton setHidden:NO];
-    [self.photoCaptureButton setTitle:@"Capture" forState:UIControlStateNormal];
+    [self.photoCaptureButton setImage:[UIImage imageNamed:@"camera-icon"] forState:UIControlStateNormal];
+    [self.photoCaptureButton setTitle:nil forState:UIControlStateNormal];
     
     if ([self.filtersToggleButton isSelected]) {
         [self hideFilters];
@@ -413,8 +417,8 @@
 }
 
 -(void) showFilters {
-    self.filtersToggleButton.enabled = NO;
     [self.filtersToggleButton setSelected:YES];
+    self.filtersToggleButton.enabled = NO;
     CGRect imageRect = self.imageView.frame;
     imageRect.origin.y -= 34;
     CGRect sliderScrollFrame = self.filterScrollView.frame;
@@ -434,12 +438,12 @@
                          self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
                      } 
                      completion:^(BOOL finished){
-                         [self.filtersToggleButton setSelected:YES];
                          self.filtersToggleButton.enabled = YES;
                      }];
 }
 
 -(void) hideFilters {
+    [self.filtersToggleButton setSelected:NO];
     CGRect imageRect = self.imageView.frame;
     imageRect.origin.y += 34;
     CGRect sliderScrollFrame = self.filterScrollView.frame;
@@ -457,7 +461,7 @@
                          self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
                      } 
                      completion:^(BOOL finished){
-                         [self.filtersToggleButton setSelected:NO];
+                         
                          self.filtersToggleButton.enabled = YES;
                          self.filterScrollView.hidden = YES;
                          self.filtersBackgroundImageView.hidden = YES;
