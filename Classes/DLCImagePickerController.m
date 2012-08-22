@@ -120,13 +120,33 @@
         stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
         
         stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-        
-        [stillCamera startCameraCapture];        
+        runOnMainQueueWithoutDeadlocking(^{
+            [stillCamera startCameraCapture];
+            if([stillCamera.inputCamera hasFlash]){
+                [self.flashToggleButton setEnabled:NO];
+                [stillCamera.inputCamera lockForConfiguration:nil];
+                if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
+                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
+                }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
+                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
+                }else{
+                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
+                }
+                [stillCamera.inputCamera unlockForConfiguration];
+                [self.flashToggleButton setEnabled:YES];
+            }else{
+                [self.flashToggleButton setEnabled:NO];
+            }
+            [self prepareFilter];
+        });
     } else {
         // No camera
         NSLog(@"No camera");
+        runOnMainQueueWithoutDeadlocking(^{
+            [self prepareFilter];
+        });
     }
-    [self prepareFilter];
+   
 }
 
 -(void) filterClicked:(UIButton *) sender {
@@ -195,8 +215,6 @@
 
 -(void) prepareLiveFilter {
     
-    //if([stillCamera cameraPosition] == AVCaptureDevicePositionFront){
-    
     [stillCamera addTarget:cropFilter];
     [cropFilter addTarget:filter];
     //blur is terminal filter
@@ -250,20 +268,25 @@
 }
 
 -(IBAction)toggleFlash:(UIButton *)sender{
-    [self.flashToggleButton setEnabled:NO];
-    [stillCamera.inputCamera lockForConfiguration:nil];
-    if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
-        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeAuto];
-        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
-    }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
-        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOn];
-        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
-    }else{
-        [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOff];
-        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
+    
+    if([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+       && stillCamera
+       && [stillCamera.inputCamera hasFlash]) {
+        [self.flashToggleButton setEnabled:NO];
+        [stillCamera.inputCamera lockForConfiguration:nil];
+        if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
+            [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeAuto];
+            [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
+        }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
+            [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOn];
+            [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
+        }else{
+            [stillCamera.inputCamera setFlashMode:AVCaptureFlashModeOff];
+            [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
+        }
+        [stillCamera.inputCamera unlockForConfiguration];
+        [self.flashToggleButton setEnabled:YES];
     }
-    [stillCamera.inputCamera unlockForConfiguration];
-    [self.flashToggleButton setEnabled:YES];
     
 }
 
@@ -351,7 +374,13 @@
     [self removeAllTargets];
     [stillCamera startCameraCapture];
     [self.cameraToggleButton setEnabled:YES];
-    [self.flashToggleButton setEnabled:YES];
+    
+    if([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]
+       && stillCamera
+       && [stillCamera.inputCamera hasFlash]) {
+        [self.flashToggleButton setEnabled:YES];
+    }
+    
     [self.photoCaptureButton setImage:[UIImage imageNamed:@"camera-icon"] forState:UIControlStateNormal];
     [self.photoCaptureButton setTitle:nil forState:UIControlStateNormal];
     
