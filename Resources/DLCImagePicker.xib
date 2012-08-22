@@ -60,7 +60,7 @@
 						<object class="IBUIImageView" id="156513520">
 							<reference key="NSNextResponder" ref="430809117"/>
 							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{0, 435}, {320, 75}}</string>
+							<string key="NSFrame">{{-12, 435}, {344, 75}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="263777331"/>
@@ -119,7 +119,7 @@
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">camera-icon.png</string>
 									</object>
-									<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="996964401">
+									<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="795817758">
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">camera-button.png</string>
 									</object>
@@ -139,7 +139,7 @@
 									<string key="NSFrame">{{263, 3}, {65, 37}}</string>
 									<reference key="NSSuperview" ref="31350387"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="73278669"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<bool key="IBUIOpaque">NO</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -176,7 +176,7 @@
 									<string key="NSFrame">{{11, 7}, {71, 29}}</string>
 									<reference key="NSSuperview" ref="31350387"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView"/>
+									<reference key="NSNextKeyView" ref="458960915"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<bool key="IBUIOpaque">NO</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -189,7 +189,7 @@
 										<bytes key="NSRGB">MC4xMzcyNTQ5MDIgMC4xMzcyNTQ5MDIgMC4xNDUwOTgwMzkyAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
-									<reference key="IBUINormalBackgroundImage" ref="996964401"/>
+									<reference key="IBUINormalBackgroundImage" ref="795817758"/>
 									<object class="IBUIFontDescription" key="IBUIFontDescription">
 										<int key="type">2</int>
 										<double key="pointSize">14</double>
@@ -204,7 +204,7 @@
 							<string key="NSFrame">{{0, 437}, {320, 44}}</string>
 							<reference key="NSSuperview" ref="430809117"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="458960915"/>
+							<reference key="NSNextKeyView" ref="73278669"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSColor" key="IBUIBackgroundColor">
 								<int key="NSColorSpace">3</int>
