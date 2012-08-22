@@ -30,6 +30,8 @@ It also has a radial blur, that you can move and pinch to your liking
 
 ![Radial blur on and off](http://i.imgur.com/RhCcV.png)
 
+![Live radial](http://i.imgur.com/ozf2u.png)
+
 ### Apply filters/blur after capture or retake photo
 
 After you capture the image, you can apply new filters and toggle/move/resize the blur as you please or decide to retake it
