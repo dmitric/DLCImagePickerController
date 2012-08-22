@@ -83,8 +83,22 @@
 -(void) loadFilters {
     for(int i = 0; i < 10; i++) {
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage imageNamed:@"filter"] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%d.jpg", i + 1]] forState:UIControlStateNormal];
         button.frame = CGRectMake(10+i*(60+10), 5.0f, 60.0f, 60.0f);
+        button.layer.cornerRadius = 7.0f;
+        button.layer.masksToBounds = YES;
+        
+        UIBezierPath *bi = [UIBezierPath bezierPathWithRoundedRect:button.bounds
+                                                 byRoundingCorners:UIRectCornerAllCorners
+                                                       cornerRadii:CGSizeMake(7.0,7.0)];
+        
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        maskLayer.frame = button.bounds;
+        maskLayer.path = bi.CGPath;
+        button.layer.mask = maskLayer;
+        button.layer.borderWidth = 1;
+        button.layer.borderColor = [[UIColor blackColor] CGColor];
+        
         [button addTarget:self
                    action:@selector(filterClicked:)
          forControlEvents:UIControlEventTouchUpInside];
