@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A42CF7615E46F0E0062D3E7 /* blur-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A42CF7415E46F0E0062D3E7 /* blur-on.png */; };
+		6A42CF7715E46F0E0062D3E7 /* blur-on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */; };
 		6A49CEA715E345070098304F /* blackframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A49CEA615E345070098304F /* blackframe.png */; };
 		6A49CED815E459B00098304F /* filter-close.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A49CED415E459B00098304F /* filter-close.png */; };
 		6A49CED915E459B00098304F /* filter-close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A49CED515E459B00098304F /* filter-close@2x.png */; };
@@ -89,6 +91,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A42CF7415E46F0E0062D3E7 /* blur-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur-on.png"; sourceTree = "<group>"; };
+		6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur-on@2x.png"; sourceTree = "<group>"; };
 		6A49CEA615E345070098304F /* blackframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackframe.png; sourceTree = "<group>"; };
 		6A49CED415E459B00098304F /* filter-close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter-close.png"; sourceTree = "<group>"; };
 		6A49CED515E459B00098304F /* filter-close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter-close@2x.png"; sourceTree = "<group>"; };
@@ -275,6 +279,8 @@
 		6A5D9A9515E02527001FAD14 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				6A42CF7415E46F0E0062D3E7 /* blur-on.png */,
+				6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */,
 				6A49CF0815E461D10098304F /* close.png */,
 				6A49CF0915E461D10098304F /* close@2x.png */,
 				6A49CF0415E461B30098304F /* blur.png */,
@@ -462,6 +468,8 @@
 				6A49CF0715E461B30098304F /* blur@2x.png in Resources */,
 				6A49CF0A15E461D10098304F /* close.png in Resources */,
 				6A49CF0B15E461D10098304F /* close@2x.png in Resources */,
+				6A42CF7615E46F0E0062D3E7 /* blur-on.png in Resources */,
+				6A42CF7715E46F0E0062D3E7 /* blur-on@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

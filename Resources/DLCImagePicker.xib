@@ -119,7 +119,7 @@
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">camera-icon.png</string>
 									</object>
-									<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="795817758">
+									<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="876185417">
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">camera-button.png</string>
 									</object>
@@ -139,7 +139,6 @@
 									<string key="NSFrame">{{263, 3}, {65, 37}}</string>
 									<reference key="NSSuperview" ref="31350387"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<bool key="IBUIOpaque">NO</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -189,7 +188,7 @@
 										<bytes key="NSRGB">MC4xMzcyNTQ5MDIgMC4xMzcyNTQ5MDIgMC4xNDUwOTgwMzkyAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
-									<reference key="IBUINormalBackgroundImage" ref="795817758"/>
+									<reference key="IBUINormalBackgroundImage" ref="876185417"/>
 									<object class="IBUIFontDescription" key="IBUIFontDescription">
 										<int key="type">2</int>
 										<double key="pointSize">14</double>
@@ -297,6 +296,10 @@
 								<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 							</object>
 							<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
+							<object class="NSCustomResource" key="IBUISelectedImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">blur-on.png</string>
+							</object>
 							<object class="NSCustomResource" key="IBUINormalImage">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">blur.png</string>
@@ -695,6 +698,7 @@
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="50.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="65.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.CustomClassName">GPUImageView</string>
@@ -803,6 +807,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="blur-on.png">{15, 22}</string>
 			<string key="blur.png">{16, 23}</string>
 			<string key="camera-button.png">{101, 41}</string>
 			<string key="camera-icon.png">{26, 21}</string>

@@ -300,8 +300,8 @@
                     [stillCamera stopCameraCapture];
                     [self removeAllTargets];
                     [self.retakeButton setHidden:NO];
-                    [self.cameraToggleButton setHidden:YES];
-                    [self.flashToggleButton setHidden:YES];
+                    [self.cameraToggleButton setEnabled:NO];
+                    [self.flashToggleButton setEnabled:NO];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
                     [self prepareFilter];
                     [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -337,8 +337,8 @@
     isStatic = NO;
     [self removeAllTargets];
     [stillCamera startCameraCapture];
-    [self.cameraToggleButton setHidden:NO];
-    [self.flashToggleButton setHidden:NO];
+    [self.cameraToggleButton setEnabled:YES];
+    [self.flashToggleButton setEnabled:YES];
     [self.photoCaptureButton setImage:[UIImage imageNamed:@"camera-icon"] forState:UIControlStateNormal];
     [self.photoCaptureButton setTitle:nil forState:UIControlStateNormal];
     
