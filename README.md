@@ -34,7 +34,7 @@ It also has a radial blur, that you can move and pinch to your liking
 
 There is a front facing camera, however it's still buggy on capture
 
-![Front facing camera](http://i.imgur.com/DnTHD.png)
+![Front facing camera](http://i.imgur.com/CqOra.png)
 
 ### Apply filters/blur after capture or retake photo
 
