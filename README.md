@@ -26,7 +26,7 @@ Here are some examples of the filters that are included. These are being applied
 
 ### Radial Blur
 
-It also has a radial blur, that you can move and pinch to your liking
+It also has a radial blur, that you can move and pinch to your liking on the live view or captured image
 
 ![Radial blur on and off](http://i.imgur.com/RhCcV.png)
 
