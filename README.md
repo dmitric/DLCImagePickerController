@@ -6,7 +6,8 @@ The majority of the praise should be directed towards BradLarson for his [GPUIma
 
 [Here's a video of it in action](http://www.youtube.com/watch?v=2BFljDoJpB8)
 
-### Setup:
+Setup
+------
 
 When you clone the repo, you'll need to download GPUImage assets:
 
@@ -15,21 +16,33 @@ git submodule init
 git submodule update
 ```
 
-### Examples
+Features
+---------
 
-Here are some examples of the filters that are included. These are being applied to the live camera stream
+### Live Filters
+Here are some examples of the filters that are included. These are being applied to the live camera stream.
 
 ![Filters](http://i.imgur.com/bHNAN.png)
 
-It also has a radial blur, that you can move and pinch to your liking and front facing camera
+### Radial Blur
 
-![Blur and front facing](http://i.imgur.com/Tmie1.png)
+It also has a radial blur, that you can move and pinch to your liking
+
+![Radial blur on and off](http://i.imgur.com/RhCcV.png)
+
+### Apply filters/blur after capture or retake photo
 
 After you capture the image, you can apply new filters and toggle/move/resize the blur as you please or decide to retake it
 
-![After capture](http://i.imgur.com/vNobh.png)
-![Retake](http://i.imgur.com/qiY9Z.png)
+![Filters](http://i.imgur.com/TtMMm.png)
 
-Here's a link to the [output](http://i.imgur.com/0OncO.jpg) that gets produced
+Example output
+---------------
+
+These images were produced using the sample program included in this repo
+
+[Soft filter in nice daylight](http://i.imgur.com/0OncO.jpg)
+
+[High contrast black and white with radial blur](http://i.imgur.com/6B4iz.jpg)
 
 
