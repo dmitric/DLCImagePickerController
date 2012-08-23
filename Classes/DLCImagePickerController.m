@@ -267,6 +267,13 @@
 }
 
 -(IBAction)switchToLibrary:(id)sender {
+    
+    if (!isStatic) {
+        // shut down camera
+        [stillCamera stopCameraCapture];
+        [self removeAllTargets];
+    }
+    
     UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     //        imagePickerController.mediaTypes = @[kUTTypeImage];
@@ -554,7 +561,21 @@
     if (outputImage) {
         staticPicture = [[GPUImagePicture alloc] initWithImage:outputImage smoothlyScaleOutput:YES];
         isStatic = YES;
+        [self dismissModalViewControllerAnimated:YES];
+        
+
+//        [self.retakeButton setHidden:NO];
+//        [self.libraryToggleButton setHidden:YES];
+        [self.cameraToggleButton setEnabled:NO];
+        [self.flashToggleButton setEnabled:NO];
         [self prepareStaticFilter];
+        [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
+        [self.photoCaptureButton setEnabled:YES];
+        if(![self.filtersToggleButton isSelected]){
+            [self showFilters];
+        }
+
     }
 }
 
