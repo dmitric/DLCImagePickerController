@@ -552,9 +552,10 @@
 #pragma mark - UIImagePickerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage* outputImage = info[UIImagePickerControllerEditedImage];
+
+    UIImage* outputImage = [info objectForKey:UIImagePickerControllerEditedImage];
     if (outputImage == nil) {
-        outputImage = info[UIImagePickerControllerOriginalImage];
+        outputImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
     if (outputImage) {
