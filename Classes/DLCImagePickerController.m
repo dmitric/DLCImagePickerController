@@ -24,6 +24,7 @@
     cancelButton,
     retakeButton,
     filtersToggleButton,
+    libraryToggleButton,
     filterScrollView,
     filtersBackgroundImageView,
     photoBar,
@@ -233,10 +234,8 @@
 -(void) prepareStaticFilter {
     
     if (!staticPicture) {
-        NSLog(@"Creating new static picture");
-        [self.photoCaptureButton setTitle:@"Save" forState:UIControlStateNormal];
-        UIImage *inputImage = [UIImage imageNamed:@"sample1.jpg"];
-        staticPicture = [[GPUImagePicture alloc] initWithImage:inputImage smoothlyScaleOutput:YES];
+        // TODO: fix this hack
+        [self performSelector:@selector(switchToLibrary:) withObject:nil afterDelay:0.5];
     }
     
     [staticPicture addTarget:filter];
@@ -265,6 +264,14 @@
     
     //blur
     [blurFilter removeAllTargets];
+}
+
+-(IBAction)switchToLibrary:(id)sender {
+    UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    //        imagePickerController.mediaTypes = @[kUTTypeImage];
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:^(){}];
 }
 
 -(IBAction)toggleFlash:(UIButton *)sender{
@@ -336,6 +343,7 @@
                     [stillCamera stopCameraCapture];
                     [self removeAllTargets];
                     [self.retakeButton setHidden:NO];
+                    [self.libraryToggleButton setHidden:YES];
                     [self.cameraToggleButton setEnabled:NO];
                     [self.flashToggleButton setEnabled:NO];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
@@ -369,6 +377,7 @@
 
 -(IBAction) retakePhoto:(UIButton *)button{
     [self.retakeButton setHidden:YES];
+    [self.libraryToggleButton setHidden:NO];
     staticPicture = nil;
     isStatic = NO;
     [self removeAllTargets];
@@ -532,6 +541,32 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [stillCamera stopCameraCapture];
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - UIImagePickerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage* outputImage = info[UIImagePickerControllerEditedImage];
+    if (outputImage == nil) {
+        outputImage = info[UIImagePickerControllerOriginalImage];
+    }
+    
+    if (outputImage) {
+        staticPicture = [[GPUImagePicture alloc] initWithImage:outputImage smoothlyScaleOutput:YES];
+        isStatic = YES;
+        [self prepareStaticFilter];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    if (isStatic) {
+        // TODO: fix this hack
+        [self dismissModalViewControllerAnimated:NO];
+        [self.delegate imagePickerControllerDidCancel:self];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+        [self retakePhoto:nil];
+    }
 }
 
 @end
