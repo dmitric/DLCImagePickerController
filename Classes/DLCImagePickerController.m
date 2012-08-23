@@ -276,9 +276,8 @@
     
     UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    //        imagePickerController.mediaTypes = @[kUTTypeImage];
     imagePickerController.delegate = self;
-    [self presentViewController:imagePickerController animated:YES completion:^(){}];
+    [self presentViewController:imagePickerController animated:YES completion:NULL];
 }
 
 -(IBAction)toggleFlash:(UIButton *)sender{
