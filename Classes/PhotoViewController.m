@@ -44,6 +44,7 @@
 }
 
 -(void) takePhoto:(id)sender{
+    NSLog(@"photo controller is %@", self);
     DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
     picker.delegate = self;
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];

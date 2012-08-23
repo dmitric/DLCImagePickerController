@@ -17,7 +17,7 @@
 - (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker;
 @end
 
-@interface DLCImagePickerController : UIViewController {
+@interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
     GPUImageStillCamera *stillCamera;
     GPUImageOutput<GPUImageInput> *filter;
     GPUImageOutput<GPUImageInput> *blurFilter;
@@ -33,6 +33,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *cameraToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *blurToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *filtersToggleButton;
+@property (nonatomic, weak) IBOutlet UIButton *libraryToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *flashToggleButton;
 @property (nonatomic, weak) IBOutlet UIButton *retakeButton;
 

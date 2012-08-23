@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04338D0C15E6958B00BEAC52 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 04338D0A15E6958A00BEAC52 /* library.png */; };
+		04338D0D15E6958B00BEAC52 /* library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04338D0B15E6958B00BEAC52 /* library@2x.png */; };
 		6A42CF7615E46F0E0062D3E7 /* blur-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A42CF7415E46F0E0062D3E7 /* blur-on.png */; };
 		6A42CF7715E46F0E0062D3E7 /* blur-on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */; };
 		6A49CEA715E345070098304F /* blackframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A49CEA615E345070098304F /* blackframe.png */; };
@@ -111,6 +113,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04338D0A15E6958A00BEAC52 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = library.png; sourceTree = "<group>"; };
+		04338D0B15E6958B00BEAC52 /* library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "library@2x.png"; sourceTree = "<group>"; };
 		6A42CF7415E46F0E0062D3E7 /* blur-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur-on.png"; sourceTree = "<group>"; };
 		6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur-on@2x.png"; sourceTree = "<group>"; };
 		6A49CEA615E345070098304F /* blackframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackframe.png; sourceTree = "<group>"; };
@@ -347,6 +351,8 @@
 		6A5D9A9515E02527001FAD14 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				04338D0A15E6958A00BEAC52 /* library.png */,
+				04338D0B15E6958B00BEAC52 /* library@2x.png */,
 				6A42CF7415E46F0E0062D3E7 /* blur-on.png */,
 				6A42CF7515E46F0E0062D3E7 /* blur-on@2x.png */,
 				6A49CF0815E461D10098304F /* close.png */,
@@ -558,6 +564,8 @@
 				6A5530B615E486E300019CC9 /* 9@2x.jpg in Resources */,
 				6A5530B915E486E900019CC9 /* 10.jpg in Resources */,
 				6A5530BA15E486E900019CC9 /* 10@2x.jpg in Resources */,
+				04338D0C15E6958B00BEAC52 /* library.png in Resources */,
+				04338D0D15E6958B00BEAC52 /* library@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
