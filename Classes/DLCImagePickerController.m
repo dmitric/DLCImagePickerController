@@ -28,13 +28,14 @@
     filterScrollView,
     filtersBackgroundImageView,
     photoBar,
-    topBar;
+    topBar,
+    outputJPEGQuality;
 
 -(id) init {
     self = [super initWithNibName:@"DLCImagePicker" bundle:nil];
     
     if (self) {
-        
+        self.outputJPEGQuality = 1.0;
     }
     
     return self;
@@ -377,7 +378,7 @@
         
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              UIImageJPEGRepresentation(currentFilteredVideoFrame, 1), @"data", nil];
+                              UIImageJPEGRepresentation(currentFilteredVideoFrame, self.outputJPEGQuality), @"data", nil];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
     }
 }

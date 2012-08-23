@@ -42,4 +42,6 @@
 @property (nonatomic, weak) IBOutlet UIView *photoBar;
 @property (nonatomic, weak) IBOutlet UIView *topBar;
 
+@property (nonatomic, assign) CGFloat outputJPEGQuality;
+
 @end
