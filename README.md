@@ -1,4 +1,3 @@
-
 About
 -----
 
@@ -44,6 +43,10 @@ There is a front facing camera, however it's still buggy on capture
 After you capture the image, you can apply new filters and toggle/move/resize the blur as you please or decide to retake it
 
 ![Filters](http://i.imgur.com/TtMMm.png)
+
+### Use an image from your camera roll
+
+![Loaded from camera roll](http://i.imgur.com/6f2fQ.png)
 
 Example output
 ---------------
