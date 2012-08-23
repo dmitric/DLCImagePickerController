@@ -1,3 +1,4 @@
+
 About
 -----
 
@@ -52,5 +53,17 @@ These images were produced using the sample program included in this repo
 [Soft filter in nice daylight](http://i.imgur.com/0OncO.jpg)
 
 [High contrast black and white with radial blur](http://i.imgur.com/6B4iz.jpg)
+
+Contact
+--------
+**Dmitri Cherniak**
+
++ http://twitter.com/dmitric
++ http://github.com/dmitric
+
+**Wylie Conlon**
+
++ http://twitter.com/wylieconlon
++ http://github.com/wylieconlon
 
 
