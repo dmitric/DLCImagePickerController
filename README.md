@@ -46,6 +46,8 @@ After you capture the image, you can apply new filters and toggle/move/resize th
 
 ### Use an image from your camera roll
 
+Import a picture from your camera roll and apply a filter/blur to it
+
 ![Loaded from camera roll](http://i.imgur.com/6f2fQ.png)
 
 Example output
