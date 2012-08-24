@@ -44,6 +44,12 @@ After you capture the image, you can apply new filters and toggle/move/resize th
 
 ![Filters](http://i.imgur.com/TtMMm.png)
 
+### Use an image from your camera roll
+
+Import a picture from your camera roll and apply a filter/blur to it
+
+![Loaded from camera roll](http://i.imgur.com/6f2fQ.png)
+
 Example output
 ---------------
 
@@ -52,5 +58,17 @@ These images were produced using the sample program included in this repo
 [Soft filter in nice daylight](http://i.imgur.com/0OncO.jpg)
 
 [High contrast black and white with radial blur](http://i.imgur.com/6B4iz.jpg)
+
+Contact
+--------
+**Dmitri Cherniak**
+
++ http://twitter.com/dmitric
++ http://github.com/dmitric
+
+**Wylie Conlon**
+
++ http://twitter.com/wylieconlon
++ http://github.com/wylieconlon
 
 
