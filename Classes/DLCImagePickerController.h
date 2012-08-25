@@ -25,8 +25,6 @@
     GPUImagePicture *staticPicture;
     UIImageOrientation staticPictureOriginalOrientation;
     
-    id rotationObserver;
-    
 }
 
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
