@@ -57,6 +57,8 @@
     [self.blurToggleButton setSelected:NO];
     [self.filtersToggleButton setSelected:NO];
     
+    staticPictureOriginalOrientation = UIImageOrientationUp;
+    
     hasBlur = NO;
     
     //fill mode for video
@@ -118,9 +120,11 @@
     
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Has camera
-
-        stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
         
+        
+        
+        stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
+                
         stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
         runOnMainQueueWithoutDeadlocking(^{
             [stillCamera startCameraCapture];
@@ -250,9 +254,27 @@
         [filter addTarget:self.imageView];
     }
     
-    [staticPicture processImage];
+    GPUImageRotationMode imageViewRotationMode = kGPUImageNoRotation;
+    switch (staticPictureOriginalOrientation) {
+        case UIImageOrientationLeft:
+            imageViewRotationMode = kGPUImageRotateLeft;
+            break;
+        case UIImageOrientationRight:
+            imageViewRotationMode = kGPUImageRotateRight;
+            break;
+        case UIImageOrientationDown:
+            imageViewRotationMode = kGPUImageRotate180;
+            break;
+        default:
+            imageViewRotationMode = kGPUImageNoRotation;
+            break;
+    }
     
-        
+    // seems like atIndex is ignored by GPUImageView...
+    [self.imageView setInputRotation:imageViewRotationMode atIndex:0];
+
+    
+    [staticPicture processImage];        
 }
 
 -(void) removeAllTargets {
@@ -355,6 +377,7 @@
                     [self.cameraToggleButton setEnabled:NO];
                     [self.flashToggleButton setEnabled:NO];
                     staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
+                    staticPictureOriginalOrientation = processed.imageOrientation;
                     [self prepareFilter];
                     [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
                     [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
@@ -376,7 +399,8 @@
         
         [staticPicture processImage];
         
-        UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutput];
+        UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutputWithOrientation:staticPictureOriginalOrientation];
+
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
                               UIImageJPEGRepresentation(currentFilteredVideoFrame, self.outputJPEGQuality), @"data", nil];
         [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
@@ -387,6 +411,7 @@
     [self.retakeButton setHidden:YES];
     [self.libraryToggleButton setHidden:NO];
     staticPicture = nil;
+    staticPictureOriginalOrientation = UIImageOrientationUp;
     isStatic = NO;
     [self removeAllTargets];
     [stillCamera startCameraCapture];
@@ -562,6 +587,7 @@
     
     if (outputImage) {
         staticPicture = [[GPUImagePicture alloc] initWithImage:outputImage smoothlyScaleOutput:YES];
+        staticPictureOriginalOrientation = outputImage.imageOrientation;
         isStatic = YES;
         [self dismissModalViewControllerAnimated:YES];
         
