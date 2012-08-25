@@ -61,9 +61,6 @@
     
     hasBlur = NO;
     
-    //fill mode for video
-    //self.imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    
     [self loadFilters];
     
     //we need a crop filter for the live video
@@ -77,20 +74,14 @@
     
 }
 
--(void) viewDidAppear:(BOOL)animated{
-    //camera setup
-    [super viewDidAppear:animated];
-    
-}
-
 -(void) loadFilters {
     for(int i = 0; i < 10; i++) {
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%d.jpg", i + 1]] forState:UIControlStateNormal];
         button.frame = CGRectMake(10+i*(60+10), 5.0f, 60.0f, 60.0f);
         button.layer.cornerRadius = 7.0f;
-        button.layer.masksToBounds = YES;
         
+        //use bezier path instead of maskToBounds on button.layer
         UIBezierPath *bi = [UIBezierPath bezierPathWithRoundedRect:button.bounds
                                                  byRoundingCorners:UIRectCornerAllCorners
                                                        cornerRadii:CGSizeMake(7.0,7.0)];
@@ -99,6 +90,7 @@
         maskLayer.frame = button.bounds;
         maskLayer.path = bi.CGPath;
         button.layer.mask = maskLayer;
+        
         button.layer.borderWidth = 1;
         button.layer.borderColor = [[UIColor blackColor] CGColor];
         
@@ -120,8 +112,6 @@
     
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Has camera
-        
-        
         
         stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
                 
@@ -390,7 +380,9 @@
         }];
         
     } else {
+        
         GPUImageOutput<GPUImageInput> *processUpTo;
+        
         if (hasBlur) {
             processUpTo = blurFilter;
         } else {
@@ -407,7 +399,7 @@
     }
 }
 
--(IBAction) retakePhoto:(UIButton *)button{
+-(IBAction) retakePhoto:(UIButton *)button {
     [self.retakeButton setHidden:YES];
     [self.libraryToggleButton setHidden:NO];
     staticPicture = nil;
@@ -435,7 +427,7 @@
     [self prepareFilter];
 }
 
--(IBAction) cancel:(id)sender{
+-(IBAction) cancel:(id)sender {
     [self.delegate imagePickerControllerDidCancel:self];
 }
 
@@ -552,7 +544,7 @@
                      }];
 }
 
--(IBAction) toggleFilters:(UIButton *)sender{
+-(IBAction) toggleFilters:(UIButton *)sender {
     sender.enabled = NO;
     if (sender.selected){
         [self hideFilters];
@@ -590,10 +582,6 @@
         staticPictureOriginalOrientation = outputImage.imageOrientation;
         isStatic = YES;
         [self dismissModalViewControllerAnimated:YES];
-        
-
-//        [self.retakeButton setHidden:NO];
-//        [self.libraryToggleButton setHidden:YES];
         [self.cameraToggleButton setEnabled:NO];
         [self.flashToggleButton setEnabled:NO];
         [self prepareStaticFilter];
