@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "GPUImage.h"
+//#import "../GPUImage/framework/Source/*.h"
 
 @class DLCImagePickerController;
 
 @protocol DLCImagePickerDelegate <NSObject>
 @optional
-- (void)imagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
-- (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker;
+- (void)filteredImagePickerController:(DLCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
+- (void)filteredImagePickerControllerDidCancel:(DLCImagePickerController *)picker;
 @end
 
 @interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
@@ -25,7 +26,11 @@
     GPUImagePicture *staticPicture;
     UIImageOrientation staticPictureOriginalOrientation;
     
+    BOOL startEditing, startWithFrontCamera;
 }
+
+-(id) initWithFrontCamera;
+-(id) initWithImage:(UIImage*)image;
 
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
 @property (nonatomic, weak) id <DLCImagePickerDelegate> delegate;
