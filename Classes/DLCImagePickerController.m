@@ -41,6 +41,25 @@
     return self;
 }
 
+-(id) initWithImage:(UIImage*)image {
+    self = [self init];
+    
+    staticPicture = [[GPUImagePicture alloc] initWithImage:image smoothlyScaleOutput:YES];
+    staticPictureOriginalOrientation = image.imageOrientation;
+    isStatic = YES;
+    startEditing = YES;
+    
+    return self;
+}
+
+-(id) initWithFrontCamera {
+    self = [self init];
+    
+    startWithFrontCamera = YES;
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -108,32 +127,51 @@
 }
 
 
--(void) setUpCamera {
+- (void) setUpCamera {
     
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Has camera
         
         stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetPhoto cameraPosition:AVCaptureDevicePositionBack];
-                
+        
+        if(startWithFrontCamera) {
+//            [self.cameraToggleButton setEnabled:NO];
+            [stillCamera rotateCamera];
+//            [self.cameraToggleButton setEnabled:YES];
+        }
+        
         stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
         runOnMainQueueWithoutDeadlocking(^{
-            [stillCamera startCameraCapture];
-            if([stillCamera.inputCamera hasFlash]){
+            
+            if(startEditing) {
+                [self.cameraToggleButton setEnabled:NO];
                 [self.flashToggleButton setEnabled:NO];
-                [stillCamera.inputCamera lockForConfiguration:nil];
-                if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
-                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
-                }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
-                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
-                }else{
-                    [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
+                [self prepareStaticFilter];
+                [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+                [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
+                [self.photoCaptureButton setEnabled:YES];
+                if(![self.filtersToggleButton isSelected]){
+                    [self showFilters];
                 }
-                [stillCamera.inputCamera unlockForConfiguration];
-                [self.flashToggleButton setEnabled:YES];
-            }else{
-                [self.flashToggleButton setEnabled:NO];
+            } else {
+                [stillCamera startCameraCapture];
+                if([stillCamera.inputCamera hasFlash]){
+                    [self.flashToggleButton setEnabled:NO];
+                    [stillCamera.inputCamera lockForConfiguration:nil];
+                    if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeOff){
+                        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-off"] forState:UIControlStateNormal];
+                    }else if([stillCamera.inputCamera flashMode] == AVCaptureFlashModeAuto){
+                        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash-auto"] forState:UIControlStateNormal];
+                    }else{
+                        [self.flashToggleButton setImage:[UIImage imageNamed:@"flash"] forState:UIControlStateNormal];
+                    }
+                    [stillCamera.inputCamera unlockForConfiguration];
+                    [self.flashToggleButton setEnabled:YES];
+                }else{
+                    [self.flashToggleButton setEnabled:NO];
+                }
+                [self prepareFilter];
             }
-            [self prepareFilter];
         });
     } else {
         // No camera
@@ -145,7 +183,7 @@
    
 }
 
--(void) filterClicked:(UIButton *) sender {
+- (void) filterClicked:(UIButton *) sender {
     for(UIView *view in self.filterScrollView.subviews){
         if([view isKindOfClass:[UIButton class]]){
             [(UIButton *)view setSelected:NO];
@@ -161,7 +199,7 @@
 }
 
 
--(void) setFilter:(int) index {
+- (void) setFilter:(int) index {
     switch (index) {
         case 1:{
             filter = [[GPUImageContrastFilter alloc] init];
@@ -394,8 +432,10 @@
         UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutputWithOrientation:staticPictureOriginalOrientation];
 
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              UIImageJPEGRepresentation(currentFilteredVideoFrame, self.outputJPEGQuality), @"data", nil];
-        [self.delegate imagePickerController:self didFinishPickingMediaWithInfo:info];
+                              UIImageJPEGRepresentation(currentFilteredVideoFrame, self.outputJPEGQuality), @"data",
+                              [NSNumber numberWithInt:selectedFilter], @"filterIndex",
+                              nil];
+        [self.delegate filteredImagePickerController:self didFinishPickingMediaWithInfo:info];
     }
 }
 
@@ -428,7 +468,7 @@
 }
 
 -(IBAction) cancel:(id)sender {
-    [self.delegate imagePickerControllerDidCancel:self];
+    [self.delegate filteredImagePickerControllerDidCancel:self];
 }
 
 -(IBAction) handlePan:(UIGestureRecognizer *) sender {
@@ -599,7 +639,7 @@
     if (isStatic) {
         // TODO: fix this hack
         [self dismissModalViewControllerAnimated:NO];
-        [self.delegate imagePickerControllerDidCancel:self];
+        [self.delegate filteredImagePickerControllerDidCancel:self];
     } else {
         [self dismissModalViewControllerAnimated:YES];
         [self retakePhoto:nil];
