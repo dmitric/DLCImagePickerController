@@ -168,28 +168,28 @@
             [(GPUImageContrastFilter *) filter setContrast:1.75];
         } break;
         case 2: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"crossprocess.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"crossprocess"];
         } break;
         case 3: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"02.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"02"];
         } break;
         case 4: {
             filter = [[GrayscaleContrastFilter alloc] init];
         } break;
         case 5: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"17.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"17"];
         } break;
         case 6: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"aqua.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"aqua"];
         } break;
         case 7: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"yellow-red.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"yellow-red"];
         } break;
         case 8: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"06.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"06"];
         } break;
         case 9: {
-            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"purple-green.acv"];
+            filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"purple-green"];
         } break;
         default:
             filter = [[GPUImageRGBFilter alloc] init];
