@@ -9,6 +9,8 @@
 #import "DLCImagePickerController.h"
 #import "GrayscaleContrastFilter.h"
 
+#define kStaticBlurSize 2.0f
+
 @implementation DLCImagePickerController {
     BOOL isStatic;
     BOOL hasBlur;
@@ -330,7 +332,7 @@
             blurFilter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCircleRadius:80.0/320.0];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
-            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setBlurSize:5.0f];
+            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setBlurSize:kStaticBlurSize];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setAspectRatio:1.0f];
         }
         hasBlur = YES;
@@ -355,29 +357,23 @@
     [self.photoCaptureButton setEnabled:NO];
     
     if (!isStatic) {
-        [stillCamera capturePhotoAsImageProcessedUpToFilter:cropFilter 
-                                      withCompletionHandler:^(UIImage *processed, NSError *error) {
-            isStatic = YES;
-            runOnMainQueueWithoutDeadlocking(^{
-                @autoreleasepool {
-                    [stillCamera stopCameraCapture];
-                    [self removeAllTargets];
-                    [self.retakeButton setHidden:NO];
-                    [self.libraryToggleButton setHidden:YES];
-                    [self.cameraToggleButton setEnabled:NO];
-                    [self.flashToggleButton setEnabled:NO];
-                    staticPicture = [[GPUImagePicture alloc] initWithImage:processed smoothlyScaleOutput:YES];
-                    staticPictureOriginalOrientation = processed.imageOrientation;
-                    [self prepareFilter];
-                    [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
-                    [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
-                    [self.photoCaptureButton setEnabled:YES];
-                    if(![self.filtersToggleButton isSelected]){
-                        [self showFilters];
-                    }
-                }
-            });
-        }];
+        UIImage *img = [cropFilter imageFromCurrentlyProcessedOutput];
+        isStatic = YES;
+        [stillCamera stopCameraCapture];
+        [self removeAllTargets];
+        [self.retakeButton setHidden:NO];
+        [self.libraryToggleButton setHidden:YES];
+        [self.cameraToggleButton setEnabled:NO];
+        [self.flashToggleButton setEnabled:NO];
+        staticPicture = [[GPUImagePicture alloc] initWithImage:img smoothlyScaleOutput:YES];
+        staticPictureOriginalOrientation = img.imageOrientation;
+        [self prepareFilter];
+        [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
+        [self.photoCaptureButton setEnabled:YES];
+        if(![self.filtersToggleButton isSelected]){
+            [self showFilters];
+        }
         
     } else {
         
@@ -451,8 +447,7 @@
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
-            //NSLog(@"Done tap");
-            [gpu setBlurSize:5.0f];
+            [gpu setBlurSize:kStaticBlurSize];
             
             if (isStatic) {
                 [staticPicture processImage];
@@ -475,7 +470,7 @@
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            [gpu setBlurSize:10.0f];
+            [gpu setBlurSize:5.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
             CGFloat radius = MIN(sender.scale*[gpu excludeCircleRadius], 0.6f);
             [gpu setExcludeCircleRadius:radius];
@@ -483,7 +478,7 @@
         }
         
         if ([sender state] == UIGestureRecognizerStateEnded) {
-            [gpu setBlurSize:5.0f];
+            [gpu setBlurSize:kStaticBlurSize];
 
             if (isStatic) {
                 [staticPicture processImage];
