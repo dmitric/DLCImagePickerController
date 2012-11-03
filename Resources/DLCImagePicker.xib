@@ -137,6 +137,7 @@
 								<string key="NSFrame">{{263, 3}, {65, 37}}</string>
 								<reference key="NSSuperview" ref="31350387"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -351,6 +352,10 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="3549881"/>
+						<object class="NSCustomResource" key="IBUISelectedImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">flash.png</string>
+						</object>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">flash-off.png</string>
@@ -749,6 +754,55 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">DLCImagePickerController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancel:">id</string>
+						<string key="handlePan:">UIGestureRecognizer</string>
+						<string key="handlePinch:">UIPinchGestureRecognizer</string>
+						<string key="retakePhoto:">UIButton</string>
+						<string key="switchToLibrary:">id</string>
+						<string key="takePhoto:">id</string>
+						<string key="toggleBlur:">UIButton</string>
+						<string key="toggleFilters:">UIButton</string>
+						<string key="toggleFlash:">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cancel:">
+							<string key="name">cancel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="handlePan:">
+							<string key="name">handlePan:</string>
+							<string key="candidateClassName">UIGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="handlePinch:">
+							<string key="name">handlePinch:</string>
+							<string key="candidateClassName">UIPinchGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="retakePhoto:">
+							<string key="name">retakePhoto:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="switchToLibrary:">
+							<string key="name">switchToLibrary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="takePhoto:">
+							<string key="name">takePhoto:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleBlur:">
+							<string key="name">toggleBlur:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFilters:">
+							<string key="name">toggleFilters:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFlash:">
+							<string key="name">toggleFlash:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="blurToggleButton">UIButton</string>
 						<string key="cameraToggleButton">UIButton</string>
@@ -835,10 +889,6 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1536" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
@@ -851,6 +901,7 @@
 			<string key="filter-close.png">{29, 28}</string>
 			<string key="filter-open.png">{28, 28}</string>
 			<string key="flash-off.png">{22, 26}</string>
+			<string key="flash.png">{22, 26}</string>
 			<string key="front-camera.png">{48, 24}</string>
 			<string key="library.png">{28, 28}</string>
 		</dictionary>
