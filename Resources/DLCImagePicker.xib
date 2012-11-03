@@ -41,7 +41,7 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="780689577">
 						<reference key="NSNextResponder" ref="430809117"/>
-						<int key="NSvFlags">319</int>
+						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{0, 78}, {320, 320}}</string>
 						<reference key="NSSuperview" ref="430809117"/>
 						<reference key="NSWindow"/>
@@ -57,7 +57,7 @@
 					</object>
 					<object class="IBUIImageView" id="156513520">
 						<reference key="NSNextResponder" ref="430809117"/>
-						<int key="NSvFlags">258</int>
+						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{-12, 435}, {344, 75}}</string>
 						<reference key="NSSuperview" ref="430809117"/>
 						<reference key="NSWindow"/>
@@ -137,7 +137,6 @@
 								<string key="NSFrame">{{263, 3}, {65, 37}}</string>
 								<reference key="NSSuperview" ref="31350387"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -756,51 +755,16 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="cancel:">id</string>
-						<string key="handlePan:">UIGestureRecognizer</string>
 						<string key="handlePinch:">UIPinchGestureRecognizer</string>
-						<string key="retakePhoto:">UIButton</string>
-						<string key="switchToLibrary:">id</string>
-						<string key="takePhoto:">id</string>
-						<string key="toggleBlur:">UIButton</string>
-						<string key="toggleFilters:">UIButton</string>
-						<string key="toggleFlash:">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="cancel:">
 							<string key="name">cancel:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="handlePan:">
-							<string key="name">handlePan:</string>
-							<string key="candidateClassName">UIGestureRecognizer</string>
-						</object>
 						<object class="IBActionInfo" key="handlePinch:">
 							<string key="name">handlePinch:</string>
 							<string key="candidateClassName">UIPinchGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="retakePhoto:">
-							<string key="name">retakePhoto:</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBActionInfo" key="switchToLibrary:">
-							<string key="name">switchToLibrary:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="takePhoto:">
-							<string key="name">takePhoto:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleBlur:">
-							<string key="name">toggleBlur:</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBActionInfo" key="toggleFilters:">
-							<string key="name">toggleFilters:</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBActionInfo" key="toggleFlash:">
-							<string key="name">toggleFlash:</string>
-							<string key="candidateClassName">UIButton</string>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
