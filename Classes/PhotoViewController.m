@@ -46,13 +46,11 @@
 -(void) takePhoto:(id)sender{
     DLCImagePickerController *picker = [[DLCImagePickerController alloc] init];
     picker.delegate = self;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     [self presentModalViewController:picker animated:YES];
 }
 
 
 -(void) imagePickerControllerDidCancel:(DLCImagePickerController *)picker{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
     [self dismissModalViewControllerAnimated:YES];
 }
 
