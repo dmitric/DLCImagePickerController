@@ -34,7 +34,7 @@ It also has a radial blur, that you can move and pinch to your liking on the liv
 
 ### Front Facing Camera
 
-There is a front facing camera, however it's still buggy on capture
+There is a front facing camera
 
 ![Front facing camera](http://i.imgur.com/CqOra.png)
 
