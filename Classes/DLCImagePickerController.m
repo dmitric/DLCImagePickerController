@@ -31,6 +31,7 @@
     filtersBackgroundImageView,
     photoBar,
     topBar,
+    blurOverlayView,
     outputJPEGQuality;
 
 -(id) init {
@@ -60,6 +61,17 @@
     [self.filtersToggleButton setSelected:NO];
     
     staticPictureOriginalOrientation = UIImageOrientationUp;
+    
+    self.focusView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"focus-crosshair"]];
+	[self.view addSubview:self.focusView];
+	self.focusView.alpha = 0;
+    
+    
+    self.blurOverlayView = [[BlurOverlayView alloc] initWithFrame:CGRectMake(0, 0,
+                                                                         self.imageView.frame.size.width,
+                                                                         self.imageView.frame.size.height)];
+    self.blurOverlayView.alpha = 0;
+    [self.imageView addSubview:self.blurOverlayView];
     
     hasBlur = NO;
     
@@ -301,6 +313,7 @@
     
     if (hasBlur) {
         hasBlur = NO;
+        [self showBlurOverlay:NO];
         [self.blurToggleButton setSelected:NO];
     } else {
         if (!blurFilter) {
@@ -312,6 +325,7 @@
         }
         hasBlur = YES;
         [self.blurToggleButton setSelected:YES];
+        [self flashBlurOverlay];
     }
     
     [self prepareFilter];
@@ -437,21 +451,22 @@
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
-            //NSLog(@"Start tap");
+            [self showBlurOverlay:YES];
+            [gpu setBlurSize:0.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            //NSLog(@"Moving tap");
-            [gpu setBlurSize:5.0f];
+            [gpu setBlurSize:0.0f];
+            [self.blurOverlayView setCircleCenter:tapPoint];
             [gpu setExcludeCirclePoint:CGPointMake(tapPoint.x/320.0f, tapPoint.y/320.0f)];
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
             [gpu setBlurSize:kStaticBlurSize];
-            
+            [self showBlurOverlay:NO];
             if (isStatic) {
                 [staticPicture processImage];
             }
@@ -481,6 +496,13 @@
                     [device setExposureMode:AVCaptureExposureModeContinuousAutoExposure];
                 }
                 
+                self.focusView.center = [tgr locationInView:self.view];
+                self.focusView.alpha = 1;
+                
+                [UIView animateWithDuration:0.5 delay:0.5 options:0 animations:^{
+                    self.focusView.alpha = 0;
+                } completion:nil];
+                
                 [device unlockForConfiguration];
 			} else {
                 NSLog(@"ERROR = %@", error);
@@ -496,23 +518,26 @@
             (GPUImageGaussianSelectiveBlurFilter*)blurFilter;
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
-            //NSLog(@"Start tap");
+            [self showBlurOverlay:YES];
+            [gpu setBlurSize:0.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            [gpu setBlurSize:5.0f];
+            [gpu setBlurSize:0.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
-            CGFloat radius = MIN(sender.scale*[gpu excludeCircleRadius], 0.6f);
+            self.blurOverlayView.circleCenter = CGPointMake(midpoint.x, midpoint.y);
+            CGFloat radius = MAX(MIN(sender.scale*[gpu excludeCircleRadius], 0.6f), 0.15f);
+            self.blurOverlayView.radius = radius*320.f;
             [gpu setExcludeCircleRadius:radius];
             sender.scale = 1.0f;
         }
         
         if ([sender state] == UIGestureRecognizerStateEnded) {
             [gpu setBlurSize:kStaticBlurSize];
-
+            [self showBlurOverlay:NO];
             if (isStatic) {
                 [staticPicture processImage];
             }
@@ -582,6 +607,35 @@
     
 }
 
+-(void) showBlurOverlay:(BOOL)show{
+    if(show){
+        [UIView animateWithDuration:0.2 delay:0 options:0 animations:^{
+            self.blurOverlayView.alpha = 0.6;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }else{
+        [UIView animateWithDuration:0.35 delay:0.2 options:0 animations:^{
+            self.blurOverlayView.alpha = 0;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+}
+
+
+-(void) flashBlurOverlay {
+    [UIView animateWithDuration:0.2 delay:0 options:0 animations:^{
+        self.blurOverlayView.alpha = 0.6;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.35 delay:0.2 options:0 animations:^{
+            self.blurOverlayView.alpha = 0;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
+}
+
 -(void) dealloc {
     [self removeAllTargets];
     stillCamera = nil;
@@ -589,6 +643,8 @@
     filter = nil;
     blurFilter = nil;
     staticPicture = nil;
+    self.blurOverlayView = nil;
+    self.focusView = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

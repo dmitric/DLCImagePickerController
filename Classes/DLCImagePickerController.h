@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPUImage.h"
+#import "BlurOverlayView.h"
 
 @class DLCImagePickerController;
 
@@ -43,6 +44,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *filtersBackgroundImageView;
 @property (nonatomic, weak) IBOutlet UIView *photoBar;
 @property (nonatomic, weak) IBOutlet UIView *topBar;
+@property (nonatomic, strong) BlurOverlayView *blurOverlayView;
+@property (nonatomic, strong) UIImageView *focusView;
 
 @property (nonatomic, assign) CGFloat outputJPEGQuality;
 
