@@ -10,6 +10,7 @@
 		6A0D0A01165A1CBE0028E1B6 /* BlurOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0D0A00165A1CBE0028E1B6 /* BlurOverlayView.m */; };
 		6A0D0A0F165A1FFC0028E1B6 /* focus-crosshair.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0D0A0D165A1FFC0028E1B6 /* focus-crosshair.png */; };
 		6A0D0A10165A1FFC0028E1B6 /* focus-crosshair@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0D0A0E165A1FFC0028E1B6 /* focus-crosshair@2x.png */; };
+		6A0D0A28165A218F0028E1B6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A0D0A27165A218F0028E1B6 /* Default-568h@2x.png */; };
 		6A23390E15E6C17000CC6CB2 /* library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A23390C15E6C17000CC6CB2 /* library@2x.png */; };
 		6A23390F15E6C17000CC6CB2 /* library.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A23390D15E6C17000CC6CB2 /* library.png */; };
 		6A42CF7615E46F0E0062D3E7 /* blur-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A42CF7415E46F0E0062D3E7 /* blur-on.png */; };
@@ -120,6 +121,7 @@
 		6A0D0A00165A1CBE0028E1B6 /* BlurOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurOverlayView.m; sourceTree = "<group>"; };
 		6A0D0A0D165A1FFC0028E1B6 /* focus-crosshair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focus-crosshair.png"; sourceTree = "<group>"; };
 		6A0D0A0E165A1FFC0028E1B6 /* focus-crosshair@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "focus-crosshair@2x.png"; sourceTree = "<group>"; };
+		6A0D0A27165A218F0028E1B6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		6A23390C15E6C17000CC6CB2 /* library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "library@2x.png"; sourceTree = "<group>"; };
 		6A23390D15E6C17000CC6CB2 /* library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = library.png; sourceTree = "<group>"; };
 		6A42CF7415E46F0E0062D3E7 /* blur-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur-on.png"; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 		6A5D9A1A15E0152D001FAD14 /* DLCImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				6A0D0A27165A218F0028E1B6 /* Default-568h@2x.png */,
 				6A5D9A2315E0152D001FAD14 /* AppDelegate.h */,
 				6A5D9A2415E0152D001FAD14 /* AppDelegate.m */,
 				6A5D9A1B15E0152D001FAD14 /* Supporting Files */,
@@ -579,6 +582,7 @@
 				6A23390F15E6C17000CC6CB2 /* library.png in Resources */,
 				6A0D0A0F165A1FFC0028E1B6 /* focus-crosshair.png in Resources */,
 				6A0D0A10165A1FFC0028E1B6 /* focus-crosshair@2x.png in Resources */,
+				6A0D0A28165A218F0028E1B6 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
