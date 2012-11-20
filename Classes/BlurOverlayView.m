@@ -45,28 +45,22 @@
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
     size_t numLocations = 2;
-	CGFloat locations[2] = {0.0, 1.0};
-	CGFloat components[8] = {1.0,1.0,1.0, 0.0,  // Start color
-		1.0,1.0,1.0, 0.6 }; // End color
+    CGFloat locations[2] = {0.0, 1.0};
+    CGFloat components[8] = {1.0,1.0,1.0, 0.0,
+        1.0, 1.0, 1.0, 1.0};
     
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace,
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace,
                                                                    components,
                                                                    locations,
                                                                    numLocations);
-    
-	CGPoint center = CGPointMake(CGRectGetMidX(holeRect),CGRectGetMidY(holeRect));
-    
-	CGContextDrawRadialGradient(context, gradient, center,
+    CGPoint center = CGPointMake(CGRectGetMidX(holeRect),CGRectGetMidY(holeRect));
+    CGContextDrawRadialGradient(context, gradient, center,
 								 self.radius - 25.0, center, self.radius,
 								 kCGGradientDrawsAfterEndLocation);
-    
     CGColorSpaceRelease(colorSpace);
-	CGGradientRelease(gradient);
-    
-    
+    CGGradientRelease(gradient);
 }
 
 
