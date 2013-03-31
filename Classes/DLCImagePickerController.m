@@ -22,6 +22,7 @@
     BOOL hasBlur;
     int selectedFilter;
     dispatch_once_t showLibraryOnceToken;
+    UIPopoverController *popover;
 }
 
 @synthesize delegate,
@@ -333,7 +334,15 @@
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    [self presentViewController:imagePickerController animated:YES completion:NULL];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [popover dismissPopoverAnimated:YES];
+        popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
+        popover.delegate = self;
+        [popover presentPopoverFromRect:self.libraryToggleButton.bounds inView:self.libraryToggleButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    } else {
+        [self presentViewController:imagePickerController animated:YES completion:NULL];
+    }
 }
 
 -(IBAction)toggleFlash:(UIButton *)button{
@@ -380,6 +389,13 @@
         } else {
             [self.flashToggleButton setEnabled:NO];
         }
+    }
+}
+
+#pragma mark - UIPopoverControllerDelegate
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    if (!isStatic) {
+        [self retakePhoto:nil];
     }
 }
 
@@ -708,7 +724,13 @@
         staticPicture = [[GPUImagePicture alloc] initWithImage:outputImage smoothlyScaleOutput:YES];
         staticPictureOriginalOrientation = outputImage.imageOrientation;
         isStatic = YES;
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [popover dismissPopoverAnimated:YES];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+
         [self.cameraToggleButton setEnabled:NO];
         [self.flashToggleButton setEnabled:NO];
         [self prepareStaticFilter];
