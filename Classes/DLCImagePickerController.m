@@ -406,7 +406,8 @@
     
     
     AVCaptureDevicePosition currentCameraPosition = stillCamera.inputCamera.position;
-    if ((currentCameraPosition != AVCaptureDevicePositionFront) || (![GPUImageContext supportsFastTextureUpload])) {
+    Class contextClass = NSClassFromString(@"GPUImageContext") ?: NSClassFromString(@"GPUImageOpenGLESContext");
+    if ((currentCameraPosition != AVCaptureDevicePositionFront) || (![contextClass supportsFastTextureUpload])) {
         // Image full-resolution capture is currently possible just on the final (destination filter), so
         // create a new paralel chain, that crops and resizes our image
         [self removeAllTargets];
