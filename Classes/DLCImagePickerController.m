@@ -12,6 +12,12 @@
 #define kStaticBlurSize 2.0f
 
 @implementation DLCImagePickerController {
+    GPUImageStillCamera *stillCamera;
+    GPUImageOutput<GPUImageInput> *filter;
+    GPUImageOutput<GPUImageInput> *blurFilter;
+    GPUImageCropFilter *cropFilter;
+    GPUImagePicture *staticPicture;
+    UIImageOrientation staticPictureOriginalOrientation;
     BOOL isStatic;
     BOOL hasBlur;
     int selectedFilter;

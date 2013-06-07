@@ -18,15 +18,7 @@
 - (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker;
 @end
 
-@interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
-    GPUImageStillCamera *stillCamera;
-    GPUImageOutput<GPUImageInput> *filter;
-    GPUImageOutput<GPUImageInput> *blurFilter;
-    GPUImageCropFilter *cropFilter;
-    GPUImagePicture *staticPicture;
-    UIImageOrientation staticPictureOriginalOrientation;
-    
-}
+@interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> 
 
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
 @property (nonatomic, weak) id <DLCImagePickerDelegate> delegate;
