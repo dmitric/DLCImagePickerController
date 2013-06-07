@@ -269,6 +269,7 @@
 				6A5D9A1115E0152D001FAD14 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		6A5D9A1115E0152D001FAD14 /* Products */ = {
 			isa = PBXGroup;
