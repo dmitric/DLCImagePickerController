@@ -1,5 +1,5 @@
 //
-//  BlurOverlayView.h
+//  DLCBlurOverlayView.h
 //  Backspaces
 //
 //  Created by Dmitri Cherniak on 11/18/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BlurOverlayView : UIView
+@interface DLCBlurOverlayView : UIView
 
 @property (nonatomic, assign) CGFloat radius;
 @property (nonatomic, assign) CGPoint circleCenter;

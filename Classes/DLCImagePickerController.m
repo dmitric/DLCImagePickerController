@@ -7,7 +7,7 @@
 //
 
 #import "DLCImagePickerController.h"
-#import "GrayscaleContrastFilter.h"
+#import "DLCGrayscaleContrastFilter.h"
 
 #define kStaticBlurSize 2.0f
 
@@ -67,9 +67,9 @@
 	self.focusView.alpha = 0;
     
     
-    self.blurOverlayView = [[BlurOverlayView alloc] initWithFrame:CGRectMake(0, 0,
-                                                                         self.imageView.frame.size.width,
-                                                                         self.imageView.frame.size.height)];
+    self.blurOverlayView = [[DLCBlurOverlayView alloc] initWithFrame:CGRectMake(0, 0,
+																				self.imageView.frame.size.width,
+																				self.imageView.frame.size.height)];
     self.blurOverlayView.alpha = 0;
     [self.imageView addSubview:self.blurOverlayView];
     
@@ -182,7 +182,7 @@
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"02"];
         } break;
         case 4: {
-            filter = [[GrayscaleContrastFilter alloc] init];
+            filter = [[DLCGrayscaleContrastFilter alloc] init];
         } break;
         case 5: {
             filter = [[GPUImageToneCurveFilter alloc] initWithACV:@"17"];
