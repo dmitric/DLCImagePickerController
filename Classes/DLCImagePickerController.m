@@ -32,13 +32,15 @@
     photoBar,
     topBar,
     blurOverlayView,
-    outputJPEGQuality;
+    outputJPEGQuality,
+    requestedImageSize;
 
 -(id) init {
     self = [super initWithNibName:@"DLCImagePicker" bundle:nil];
     
     if (self) {
-        self.outputJPEGQuality = 1.0;
+        outputJPEGQuality = 1.0;
+        requestedImageSize = CGSizeZero;
     }
     
     return self;
@@ -272,7 +274,7 @@
     [self.imageView setInputRotation:imageViewRotationMode atIndex:0];
 
     
-    [staticPicture processImage];        
+    [staticPicture processImage];
 }
 
 -(void) removeAllTargets {
@@ -362,23 +364,52 @@
 
 
 -(void)captureImage {
-    UIImage *img = [cropFilter imageFromCurrentlyProcessedOutput];
-    [stillCamera.inputCamera unlockForConfiguration];
-    [stillCamera stopCameraCapture];
-    [self removeAllTargets];
     
-    staticPicture = [[GPUImagePicture alloc] initWithImage:img
-                                       smoothlyScaleOutput:YES];
+    void (^completion)(UIImage *, NSError *) = ^(UIImage *img, NSError *error) {
+        
+        [stillCamera.inputCamera unlockForConfiguration];
+        [stillCamera stopCameraCapture];
+        [self removeAllTargets];
+        
+        staticPicture = [[GPUImagePicture alloc] initWithImage:img smoothlyScaleOutput:NO];
+        staticPictureOriginalOrientation = img.imageOrientation;
+        
+        [self prepareFilter];
+        [self.retakeButton setHidden:NO];
+        [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
+        [self.photoCaptureButton setEnabled:YES];
+        if(![self.filtersToggleButton isSelected]){
+            [self showFilters];
+        }
+    };
     
-    staticPictureOriginalOrientation = img.imageOrientation;
     
-    [self prepareFilter];
-    [self.retakeButton setHidden:NO];
-    [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
-    [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
-    [self.photoCaptureButton setEnabled:YES];
-    if(![self.filtersToggleButton isSelected]){
-        [self showFilters];
+    AVCaptureDevicePosition currentCameraPosition = stillCamera.inputCamera.position;
+    if ((currentCameraPosition != AVCaptureDevicePositionFront) || (![GPUImageContext supportsFastTextureUpload])) {
+        // Image full-resolution capture is currently possible just on the final (destination filter), so
+        // create a new paralel chain, that crops and resizes our image
+        [self removeAllTargets];
+        
+        GPUImageCropFilter *captureCrop = [[GPUImageCropFilter alloc] initWithCropRegion:cropFilter.cropRegion];
+        [stillCamera addTarget:captureCrop];
+        GPUImageFilter *finalFilter = captureCrop;
+        
+        if (CGSizeEqualToSize(requestedImageSize, CGSizeZero)) {
+            GPUImageFilter *captureResize = [[GPUImageFilter alloc] init];
+            [captureResize forceProcessingAtSize:requestedImageSize];
+            [captureCrop addTarget:captureResize];
+            finalFilter = captureResize;
+        }
+        
+        [finalFilter prepareForImageCapture];
+        
+        [stillCamera capturePhotoAsImageProcessedUpToFilter:finalFilter withCompletionHandler:completion];
+    } else {
+        // A workaround inside capturePhotoProcessedUpToFilter:withImageOnGPUHandler: would cause the above method to fail,
+        // so we just grap the current crop filter output as an aproximation (the size won't match trough)
+        UIImage *img = [cropFilter imageFromCurrentlyProcessedOutput];
+        completion(img, nil);
     }
 }
 
@@ -560,7 +591,7 @@
     self.filtersBackgroundImageView.hidden = NO;
     [UIView animateWithDuration:0.10
                           delay:0.05
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.imageView.frame = imageRect;
                          self.filterScrollView.frame = sliderScrollFrame;
@@ -583,7 +614,7 @@
     
     [UIView animateWithDuration:0.10
                           delay:0.05
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.imageView.frame = imageRect;
                          self.filterScrollView.frame = sliderScrollFrame;
