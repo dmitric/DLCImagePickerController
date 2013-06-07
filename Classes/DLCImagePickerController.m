@@ -35,19 +35,33 @@
     outputJPEGQuality,
     requestedImageSize;
 
--(id) init {
-    self = [super initWithNibName:@"DLCImagePicker" bundle:nil];
-    
+-(void) sharedInit {
+	outputJPEGQuality = 1.0;
+	requestedImageSize = CGSizeZero;
+}
+
+-(id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        outputJPEGQuality = 1.0;
-        requestedImageSize = CGSizeZero;
+        [self sharedInit];
     }
-    
     return self;
 }
 
-- (void)viewDidLoad
-{
+-(id) initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+		[self sharedInit];
+	}
+	return self;
+}
+
+-(id) init {
+    return [self initWithNibName:@"DLCImagePicker" bundle:nil];
+}
+
+-(void)viewDidLoad {
+    
     [super viewDidLoad];
     self.wantsFullScreenLayout = YES;
     //set background color
