@@ -92,6 +92,7 @@
     self.blurOverlayView = [[DLCBlurOverlayView alloc] initWithFrame:CGRectMake(0, 0,
 																				self.imageView.frame.size.width,
 																				self.imageView.frame.size.height)];
+    self.blurOverlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.blurOverlayView.alpha = 0;
     [self.imageView addSubview:self.blurOverlayView];
     
@@ -346,6 +347,9 @@
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setAspectRatio:1.0f];
         }
         hasBlur = YES;
+        CGPoint excludePoint = [(GPUImageGaussianSelectiveBlurFilter*)blurFilter excludeCirclePoint];
+		CGSize frameSize = self.blurOverlayView.frame.size;
+		self.blurOverlayView.circleCenter = CGPointMake(excludePoint.x * frameSize.width, excludePoint.y * frameSize.height);
         [self.blurToggleButton setSelected:YES];
         [self flashBlurOverlay];
     }
