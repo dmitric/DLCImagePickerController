@@ -420,7 +420,7 @@
         [stillCamera addTarget:captureCrop];
         GPUImageFilter *finalFilter = captureCrop;
         
-        if (CGSizeEqualToSize(requestedImageSize, CGSizeZero)) {
+        if (!CGSizeEqualToSize(requestedImageSize, CGSizeZero)) {
             GPUImageFilter *captureResize = [[GPUImageFilter alloc] init];
             [captureResize forceProcessingAtSize:requestedImageSize];
             [captureCrop addTarget:captureResize];
