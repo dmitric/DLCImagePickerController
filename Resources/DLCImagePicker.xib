@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">12E55</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1929</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -138,6 +138,7 @@
 								<string key="NSFrame">{{263, 3}, {65, 37}}</string>
 								<reference key="NSSuperview" ref="31350387"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -779,17 +780,60 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">DLCImagePickerController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">handlePinch:</string>
-						<string key="NS.object.0">UIPinchGestureRecognizer</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">handlePinch:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancel:">id</string>
+						<string key="handlePan:">UIGestureRecognizer</string>
+						<string key="handlePinch:">UIPinchGestureRecognizer</string>
+						<string key="handleTapToFocus:">UITapGestureRecognizer</string>
+						<string key="retakePhoto:">UIButton</string>
+						<string key="switchToLibrary:">id</string>
+						<string key="takePhoto:">id</string>
+						<string key="toggleBlur:">UIButton</string>
+						<string key="toggleFilters:">UIButton</string>
+						<string key="toggleFlash:">UIButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cancel:">
+							<string key="name">cancel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="handlePan:">
+							<string key="name">handlePan:</string>
+							<string key="candidateClassName">UIGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="handlePinch:">
 							<string key="name">handlePinch:</string>
 							<string key="candidateClassName">UIPinchGestureRecognizer</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="handleTapToFocus:">
+							<string key="name">handleTapToFocus:</string>
+							<string key="candidateClassName">UITapGestureRecognizer</string>
+						</object>
+						<object class="IBActionInfo" key="retakePhoto:">
+							<string key="name">retakePhoto:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="switchToLibrary:">
+							<string key="name">switchToLibrary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="takePhoto:">
+							<string key="name">takePhoto:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleBlur:">
+							<string key="name">toggleBlur:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFilters:">
+							<string key="name">toggleFilters:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFlash:">
+							<string key="name">toggleFlash:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="blurToggleButton">UIButton</string>
 						<string key="cameraToggleButton">UIButton</string>
@@ -892,6 +936,6 @@
 			<string key="front-camera.png">{48, 24}</string>
 			<string key="library.png">{28, 28}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1929</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

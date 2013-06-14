@@ -21,6 +21,7 @@
     BOOL isStatic;
     BOOL hasBlur;
     int selectedFilter;
+    dispatch_once_t showLibraryOnceToken;
 }
 
 @synthesize delegate,
@@ -115,6 +116,15 @@
     [super viewWillAppear:animated];
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (![UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        dispatch_once(&showLibraryOnceToken, ^{
+            [self switchToLibrary:nil];
+        });
+    }
+}
+
 -(void) loadFilters {
     for(int i = 0; i < 10; i++) {
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -167,9 +177,14 @@
             [self prepareFilter];
         });
     } else {
-        // No camera
-        NSLog(@"No camera");
         runOnMainQueueWithoutDeadlocking(^{
+            // No camera awailable, hide camera related buttons and show the image picker
+            self.cameraToggleButton.hidden = YES;
+            self.photoCaptureButton.hidden = YES;
+            self.flashToggleButton.hidden = YES;
+            // Show the library picker
+//            [self switchToLibrary:nil];
+//            [self performSelector:@selector(switchToLibrary:) withObject:nil afterDelay:0.5];
             [self prepareFilter];
         });
     }
@@ -258,11 +273,6 @@
 }
 
 -(void) prepareStaticFilter {
-    
-    if (!staticPicture) {
-        // TODO: fix this hack
-        [self performSelector:@selector(switchToLibrary:) withObject:nil afterDelay:0.5];
-    }
     
     [staticPicture addTarget:filter];
 
@@ -726,6 +736,7 @@
         [self.cameraToggleButton setEnabled:NO];
         [self.flashToggleButton setEnabled:NO];
         [self prepareStaticFilter];
+        [self.photoCaptureButton setHidden:NO];
         [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
         [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
         [self.photoCaptureButton setEnabled:YES];
@@ -737,12 +748,8 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    if (isStatic) {
-        // TODO: fix this hack
-        [self dismissViewControllerAnimated:NO completion:nil];
-        [self.delegate imagePickerControllerDidCancel:self];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!isStatic) {
         [self retakePhoto:nil];
     }
 }
