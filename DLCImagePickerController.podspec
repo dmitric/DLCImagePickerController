@@ -16,8 +16,16 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |sp|
     sp.source_files = 'Classes'
-    sp.resources = "Resources/**/*.*", "Images/{UI,Overlays}/*.png"
+    sp.resources = "Resources/*.xib", "Images/{UI,Overlays}/*.png"
     sp.dependency 'GPUImage'
+  end
+  
+  s.subspec 'Filters' do |sp|
+    sp.resources = "Resources/Filters/*.acv"
+  end
+
+  s.subspec 'UI' do |sp|
+    sp.resources = "Resources/*.xib"
   end
 
   s.subspec 'FilterSamples' do |sp|
