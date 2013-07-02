@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |sp|
     sp.source_files = 'Classes'
-    sp.resources = "Resources/*.xib", "Images/{UI,Overlays}/*.png"
+    sp.resources = "Images/{UI,Overlays}/*.png"
     sp.dependency 'GPUImage'
   end
   
