@@ -1,14 +1,14 @@
 //
-//  BlurOverlayView.m
+//  DLCBlurOverlayView.m
 //  Backspaces
 //
 //  Created by Dmitri Cherniak on 11/18/12.
 //  Copyright (c) 2012 DLC Inc. All rights reserved.
 //
 
-#import "BlurOverlayView.h"
+#import "DLCBlurOverlayView.h"
 
-@implementation BlurOverlayView {
+@implementation DLCBlurOverlayView {
     CGRect holeRect;
 }
 

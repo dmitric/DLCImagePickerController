@@ -1,6 +1,6 @@
-#import "GrayscaleContrastFilter.h"
+#import "DLCGrayscaleContrastFilter.h"
 
-@implementation GrayscaleContrastFilter
+@implementation DLCGrayscaleContrastFilter
 
 NSString *const kGrayscaleContrastFragmentShaderString = SHADER_STRING
 (
