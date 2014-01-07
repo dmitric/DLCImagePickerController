@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPUImage.h"
+#import <GPUImage/GPUImage.h>
 #import "DLCBlurOverlayView.h"
 
 @class DLCImagePickerController;
@@ -20,6 +20,7 @@
 
 @interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> 
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewBottomConstraint;
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
 @property (nonatomic, weak) id <DLCImagePickerDelegate> delegate;
 @property (nonatomic, weak) IBOutlet UIButton *photoCaptureButton;
