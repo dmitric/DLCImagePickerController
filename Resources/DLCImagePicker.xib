@@ -146,8 +146,8 @@
                     <rect key="frame" x="0.0" y="525" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32">
-                            <rect key="frame" x="115" y="0.0" width="90" height="44"/>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32">
+                            <rect key="frame" x="115" y="3" width="90" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="90" id="7ed-bQ-k4K"/>
@@ -203,11 +203,10 @@
                             </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80">
-                            <rect key="frame" x="0.0" y="0.0" width="65" height="44"/>
+                            <rect key="frame" x="3" y="3" width="65" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="65" id="0j9-14-zZd"/>
-                                <constraint firstAttribute="height" constant="44" id="FCD-SG-6UB"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                             <state key="normal" title="Retake" backgroundImage="camera-button.png">
@@ -227,12 +226,13 @@
                         <constraint firstAttribute="height" constant="44" id="7jh-jD-yYa"/>
                         <constraint firstAttribute="bottom" secondItem="35" secondAttribute="bottom" id="Fov-bA-J3b"/>
                         <constraint firstItem="35" firstAttribute="top" secondItem="31" secondAttribute="top" id="LrX-cX-pCH"/>
-                        <constraint firstAttribute="bottom" secondItem="80" secondAttribute="bottom" id="UUf-qF-e75"/>
+                        <constraint firstAttribute="bottom" secondItem="80" secondAttribute="bottom" constant="3" id="UUf-qF-e75"/>
                         <constraint firstItem="83" firstAttribute="leading" secondItem="31" secondAttribute="leading" id="XJp-Rd-mBb"/>
-                        <constraint firstItem="80" firstAttribute="leading" secondItem="31" secondAttribute="leading" id="ihF-bO-Tpi"/>
+                        <constraint firstItem="80" firstAttribute="leading" secondItem="31" secondAttribute="leading" constant="3" id="ihF-bO-Tpi"/>
                         <constraint firstItem="83" firstAttribute="top" secondItem="31" secondAttribute="top" id="jG3-x5-mWW"/>
-                        <constraint firstAttribute="bottom" secondItem="32" secondAttribute="bottom" id="pA8-lI-gtg"/>
-                        <constraint firstItem="32" firstAttribute="top" secondItem="31" secondAttribute="top" id="tde-dH-ezG"/>
+                        <constraint firstAttribute="bottom" secondItem="32" secondAttribute="bottom" constant="3" id="pA8-lI-gtg"/>
+                        <constraint firstItem="32" firstAttribute="top" secondItem="31" secondAttribute="top" constant="3" id="tde-dH-ezG"/>
+                        <constraint firstItem="80" firstAttribute="top" secondItem="31" secondAttribute="top" constant="3" id="vHG-9g-NYC"/>
                         <constraint firstAttribute="bottom" secondItem="83" secondAttribute="bottom" id="xfK-XJ-7tM"/>
                         <constraint firstAttribute="trailing" secondItem="35" secondAttribute="trailing" id="yxe-Rz-CK6"/>
                         <constraint firstAttribute="centerX" secondItem="32" secondAttribute="centerX" id="zPa-Su-atW"/>
