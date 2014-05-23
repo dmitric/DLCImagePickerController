@@ -22,6 +22,7 @@
     BOOL hasBlur;
     int selectedFilter;
     dispatch_once_t showLibraryOnceToken;
+    UIPopoverController *popover;
 }
 
 @synthesize delegate,
@@ -70,13 +71,12 @@
 -(void)viewDidLoad {
     
     [super viewDidLoad];
-    self.wantsFullScreenLayout = YES;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+
     //set background color
-    self.view.backgroundColor = [UIColor colorWithPatternImage:
-                                 [UIImage imageNamed:@"micro_carbon"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"micro_carbon"]];
     
-    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:
-                                     [UIImage imageNamed:@"photo_bar"]];
+    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
     
     self.topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
     //button states
@@ -88,7 +88,7 @@
     self.focusView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"focus-crosshair"]];
 	[self.view addSubview:self.focusView];
 	self.focusView.alpha = 0;
-    
+    [self.imageView setFillMode:kGPUImageFillModeStretch];
     
     self.blurOverlayView = [[DLCBlurOverlayView alloc] initWithFrame:CGRectMake(0, 0,
 																				self.imageView.frame.size.width,
@@ -268,7 +268,7 @@
         [filter addTarget:self.imageView];
     }
     
-    [filter prepareForImageCapture];
+    [filter useNextFrameForImageCapture];
     
 }
 
@@ -332,7 +332,15 @@
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    [self presentViewController:imagePickerController animated:YES completion:NULL];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [popover dismissPopoverAnimated:YES];
+        popover = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
+        popover.delegate = self;
+        [popover presentPopoverFromRect:self.libraryToggleButton.bounds inView:self.libraryToggleButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    } else {
+        [self presentViewController:imagePickerController animated:YES completion:NULL];
+    }
 }
 
 -(IBAction)toggleFlash:(UIButton *)button{
@@ -353,7 +361,6 @@
             blurFilter = [[GPUImageGaussianSelectiveBlurFilter alloc] init];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCircleRadius:80.0/320.0];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setExcludeCirclePoint:CGPointMake(0.5f, 0.5f)];
-            [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setBlurRadiusInPixels:kStaticBlurSize];
             [(GPUImageGaussianSelectiveBlurFilter*)blurFilter setAspectRatio:1.0f];
         }
         hasBlur = YES;
@@ -380,6 +387,13 @@
         } else {
             [self.flashToggleButton setEnabled:NO];
         }
+    }
+}
+
+#pragma mark - UIPopoverControllerDelegate
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    if (!isStatic) {
+        [self retakePhoto:nil];
     }
 }
 
@@ -410,7 +424,7 @@
         
         [self prepareFilter];
         [self.retakeButton setHidden:NO];
-        [self.photoCaptureButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.photoCaptureButton setTitle:@"Finish" forState:UIControlStateNormal];
         [self.photoCaptureButton setImage:nil forState:UIControlStateNormal];
         [self.photoCaptureButton setEnabled:YES];
         if(![self.filtersToggleButton isSelected]){
@@ -437,13 +451,13 @@
             finalFilter = captureResize;
         }
         
-        [finalFilter prepareForImageCapture];
+        [finalFilter useNextFrameForImageCapture];
         
         [stillCamera capturePhotoAsImageProcessedUpToFilter:finalFilter withCompletionHandler:completion];
     } else {
         // A workaround inside capturePhotoProcessedUpToFilter:withImageOnGPUHandler: would cause the above method to fail,
         // so we just grap the current crop filter output as an aproximation (the size won't match trough)
-        UIImage *img = [cropFilter imageFromCurrentlyProcessedOutput];
+        UIImage *img = [cropFilter imageFromCurrentFramebuffer];
         completion(img, nil);
     }
 }
@@ -471,7 +485,7 @@
         
         [staticPicture processImage];
         
-        UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentlyProcessedOutputWithOrientation:staticPictureOriginalOrientation];
+        UIImage *currentFilteredVideoFrame = [processUpTo imageFromCurrentFramebufferWithOrientation:staticPictureOriginalOrientation];
 
         NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
                               UIImageJPEGRepresentation(currentFilteredVideoFrame, self.outputJPEGQuality), @"data", nil];
@@ -518,20 +532,17 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
             [self showBlurOverlay:YES];
-            [gpu setBlurRadiusInPixels:0.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            [gpu setBlurRadiusInPixels:0.0f];
             [self.blurOverlayView setCircleCenter:tapPoint];
             [gpu setExcludeCirclePoint:CGPointMake(tapPoint.x/320.0f, tapPoint.y/320.0f)];
         }
         
         if([sender state] == UIGestureRecognizerStateEnded){
-            [gpu setBlurRadiusInPixels:kStaticBlurSize];
             [self showBlurOverlay:NO];
             if (isStatic) {
                 [staticPicture processImage];
@@ -585,14 +596,12 @@
         
         if ([sender state] == UIGestureRecognizerStateBegan) {
             [self showBlurOverlay:YES];
-            [gpu setBlurRadiusInPixels:0.0f];
             if (isStatic) {
                 [staticPicture processImage];
             }
         }
         
         if ([sender state] == UIGestureRecognizerStateBegan || [sender state] == UIGestureRecognizerStateChanged) {
-            [gpu setBlurRadiusInPixels:0.0f];
             [gpu setExcludeCirclePoint:CGPointMake(midpoint.x/320.0f, midpoint.y/320.0f)];
             self.blurOverlayView.circleCenter = CGPointMake(midpoint.x, midpoint.y);
             CGFloat radius = MAX(MIN(sender.scale*[gpu excludeCircleRadius], 0.6f), 0.15f);
@@ -602,7 +611,6 @@
         }
         
         if ([sender state] == UIGestureRecognizerStateEnded) {
-            [gpu setBlurRadiusInPixels:kStaticBlurSize];
             [self showBlurOverlay:NO];
             if (isStatic) {
                 [staticPicture processImage];
@@ -614,23 +622,14 @@
 -(void) showFilters {
     [self.filtersToggleButton setSelected:YES];
     self.filtersToggleButton.enabled = NO;
-    CGRect imageRect = self.imageView.frame;
-    imageRect.origin.y -= 34;
-    CGRect sliderScrollFrame = self.filterScrollView.frame;
-    sliderScrollFrame.origin.y -= self.filterScrollView.frame.size.height;
-    CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
-    sliderScrollFrameBackground.origin.y -=
-    self.filtersBackgroundImageView.frame.size.height-3;
-    
     self.filterScrollView.hidden = NO;
     self.filtersBackgroundImageView.hidden = NO;
     [UIView animateWithDuration:0.10
                           delay:0.05
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         self.imageView.frame = imageRect;
-                         self.filterScrollView.frame = sliderScrollFrame;
-                         self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
+                         _filterViewBottomConstraint.constant=42;
+                         [self.view layoutIfNeeded];
                      } 
                      completion:^(BOOL finished){
                          self.filtersToggleButton.enabled = YES;
@@ -639,21 +638,12 @@
 
 -(void) hideFilters {
     [self.filtersToggleButton setSelected:NO];
-    CGRect imageRect = self.imageView.frame;
-    imageRect.origin.y += 34;
-    CGRect sliderScrollFrame = self.filterScrollView.frame;
-    sliderScrollFrame.origin.y += self.filterScrollView.frame.size.height;
-    
-    CGRect sliderScrollFrameBackground = self.filtersBackgroundImageView.frame;
-    sliderScrollFrameBackground.origin.y += self.filtersBackgroundImageView.frame.size.height-3;
-    
     [UIView animateWithDuration:0.10
                           delay:0.05
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         self.imageView.frame = imageRect;
-                         self.filterScrollView.frame = sliderScrollFrame;
-                         self.filtersBackgroundImageView.frame = sliderScrollFrameBackground;
+                         _filterViewBottomConstraint.constant=-31;
+                         [self.view layoutIfNeeded];
                      } 
                      completion:^(BOOL finished){
                          
@@ -732,7 +722,13 @@
         staticPicture = [[GPUImagePicture alloc] initWithImage:outputImage smoothlyScaleOutput:YES];
         staticPictureOriginalOrientation = outputImage.imageOrientation;
         isStatic = YES;
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [popover dismissPopoverAnimated:YES];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+
         [self.cameraToggleButton setEnabled:NO];
         [self.flashToggleButton setEnabled:NO];
         [self prepareStaticFilter];
@@ -758,6 +754,10 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #endif

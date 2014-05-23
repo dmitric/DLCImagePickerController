@@ -18,8 +18,9 @@
 - (void)imagePickerControllerDidCancel:(DLCImagePickerController *)picker;
 @end
 
-@interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate> 
+@interface DLCImagePickerController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIPopoverControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterViewBottomConstraint;
 @property (nonatomic, weak) IBOutlet GPUImageView *imageView;
 @property (nonatomic, weak) id <DLCImagePickerDelegate> delegate;
 @property (nonatomic, weak) IBOutlet UIButton *photoCaptureButton;
