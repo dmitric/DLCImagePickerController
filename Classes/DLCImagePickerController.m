@@ -74,11 +74,9 @@
     self.extendedLayoutIncludesOpaqueBars = YES;
 
     //set background color
-    self.view.backgroundColor = [UIColor colorWithPatternImage:
-                                 [UIImage imageNamed:@"micro_carbon"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"micro_carbon"]];
     
-    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:
-                                     [UIImage imageNamed:@"photo_bar"]];
+    self.photoBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
     
     self.topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"photo_bar"]];
     //button states
@@ -756,6 +754,10 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #endif
